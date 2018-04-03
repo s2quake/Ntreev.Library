@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1918437F-4FBF-4731-AC5B-981A4A4CB1F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ntreev.Library</RootNamespace>
+    <AssemblyName>Ntreev.Library</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\client\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+    <AssemblyFileVersionSettings>
+    </AssemblyFileVersionSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>0612</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppUtility.cs" />
+    <Compile Include="AssemblyUtility.cs" />
+    <Compile Include="ConfigurationBase.cs" />
+    <Compile Include="ConfigurationPropertyAttribute.cs" />
+    <Compile Include="ConfigurationPropertyDescriptor.cs" />
+    <Compile Include="ConfigurationPropertyDescriptorCollection.cs" />
+    <Compile Include="ConsoleProgress.cs" />
+    <Compile Include="ConsoleProgressStyle.cs" />
+    <Compile Include="EnumUtility.cs" />
+    <Compile Include="FieldStack.cs" />
+    <Compile Include="IConfigurationPropertyProvider.cs" />
+    <Compile Include="IFieldStack.cs" />
+    <Compile Include="OrderAttribute.cs" />
+    <Compile Include="Extensions\IServiceProvider.cs" />
+    <Compile Include="SchemaUtility.cs" />
+    <Compile Include="Serialization\XmlConvertUtility.cs" />
+    <Compile Include="Serialization\DataContractSerializerUtility.cs" />
+    <Compile Include="DependencyAttribute.cs" />
+    <Compile Include="HashUtility.cs" />
+    <Compile Include="IO\RangeStream.cs" />
+    <Compile Include="IO\StreamExtensions.cs" />
+    <Compile Include="IO\Virtualization\FileName.cs" />
+    <Compile Include="IO\Virtualization\FolderName.cs" />
+    <Compile Include="IO\Virtualization\IFile.cs" />
+    <Compile Include="IO\Virtualization\IFileCollection.cs" />
+    <Compile Include="IO\Virtualization\IFileExtension.cs" />
+    <Compile Include="IO\Virtualization\IFileSystem.cs" />
+    <Compile Include="IO\Virtualization\IFolder.cs" />
+    <Compile Include="IO\Virtualization\IFolderCollection.cs" />
+    <Compile Include="IO\Virtualization\IFolderExtension.cs" />
+    <Compile Include="IO\Virtualization\IStorage.cs" />
+    <Compile Include="IO\Virtualization\Local\LocaFlile.cs" />
+    <Compile Include="IO\Virtualization\Local\LocalFileCollection.cs" />
+    <Compile Include="IO\Virtualization\Local\LocalFolder.cs" />
+    <Compile Include="IO\Virtualization\Local\LocalFolderCollection.cs" />
+    <Compile Include="IO\Virtualization\Local\LocalStorage.cs" />
+    <Compile Include="IO\Virtualization\Memory\MemoryFlile.cs" />
+    <Compile Include="IO\Virtualization\Memory\MemoryFileCollection.cs" />
+    <Compile Include="IO\Virtualization\Memory\MemoryFolder.cs" />
+    <Compile Include="IO\Virtualization\Memory\MemoryFolderCollection.cs" />
+    <Compile Include="IO\Virtualization\Memory\MemoryStorage.cs" />
+    <Compile Include="NameUtility.cs" />
+    <Compile Include="Serialization\IXmlSerializableUtility.cs" />
+    <Compile Include="Serialization\JsonSerializerUtility.cs" />
+    <Compile Include="Serialization\XmlSerializerOptions.cs" />
+    <Compile Include="SignatureDate.cs" />
+    <Compile Include="SignatureDateProvider.cs" />
+    <Compile Include="StringUtility.cs" />
+    <Compile Include="FileInfoExtension.cs" />
+    <Compile Include="GuidUtility.cs" />
+    <Compile Include="IO\BinaryWriterExtension.cs" />
+    <Compile Include="DateTimeExtension.cs" />
+    <Compile Include="IdentifierValidator.cs" />
+    <Compile Include="IO\DirectoryUtility.cs" />
+    <Compile Include="IO\FileUtility.cs" />
+    <Compile Include="IO\Utf8StringWriter.cs" />
+    <Compile Include="IO\BinaryReaderExtension.cs" />
+    <Compile Include="IO\PathUtility.cs" />
+    <Compile Include="IProgress.cs" />
+    <Compile Include="Linq\EnumerableUtility.cs" />
+    <Compile Include="ObjectModel\EmptyContainer.cs" />
+    <Compile Include="ObjectModel\IContainer.cs" />
+    <Compile Include="ObjectModel\IItem.cs" />
+    <Compile Include="ObjectModel\ItemDeletedEventArgs.cs" />
+    <Compile Include="ObjectModel\ItemDeletedEventHandler.cs" />
+    <Compile Include="ObjectModel\CategoryDeletedEventArgs.cs" />
+    <Compile Include="ObjectModel\CategoryDeletedEventHandler.cs" />
+    <Compile Include="ObjectModel\ItemName.cs" />
+    <Compile Include="ObjectModel\CategoryName.cs" />
+    <Compile Include="Progress.cs" />
+    <Compile Include="ProgressChangedEventArgs.cs" />
+    <Compile Include="ProgressChangedEventHandler.cs" />
+    <Compile Include="ProgressChangeState.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StepProgress.cs" />
+    <Compile Include="ObjectModel\CategoryBase.cs" />
+    <Compile Include="ObjectModel\CategoryContainer.cs" />
+    <Compile Include="ObjectModel\CategoryEventArgs.cs" />
+    <Compile Include="ObjectModel\CategoryEventHandler.cs" />
+    <Compile Include="ObjectModel\CategoryRenamedEventArgs.cs" />
+    <Compile Include="ObjectModel\CategoryRenamedEventHandler.cs" />
+    <Compile Include="ObjectModel\CategoryMovedEventArgs.cs" />
+    <Compile Include="ObjectModel\CategoryMovedEventHandler.cs" />
+    <Compile Include="ObjectModel\ContainerBase.cs" />
+    <Compile Include="ObjectModel\IItemAttributeProvider.cs" />
+    <Compile Include="ObjectModel\ItemAttributes.cs" />
+    <Compile Include="ObjectModel\ItemBase.cs" />
+    <Compile Include="ObjectModel\ItemMovedEventArgs.cs" />
+    <Compile Include="ObjectModel\ItemMovedEventHandler.cs" />
+    <Compile Include="ObjectModel\ItemContainer.cs" />
+    <Compile Include="ObjectModel\ItemContext.cs" />
+    <Compile Include="ObjectModel\ItemCreatedEventArgs.cs" />
+    <Compile Include="ObjectModel\ItemCreatedEventHandler.cs" />
+    <Compile Include="ObjectModel\ItemEventArgs.cs" />
+    <Compile Include="ObjectModel\ItemEventHandler.cs" />
+    <Compile Include="ObjectModel\ItemRenamedEventArgs.cs" />
+    <Compile Include="ObjectModel\ItemRenamedEventHandler.cs" />
+    <Compile Include="ObjectModel\NameValidator.cs" />
+    <Compile Include="TagInfo.cs" />
+    <Compile Include="TagInfoTypeConverter.cs" />
+    <Compile Include="TimeChecker.cs" />
+    <Compile Include="UriUtility.cs" />
+    <Compile Include="VersionExtension.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ICustomAttributeProviderExtension.cs" />
+    <Compile Include="IProgressExtension.cs" />
+    <Compile Include="Serialization\XmlSerializerUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.ko-KR.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="..\Ntreev.Library.AssemblyInfo\Ntreev.Library.AssemblyInfo.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
