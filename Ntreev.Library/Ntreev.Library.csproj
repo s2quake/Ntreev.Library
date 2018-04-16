@@ -68,7 +68,9 @@
     <Compile Include="ConsoleProgressStyle.cs" />
     <Compile Include="EnumUtility.cs" />
     <Compile Include="FieldStack.cs" />
+    <Compile Include="ExceptionPublisherBase.cs" />
     <Compile Include="IConfigurationPropertyProvider.cs" />
+    <Compile Include="IExceptionPublisher.cs" />
     <Compile Include="IFieldStack.cs" />
     <Compile Include="OrderAttribute.cs" />
     <Compile Include="Extensions\IServiceProvider.cs" />

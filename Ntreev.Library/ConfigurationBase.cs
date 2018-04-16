@@ -366,11 +366,25 @@ namespace Ntreev.Library
             if (this.ContainsGroup(type) == false)
                 return false;
 
-            var group = this.GetGroup(type);
-            var sectionName = type.FullName + ".Settings";
-            var section = group.Sections[sectionName];
-
-            return section != null;
+            try
+            {
+                var group = this.GetGroup(type);
+                var sectionName = type.FullName + ".Settings";
+                var section = group.Sections[sectionName];
+                return section != null;
+            }
+            catch
+            {
+                var fileMap = new ExeConfigurationFileMap()
+                {
+                    ExeConfigFilename = this.config.FilePath
+                };
+                this.config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+                var group = this.GetGroup(type);
+                var sectionName = type.FullName + ".Settings";
+                var section = group.Sections[sectionName];
+                return section != null;
+            }
         }
 
         private XmlNode CreateTextNode(string textValue)
