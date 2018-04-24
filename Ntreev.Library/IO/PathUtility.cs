@@ -88,5 +88,29 @@ namespace Ntreev.Library.IO
 
             return uri.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
         }
+
+        public static string GetCaseSensitivePath(string path)
+        {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+            if (Path.IsPathRooted(path) == false)
+                throw new ArgumentException("path must be full path", nameof(path));
+            var root = Path.GetPathRoot(path);
+
+            root = Directory.GetLogicalDrives().First(item => StringComparer.CurrentCultureIgnoreCase.Equals(root, item));
+
+            try
+            {
+                foreach (var item in path.Substring(root.Length).Split(Path.DirectorySeparatorChar))
+                {
+                    root = Directory.GetFileSystemEntries(root, item).First();
+                }
+            }
+            catch
+            {
+                root += path.Substring(root.Length);
+            }
+            return root;
+        }
     }
 }
