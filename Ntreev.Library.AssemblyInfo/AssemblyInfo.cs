@@ -5,9 +5,9 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("Release")]
 #endif
 [assembly: AssemblyCompany("NtreevSoft")]
-[assembly: AssemblyCopyright("Copyright © NTREEV SOFT 2018")]
+[assembly: AssemblyCopyright("Copyright © Ntreev Soft 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("3.6.0.0")]
-[assembly: AssemblyFileVersion("3.6.1896.1640")]
-[assembly: AssemblyInformationalVersion("3.6.1896.1640")]
+[assembly: AssemblyFileVersion("3.6.18124.1632")]
+[assembly: AssemblyInformationalVersion("3.6.18124.1632")]
