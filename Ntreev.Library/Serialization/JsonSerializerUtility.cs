@@ -1,4 +1,5 @@
-﻿//Released under the MIT License.
+﻿#if !NET35
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -22,7 +23,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Ntreev.Library.Serialization
 {
@@ -128,3 +128,4 @@ namespace Ntreev.Library.Serialization
         }
     }
 }
+#endif
