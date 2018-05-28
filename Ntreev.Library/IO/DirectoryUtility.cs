@@ -265,5 +265,28 @@ namespace Ntreev.Library.IO
         {
             return Directory.GetDirectories(path, searchPattern, SearchOption.AllDirectories);
         }
+
+        public static string[] GetAllDirectories(string path, string searchPattern, bool removeHiddenDirectory)
+        {
+            return GetDirectories(path, searchPattern, removeHiddenDirectory, true).ToArray();
+        }
+
+        private static IEnumerable<string> GetDirectories(string path, string searchPattern, bool removeHiddenDirectory, bool recursive)
+        {
+            foreach (var item in Directory.GetDirectories(path, searchPattern, SearchOption.TopDirectoryOnly))
+            {
+                if (removeHiddenDirectory == true && new DirectoryInfo(item).Attributes.HasFlag(FileAttributes.Hidden) == true)
+                    continue;
+                yield return item;
+
+                if (recursive == true)
+                {
+                    foreach (var i in GetDirectories(item, searchPattern, removeHiddenDirectory, recursive))
+                    {
+                        yield return i;
+                    }
+                }
+            }
+        }
     }
 }

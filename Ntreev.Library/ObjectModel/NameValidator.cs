@@ -75,7 +75,7 @@ namespace Ntreev.Library.ObjectModel
             if (categoryPath == null)
                 throw new ArgumentNullException(nameof(categoryPath));
             if (VerifyCategoryPath(categoryPath) == false)
-                throw new ArgumentException(categoryPath);
+                throw new ArgumentException(string.Format(Resources.Exception_InvalidPath_Format, categoryPath), nameof(categoryPath));
         }
 
         public static bool VerifyItemPath(string itemPath)
