@@ -256,6 +256,11 @@ namespace Ntreev.Library.IO
             return Directory.GetFiles(path, searchPattern, SearchOption.AllDirectories);
         }
 
+        public static string[] GetAllFiles(string path, string searchPattern, bool removeHiddenDirectory)
+        {
+            return GetFiles(path, searchPattern, removeHiddenDirectory, true).ToArray();
+        }
+
         public static string[] GetAllDirectories(string path)
         {
             return DirectoryUtility.GetAllDirectories(path, "*.*");
@@ -269,6 +274,28 @@ namespace Ntreev.Library.IO
         public static string[] GetAllDirectories(string path, string searchPattern, bool removeHiddenDirectory)
         {
             return GetDirectories(path, searchPattern, removeHiddenDirectory, true).ToArray();
+        }
+
+        private static IEnumerable<string> GetFiles(string path, string searchPattern, bool removeHiddenDirectory, bool recursive)
+        {
+            if (removeHiddenDirectory == false || new DirectoryInfo(path).Attributes.HasFlag(FileAttributes.Hidden) == false)
+            {
+                foreach (var item in Directory.GetFiles(path, searchPattern, SearchOption.TopDirectoryOnly))
+                {
+                    yield return item;
+                }
+
+                if (recursive == true)
+                {
+                    foreach (var item in Directory.GetDirectories(path, searchPattern, SearchOption.TopDirectoryOnly))
+                    {
+                        foreach (var i in GetFiles(item, searchPattern, removeHiddenDirectory, recursive))
+                        {
+                            yield return i;
+                        }
+                    }
+                }
+            }
         }
 
         private static IEnumerable<string> GetDirectories(string path, string searchPattern, bool removeHiddenDirectory, bool recursive)
