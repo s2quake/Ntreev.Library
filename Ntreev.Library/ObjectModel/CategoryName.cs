@@ -16,6 +16,7 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Ntreev.Library.IO;
+using Ntreev.Library.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -113,6 +114,40 @@ namespace Ntreev.Library.ObjectModel
             this.parentPath = parentPath;
             this.name = name;
             this.path = parentPath + name + PathUtility.Separator;
+        }
+
+        public static string[] MakeItemList(string[] items)
+        {
+            return MakeItemList(items, false);
+        }
+
+        public static string[] MakeItemList(string[] items, bool categoryOnly)
+        {
+            var query = from item in items
+                        from parent in QueryParents(item)
+                        select parent;
+
+            var result = query.Concat(items)
+                              .Distinct()
+                              .Where(item => categoryOnly == true ? NameValidator.VerifyCategoryPath(item) : true)
+                              .OrderBy(item => item)
+                              .ToArray();
+
+            if (result.Any() == true)
+                return result;
+            return new string[] { PathUtility.Separator, };
+
+            IEnumerable<string> QueryParents(string path)
+            {
+                return EnumerableUtility.Ancestors(path, item =>
+                {
+                    if (item == PathUtility.Separator)
+                        return null;
+                    if (NameValidator.VerifyItemPath(item) == true)
+                        return new ItemName(item).CategoryPath;
+                    return new CategoryName(item).ParentPath;
+                });
+            }
         }
     }
 }
