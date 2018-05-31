@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -14,15 +14,18 @@
     <Authors>s2quake</Authors>
     <RepositoryUrl>https://github.com/NtreevSoft/Ntreev.Library</RepositoryUrl>
     <PackageTags>Crema</PackageTags>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -30,5 +33,4 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
-
 </Project>
