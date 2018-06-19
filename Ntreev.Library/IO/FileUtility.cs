@@ -205,8 +205,8 @@ namespace Ntreev.Library.IO
             if (File.Exists(filename) == false)
                 return;
             var backupPath = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileName(filename) + backupPostFix);
-            if (File.Exists(backupPath) == false)
-                File.Delete(backupPath);
+            FileUtility.Delete(backupPath);
+            FileUtility.Copy(filename, backupPath, false);
             FileUtility.Delete(filename);
         }
 
@@ -216,7 +216,7 @@ namespace Ntreev.Library.IO
             if (File.Exists(backupPath) == false)
                 return;
             FileUtility.Delete(filename);
-            File.Move(backupPath, filename);
+            FileUtility.Copy(backupPath, filename, false);
             FileUtility.Delete(backupPath);
         }
 
