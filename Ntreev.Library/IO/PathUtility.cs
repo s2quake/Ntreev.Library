@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Ntreev.Library.IO
@@ -110,6 +111,21 @@ namespace Ntreev.Library.IO
                 root += path.Substring(root.Length);
             }
             return root;
+        }
+
+        public static string GetFullPath(string path)
+        {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+            if (Environment.OSVersion.Platform == PlatformID.Unix && path.StartsWith("~", StringComparison.CurrentCulture) == true)
+            {
+                var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                return Regex.Replace(path, "^~(.*)", $"{home}$1");
+            }
+            else
+            {
+                return Path.GetFullPath(path);
+            }
         }
     }
 }
