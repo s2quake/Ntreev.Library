@@ -114,10 +114,21 @@ namespace Ntreev.Library
             return this.hash;
         }
 
-        [DataMember]
-        public string[] Value
+        [IgnoreDataMember]
+        public string[] Values
         {
-            get { return value; }
+            get { return this.value; }
+            set
+            {
+                this.value = FromString(value);
+                this.hash = GetHashCode(this.value);
+            }
+        }
+
+        [DataMember]
+        public string Value
+        {
+            get { return ToString(this.value); }
             set
             {
                 this.value = FromString(value);
