@@ -76,6 +76,7 @@ namespace Ntreev.Library
             return Uri.UnescapeDataString(relativeUri.ToString());
         }
 
+        [Obsolete]
         public static Uri MakeRelative(Uri uri1, Uri uri2)
         {
             if (Path.GetExtension(uri1.ToString()) == string.Empty)

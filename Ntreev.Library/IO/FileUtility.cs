@@ -287,6 +287,28 @@ namespace Ntreev.Library.IO
             return filename;
         }
 
+        public static void SetReadOnly(string filename, bool isReadOnly)
+        {
+            var fileInfo = new FileInfo(filename);
+            if (fileInfo.Exists == false)
+                throw new FileNotFoundException(filename);
+            if (isReadOnly == true)
+                fileInfo.Attributes |= FileAttributes.ReadOnly;
+            else
+                fileInfo.Attributes &= ~FileAttributes.ReadOnly;
+        }
+
+        public static void SetVisible(string filename, bool isVisible)
+        {
+            var fileInfo = new FileInfo(filename);
+            if (fileInfo.Exists == false)
+                throw new FileNotFoundException(filename);
+            if (isVisible == false)
+                fileInfo.Attributes |= FileAttributes.Hidden;
+            else
+                fileInfo.Attributes &= ~FileAttributes.Hidden;
+        }
+
         public static Stream OpenRead(params string[] paths)
         {
             return File.OpenRead(Path.Combine(paths));

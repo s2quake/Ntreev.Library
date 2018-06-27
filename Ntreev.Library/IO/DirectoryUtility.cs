@@ -276,6 +276,28 @@ namespace Ntreev.Library.IO
             return GetDirectories(path, searchPattern, removeHiddenDirectory, true).ToArray();
         }
 
+        public static void SetReadOnly(string path, bool isReadOnly)
+        {
+            var directoryInfo = new DirectoryInfo(path);
+            if (directoryInfo.Exists == false)
+                throw new DirectoryNotFoundException(path);
+            if (isReadOnly == true)
+                directoryInfo.Attributes |= FileAttributes.ReadOnly;
+            else
+                directoryInfo.Attributes &= ~FileAttributes.ReadOnly;
+        }
+
+        public static void SetVisible(string path, bool isVisible)
+        {
+            var directoryInfo = new DirectoryInfo(path);
+            if (directoryInfo.Exists == false)
+                throw new DirectoryNotFoundException(path);
+            if (isVisible == false)
+                directoryInfo.Attributes |= FileAttributes.Hidden;
+            else
+                directoryInfo.Attributes &= ~FileAttributes.Hidden;
+        }
+
         private static IEnumerable<string> GetFiles(string path, string searchPattern, bool removeHiddenDirectory, bool recursive)
         {
             if (removeHiddenDirectory == false || new DirectoryInfo(path).Attributes.HasFlag(FileAttributes.Hidden) == false)
