@@ -76,15 +76,22 @@ namespace Ntreev.Library
             return Uri.UnescapeDataString(relativeUri.ToString());
         }
 
-        [Obsolete]
         public static Uri MakeRelative(Uri uri1, Uri uri2)
         {
+            const string name = "/F5977E44.89CC.40A7.AA10.EA786E9C01C5";
             if (Path.GetExtension(uri1.ToString()) == string.Empty)
-                uri1 = new Uri(uri1.ToString() + "/a.txt");
+                uri1 = new Uri(uri1.ToString() + name);
             if (Path.GetExtension(uri2.ToString()) == string.Empty)
-                uri2 = new Uri(uri2.ToString() + "/a.txt");
+                uri2 = new Uri(uri2.ToString() + name);
 
-            return uri1.MakeRelativeUri(uri2);
+            var relativeUri = uri1.MakeRelativeUri(uri2);
+            var text = relativeUri.ToString();
+            if (text.EndsWith(name) == true)
+            {
+                text = text.Remove(text.Length - name.Length);
+                relativeUri = new Uri(text, UriKind.Relative);
+            }
+            return relativeUri;
         }
 
         public static string MakeRelativeString(Uri uri1, Uri uri2)
