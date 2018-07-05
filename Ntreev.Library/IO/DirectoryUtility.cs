@@ -35,6 +35,7 @@ namespace Ntreev.Library.IO
             if (destination.Exists == false)
             {
                 destination.Create();
+                destination.Attributes = source.Attributes;
             }
 
             var files = source.GetFiles();
@@ -43,8 +44,7 @@ namespace Ntreev.Library.IO
                 if ((item.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
                     item.Attributes = FileAttributes.Archive;
 
-                item.CopyTo(Path.Combine(destination.FullName,
-                    item.Name), true);
+                item.CopyTo(Path.Combine(destination.FullName, item.Name), true);
             }
 
             var dirs = source.GetDirectories();

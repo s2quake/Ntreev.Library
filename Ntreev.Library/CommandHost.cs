@@ -15,12 +15,15 @@ namespace Ntreev.Library
         private readonly string workingPath;
         private readonly string commandName;
         private readonly List<object> items = new List<object>();
+        private StringBuilder outputBuilder;
+        private StringBuilder errorBuilder;
 
         public CommandHost(string filename, string workingPath, string commandName)
         {
             this.filename = filename;
             this.workingPath = workingPath;
             this.commandName = commandName;
+            this.ThrowOnError = true;
         }
 
         public override string ToString()
@@ -35,7 +38,8 @@ namespace Ntreev.Library
 
         public string Run()
         {
-            var sb = new StringBuilder();
+            this.outputBuilder = new StringBuilder();
+            this.errorBuilder = new StringBuilder();
             var process = new Process();
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = this.filename;
@@ -43,25 +47,39 @@ namespace Ntreev.Library
             process.StartInfo.WorkingDirectory = this.workingPath;
             process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items)}";
             process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
             process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+            process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
             process.OutputDataReceived += (s, e) =>
             {
-                sb.AppendLine(e.Data);
+                this.outputBuilder.AppendLine(e.Data);
+                this.OutputDataReceived?.Invoke(this, e);
+            };
+            process.ErrorDataReceived += (s, e) =>
+            {
+                this.errorBuilder.AppendLine(e.Data);
+                this.ErrorDataReceived?.Invoke(this, e);
             };
             process.Start();
             process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
             process.WaitForExit();
 
             if (process.ExitCode != 0)
-                throw new Exception(sb.ToString());
+            {
+                if (this.ThrowOnError == true)
+                    throw new Exception(this.errorBuilder.ToString());
+                else
+                    return null;
+            }
 
-            return sb.ToString();
+            return this.outputBuilder.ToString();
         }
 
         public string ReadLine()
         {
             var lines = this.ReadLines(true);
-            return lines.Single();
+            return lines?.Single();
         }
 
         public string[] ReadLines()
@@ -72,8 +90,22 @@ namespace Ntreev.Library
         public string[] ReadLines(bool removeEmptyLine)
         {
             var lines = this.Run();
+            if (lines == null)
+                return null;
             return this.GetLines(lines, removeEmptyLine);
         }
+
+        public bool ThrowOnError { get; set; }
+
+        public string ErrorMessage { get => this.errorBuilder == null ? string.Empty : this.errorBuilder.ToString(); }
+
+        public string Message { get => this.outputBuilder == null ? string.Empty : this.outputBuilder.ToString(); }
+
+        public IReadOnlyList<object> Items => this.items;
+
+        public event DataReceivedEventHandler ErrorDataReceived;
+
+        public event DataReceivedEventHandler OutputDataReceived;
 
         private string[] GetLines(string text, bool removeEmptyLine)
         {
