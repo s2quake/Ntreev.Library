@@ -48,13 +48,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ntreev.Library.Net45\Ntreev.Library.csproj">
+      <Project>{1918437f-4fbf-4731-ac5b-981a4a4cb1f1}</Project>
+      <Name>Ntreev.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ntreev.Library.Random\Ntreev.Library.Random.csproj">
       <Project>{83f1180f-f170-48cf-be1e-ca60d6851800}</Project>
       <Name>Ntreev.Library.Random</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ntreev.Library\Ntreev.Library.csproj">
-      <Project>{eb8e9874-54fa-4789-acc0-b25d8337b6c7}</Project>
-      <Name>Ntreev.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Ntreev.Library.AssemblyInfo\Ntreev.Library.AssemblyInfo.projitems" Label="Shared" />

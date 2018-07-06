@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1918437F-4FBF-4731-AC5B-981A4A4CB1F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ntreev.Library</RootNamespace>
+    <AssemblyName>Ntreev.Library</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\client\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+    <AssemblyFileVersionSettings>
+    </AssemblyFileVersionSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>0612</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="..\Ntreev.Library\AppUtility.cs" />
+    <Compile Include="..\Ntreev.Library\AssemblyUtility.cs" />
+    <Compile Include="..\Ntreev.Library\CommandHost.cs" />
+    <Compile Include="..\Ntreev.Library\CommandOption.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationBase.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationPropertyAttribute.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationPropertyDescriptor.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationPropertyDescriptorCollection.cs" />
+    <Compile Include="..\Ntreev.Library\ConsoleProgress.cs" />
+    <Compile Include="..\Ntreev.Library\ConsoleProgressStyle.cs" />
+    <Compile Include="..\Ntreev.Library\DateTimeExtension.cs" />
+    <Compile Include="..\Ntreev.Library\DependencyAttribute.cs" />
+    <Compile Include="..\Ntreev.Library\EnumUtility.cs" />
+    <Compile Include="..\Ntreev.Library\ExceptionPublisherBase.cs" />
+    <Compile Include="..\Ntreev.Library\Extensions\IServiceProvider.cs" />
+    <Compile Include="..\Ntreev.Library\FieldStack.cs" />
+    <Compile Include="..\Ntreev.Library\FileInfoExtension.cs" />
+    <Compile Include="..\Ntreev.Library\GuidUtility.cs" />
+    <Compile Include="..\Ntreev.Library\HashUtility.cs" />
+    <Compile Include="..\Ntreev.Library\IConfigurationPropertyProvider.cs" />
+    <Compile Include="..\Ntreev.Library\ICustomAttributeProviderExtension.cs" />
+    <Compile Include="..\Ntreev.Library\IdentifierValidator.cs" />
+    <Compile Include="..\Ntreev.Library\IExceptionPublisher.cs" />
+    <Compile Include="..\Ntreev.Library\IFieldStack.cs" />
+    <Compile Include="..\Ntreev.Library\IO\BinaryReaderExtension.cs" />
+    <Compile Include="..\Ntreev.Library\IO\BinaryWriterExtension.cs" />
+    <Compile Include="..\Ntreev.Library\IO\DirectoryUtility.cs" />
+    <Compile Include="..\Ntreev.Library\IO\FileUtility.cs" />
+    <Compile Include="..\Ntreev.Library\IO\PathUtility.cs" />
+    <Compile Include="..\Ntreev.Library\IO\RangeStream.cs" />
+    <Compile Include="..\Ntreev.Library\IO\StreamExtensions.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Utf8StringWriter.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\FileName.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\FolderName.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\IFile.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\IFileCollection.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\IFileExtension.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\IFileSystem.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\IFolder.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\IFolderCollection.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\IFolderExtension.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\IStorage.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Local\LocaFlile.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Local\LocalFileCollection.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Local\LocalFolder.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Local\LocalFolderCollection.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Local\LocalStorage.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Memory\MemoryFileCollection.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Memory\MemoryFlile.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Memory\MemoryFolder.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Memory\MemoryFolderCollection.cs" />
+    <Compile Include="..\Ntreev.Library\IO\Virtualization\Memory\MemoryStorage.cs" />
+    <Compile Include="..\Ntreev.Library\IProgress.cs" />
+    <Compile Include="..\Ntreev.Library\IProgressExtension.cs" />
+    <Compile Include="..\Ntreev.Library\Linq\EnumerableUtility.cs" />
+    <Compile Include="..\Ntreev.Library\NameUtility.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryBase.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryContainer.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryDeletedEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryDeletedEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryMovedEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryMovedEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryName.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryRenamedEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\CategoryRenamedEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ContainerBase.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\EmptyContainer.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\IContainer.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\IItem.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\IItemAttributeProvider.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemAttributes.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemBase.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemContainer.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemContext.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemCreatedEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemCreatedEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemDeletedEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemDeletedEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemMovedEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemMovedEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemName.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemRenamedEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\ItemRenamedEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ObjectModel\NameValidator.cs" />
+    <Compile Include="..\Ntreev.Library\OrderAttribute.cs" />
+    <Compile Include="..\Ntreev.Library\Progress.cs" />
+    <Compile Include="..\Ntreev.Library\ProgressChangedEventArgs.cs" />
+    <Compile Include="..\Ntreev.Library\ProgressChangedEventHandler.cs" />
+    <Compile Include="..\Ntreev.Library\ProgressChangeState.cs" />
+    <Compile Include="..\Ntreev.Library\Properties\Resources.Designer.cs" />
+    <Compile Include="..\Ntreev.Library\SchemaUtility.cs" />
+    <Compile Include="..\Ntreev.Library\Serialization\DataContractSerializerUtility.cs" />
+    <Compile Include="..\Ntreev.Library\Serialization\IXmlSerializableUtility.cs" />
+    <Compile Include="..\Ntreev.Library\Serialization\JsonSerializerUtility.cs" />
+    <Compile Include="..\Ntreev.Library\Serialization\SerializationItemCollection.cs" />
+    <Compile Include="..\Ntreev.Library\Serialization\XmlConvertUtility.cs" />
+    <Compile Include="..\Ntreev.Library\Serialization\XmlSerializerOptions.cs" />
+    <Compile Include="..\Ntreev.Library\Serialization\XmlSerializerUtility.cs" />
+    <Compile Include="..\Ntreev.Library\SignatureDate.cs" />
+    <Compile Include="..\Ntreev.Library\SignatureDateProvider.cs" />
+    <Compile Include="..\Ntreev.Library\StepProgress.cs" />
+    <Compile Include="..\Ntreev.Library\StringUtility.cs" />
+    <Compile Include="..\Ntreev.Library\TagInfo.cs" />
+    <Compile Include="..\Ntreev.Library\TagInfoTypeConverter.cs" />
+    <Compile Include="..\Ntreev.Library\TimeChecker.cs" />
+    <Compile Include="..\Ntreev.Library\UriUtility.cs" />
+    <Compile Include="..\Ntreev.Library\VersionExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Ntreev.Library\Properties\Resources.ko-KR.resx" />
+    <EmbeddedResource Include="..\Ntreev.Library\Properties\Resources.resx" />
+  </ItemGroup>
+  <Import Project="..\Ntreev.Library.AssemblyInfo\Ntreev.Library.AssemblyInfo.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
