@@ -17,6 +17,7 @@ namespace Ntreev.Library
         private readonly List<object> items = new List<object>();
         private List<string> outputList;
         private List<string> errorList;
+        private Encoding encoding;
 
         public CommandHost(string filename, string workingPath, string commandName)
         {
@@ -36,6 +37,34 @@ namespace Ntreev.Library
             this.items.Add(item);
         }
 
+        public bool WriteAllText(string path)
+        {
+            var process = new Process();
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.FileName = this.filename;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.WorkingDirectory = this.workingPath;
+            process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}";
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.StandardOutputEncoding = this.Encoding;
+            process.StartInfo.StandardErrorEncoding = this.Encoding;
+            process.Start();
+            var outputText = process.StandardOutput.ReadToEnd();
+            var errorText = process.StandardError.ReadToEnd();
+            File.WriteAllText(path, outputText, this.Encoding);
+            process.WaitForExit();
+
+            if (process.ExitCode != 0)
+            {
+                if (this.ThrowOnError == true)
+                    throw new Exception(errorText);
+                else
+                    return false;
+            }
+            return true;
+        }
+
         public string Run()
         {
             this.outputList = new List<string>();
@@ -46,10 +75,12 @@ namespace Ntreev.Library
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.WorkingDirectory = this.workingPath;
             process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}";
+
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
-            process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+            process.StartInfo.StandardOutputEncoding = this.Encoding;
+            process.StartInfo.StandardErrorEncoding = this.Encoding;
+
             process.OutputDataReceived += (s, e) =>
             {
                 this.outputList.Add(e.Data);
@@ -93,6 +124,12 @@ namespace Ntreev.Library
             if (lines == null)
                 return null;
             return this.GetLines(lines, removeEmptyLine);
+        }
+
+        public Encoding Encoding
+        {
+            get => this.encoding ?? Encoding.UTF8;
+            set => this.encoding = value;
         }
 
         public bool ThrowOnError { get; set; }
