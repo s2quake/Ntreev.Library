@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ntreev.Library.IO;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -52,7 +53,7 @@ namespace Ntreev.Library
             process.Start();
             var outputText = process.StandardOutput.ReadToEnd();
             var errorText = process.StandardError.ReadToEnd();
-            File.WriteAllText(path, outputText, this.Encoding);
+            FileUtility.WriteAllText(outputText, this.Encoding, path);
             process.WaitForExit();
 
             if (process.ExitCode != 0)
@@ -75,7 +76,6 @@ namespace Ntreev.Library
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.WorkingDirectory = this.workingPath;
             process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}";
-
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.StandardOutputEncoding = this.Encoding;
