@@ -54,7 +54,8 @@ namespace Ntreev.Library
         {
             if (name.Contains('.') == true)
             {
-                return StringUtility.Split(name, '.').First();
+                var items = StringUtility.Split(name, '.');
+                return string.Join(".", items.Take(items.Length - 1));
             }
             return string.Empty;
         }
@@ -63,7 +64,7 @@ namespace Ntreev.Library
         {
             if (name.Contains('.') == true)
             {
-                return StringUtility.Split(name, '.')[1];
+                return StringUtility.Split(name, '.').Last();
             }
             return name;
         }
