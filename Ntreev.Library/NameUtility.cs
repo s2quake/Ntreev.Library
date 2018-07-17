@@ -52,6 +52,8 @@ namespace Ntreev.Library
 
         public static string GetParentName(string name)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
             if (name.Contains('.') == true)
             {
                 var items = StringUtility.Split(name, '.');
@@ -62,6 +64,8 @@ namespace Ntreev.Library
 
         public static string GetName(string name)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
             if (name.Contains('.') == true)
             {
                 return StringUtility.Split(name, '.').Last();
