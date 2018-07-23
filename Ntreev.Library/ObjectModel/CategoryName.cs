@@ -135,7 +135,7 @@ namespace Ntreev.Library.ObjectModel
 
             if (result.Any() == true)
                 return result;
-            return new string[] { PathUtility.Separator, };
+            return new string[] { PathUtility.Separator };
 
             IEnumerable<string> QueryParents(string path)
             {
