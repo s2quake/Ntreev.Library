@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.6.18134.1152</Version>
+    <Version>3.6.18206.1101</Version>
     <AssemblyVersion>3.6.0.0</AssemblyVersion>
-    <FileVersion>3.6.18134.1152</FileVersion>
+    <FileVersion>3.6.18206.1101</FileVersion>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl>https://github.com/NtreevSoft/Ntreev.Library/blob/master/LICENSE.md</PackageLicenseUrl>
-    <Copyright>Copyright © Ntreev Soft 2018</Copyright>
+    <Copyright>Copyright 짤 Ntreev Soft 2018</Copyright>
     <Description>this is submodule of crema project</Description>
     <Company>NtreevSoft</Company>
     <Authors>s2quake</Authors>
