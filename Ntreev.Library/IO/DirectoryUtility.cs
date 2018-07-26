@@ -168,7 +168,7 @@ namespace Ntreev.Library.IO
         public static bool IsEmpty(string path)
         {
             if (Directory.Exists(path) == false)
-                throw new DirectoryNotFoundException(string.Format("'{0}' 경로를 찾을 수 없습니다.", path));
+                throw new DirectoryNotFoundException();
 
             if (Directory.GetDirectories(path).Any() == true)
                 return false;

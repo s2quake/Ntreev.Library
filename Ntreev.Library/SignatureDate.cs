@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 namespace Ntreev.Library
@@ -54,6 +55,19 @@ namespace Ntreev.Library
         public override string ToString()
         {
             return string.Format("{0}, {1}", this.id ?? "(null)", this.dateTime);
+        }
+
+        public static SignatureDate Parse(string text)
+        {
+            var match = Regex.Match(text, "(?<id>.+)[,] (?<date>.+)", RegexOptions.ExplicitCapture);
+            if (match.Success == false)
+                throw new FormatException();
+            var id = match.Groups["id"].Value;
+            return new SignatureDate()
+            {
+                id = id == "(null)" ? null : id,
+                dateTime = DateTime.Parse(match.Groups["date"].Value)
+            };
         }
 
         public SignatureDate ToLocalValue()

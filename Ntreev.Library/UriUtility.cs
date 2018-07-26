@@ -58,6 +58,8 @@ namespace Ntreev.Library
 
         public static string MakeRelativeOfDirectory(string path1, string path2)
         {
+            if (path1 == path2)
+                return string.Empty;
             if (path1.EndsWith(Path.DirectorySeparatorChar.ToString()) == false && path1.EndsWith(Path.AltDirectorySeparatorChar.ToString()) == false)
                 path1 += Path.AltDirectorySeparatorChar;
 
