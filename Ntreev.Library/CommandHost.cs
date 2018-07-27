@@ -19,6 +19,8 @@ namespace Ntreev.Library
         private List<string> outputList;
         private List<string> errorList;
         private Encoding encoding;
+        private Func<object> action;
+        private object result;
 
         public CommandHost(string filename, string workingPath, string commandName)
         {
@@ -40,71 +42,81 @@ namespace Ntreev.Library
 
         public bool WriteAllText(string path)
         {
-            var process = new Process();
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.FileName = this.filename;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WorkingDirectory = this.workingPath;
-            process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}";
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.StandardOutputEncoding = this.Encoding;
-            process.StartInfo.StandardErrorEncoding = this.Encoding;
-            process.Start();
-            var outputText = process.StandardOutput.ReadToEnd();
-            var errorText = process.StandardError.ReadToEnd();
-            FileUtility.WriteAllText(outputText, this.Encoding, path);
-            process.WaitForExit();
-
-            if (process.ExitCode != 0)
+            this.action = new Func<object>(() =>
             {
-                if (this.ThrowOnError == true)
-                    throw new Exception(errorText);
-                else
-                    return false;
-            }
-            return true;
+                var process = new Process();
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.FileName = this.filename;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WorkingDirectory = this.workingPath;
+                process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}";
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.StandardOutputEncoding = this.Encoding;
+                process.StartInfo.StandardErrorEncoding = this.Encoding;
+                process.Start();
+                var outputText = process.StandardOutput.ReadToEnd();
+                var errorText = process.StandardError.ReadToEnd();
+                FileUtility.WriteAllText(outputText, this.Encoding, path);
+                process.WaitForExit();
+
+                if (process.ExitCode != 0)
+                {
+                    if (this.ThrowOnError == true)
+                        throw new Exception(errorText);
+                    else
+                        return false;
+                }
+                return true;
+            });
+            this.OnRun();
+            return (bool)this.result;
         }
 
         public string Run()
         {
-            this.outputList = new List<string>();
-            this.errorList = new List<string>();
-            var process = new Process();
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.FileName = this.filename;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WorkingDirectory = this.workingPath;
-            process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}";
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.StandardOutputEncoding = this.Encoding;
-            process.StartInfo.StandardErrorEncoding = this.Encoding;
-
-            process.OutputDataReceived += (s, e) =>
+            this.action = new Func<object>(() =>
             {
-                this.outputList.Add(e.Data);
-                this.OutputDataReceived?.Invoke(this, e);
-            };
-            process.ErrorDataReceived += (s, e) =>
-            {
-                this.errorList.Add(e.Data);
-                this.ErrorDataReceived?.Invoke(this, e);
-            };
-            process.Start();
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
+                this.outputList = new List<string>();
+                this.errorList = new List<string>();
+                var process = new Process();
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.FileName = this.filename;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WorkingDirectory = this.workingPath;
+                process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}";
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.StandardOutputEncoding = this.Encoding;
+                process.StartInfo.StandardErrorEncoding = this.Encoding;
 
-            if (process.ExitCode != 0)
-            {
-                if (this.ThrowOnError == true)
-                    throw new Exception(string.Join(Environment.NewLine, this.errorList.Where(item => item != null)));
-                else
-                    return null;
-            }
+                process.OutputDataReceived += (s, e) =>
+                {
+                    this.outputList.Add(e.Data);
+                    this.OutputDataReceived?.Invoke(this, e);
+                };
+                process.ErrorDataReceived += (s, e) =>
+                {
+                    this.errorList.Add(e.Data);
+                    this.ErrorDataReceived?.Invoke(this, e);
+                };
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
 
-            return string.Join(Environment.NewLine, this.outputList.Where(item => item != null));
+                if (process.ExitCode != 0)
+                {
+                    if (this.ThrowOnError == true)
+                        throw new Exception(string.Join(Environment.NewLine, this.errorList.Where(item => item != null)));
+                    else
+                        return null as string;
+                }
+
+                return string.Join(Environment.NewLine, this.outputList.Where(item => item != null));
+            });
+            this.OnRun();
+            return (string)this.result;
         }
 
         public string ReadLine()
@@ -143,6 +155,11 @@ namespace Ntreev.Library
         public event DataReceivedEventHandler ErrorDataReceived;
 
         public event DataReceivedEventHandler OutputDataReceived;
+
+        protected virtual void OnRun()
+        {
+            this.result = this.action();
+        }
 
         private string[] GetLines(string text, bool removeEmptyLine)
         {
