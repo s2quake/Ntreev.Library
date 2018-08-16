@@ -29,24 +29,28 @@ namespace Ntreev.Library
         private readonly IConfigurationPropertyProvider target;
         private readonly PropertyDescriptor descriptor;
         private string propertyName;
+        private object defaultValue = DBNull.Value;
 
         internal ConfigurationPropertyDescriptor(IConfigurationPropertyProvider target, PropertyDescriptor descriptor)
         {
             this.target = target;
             this.descriptor = descriptor;
-            var attr = descriptor.Attributes[typeof(ConfigurationPropertyAttribute)] as ConfigurationPropertyAttribute;
-            this.propertyName = $"{target.Name}.{attr.PropertyName ?? StringUtility.ToCamelCase(descriptor.Name)}";
-            this.ScopeType = attr.ScopeType;
+
+            if (descriptor.Attributes[typeof(ConfigurationPropertyAttribute)] is ConfigurationPropertyAttribute propAttr)
+            {
+                this.propertyName = $"{target.Name}.{propAttr.PropertyName ?? StringUtility.ToCamelCase(descriptor.Name)}";
+                this.ScopeType = propAttr.ScopeType;
+            }
+
+            if (descriptor.Attributes[typeof(DefaultValueAttribute)] is DefaultValueAttribute defaultAttr)
+            {
+                this.defaultValue = defaultAttr.Value;
+            }
         }
 
         public void Reset()
         {
             this.descriptor.ResetValue(this.target);
-        }
-
-        internal bool ShouldSerializeValue
-        {
-            get => this.descriptor.ShouldSerializeValue(this.target);
         }
 
         public object Value
@@ -65,29 +69,18 @@ namespace Ntreev.Library
             }
         }
 
-        public Type PropertyType
-        {
-            get => this.descriptor.PropertyType;
-        }
+        public Type PropertyType => this.descriptor.PropertyType;
 
-        public string PropertyName
-        {
-            get => this.propertyName;
-        }
+        public string PropertyName => this.propertyName;
 
-        public string Description
-        {
-            get => this.descriptor.Description;
-        }
+        public string Description => this.descriptor.Description;
 
-        public string Category
-        {
-            get => this.descriptor.Category;
-        }
+        public string Category => this.descriptor.Category;
 
-        public Type ScopeType
-        {
-            get; private set;
-        }
+        public object DefaultValue => this.defaultValue;
+
+        public Type ScopeType { get; }
+
+        internal bool ShouldSerializeValue => this.descriptor.ShouldSerializeValue(this.target);
     }
 }

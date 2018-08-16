@@ -30,7 +30,7 @@ namespace Ntreev.Library
 
         public ConfigurationPropertyAttribute()
         {
-
+            
         }
 
         public ConfigurationPropertyAttribute(string propertyName)
@@ -59,7 +59,7 @@ namespace Ntreev.Library
 
         public Type ScopeType
         {
-            get { return this.scopeType; }
+            get { return this.scopeType ?? typeof(ConfigurationBase); }
             set { this.scopeType = value; }
         }
     }

@@ -65,7 +65,11 @@
     <Compile Include="..\Ntreev.Library\AssemblyUtility.cs" />
     <Compile Include="..\Ntreev.Library\CommandHost.cs" />
     <Compile Include="..\Ntreev.Library\CommandOption.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationBaseLegacy.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationBase.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationItem.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationItemDescriptor.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationItemDescriptorCollection.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationPropertyAttribute.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationPropertyDescriptor.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationPropertyDescriptorCollection.cs" />
