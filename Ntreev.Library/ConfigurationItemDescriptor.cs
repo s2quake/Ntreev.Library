@@ -7,47 +7,46 @@ using System.Threading.Tasks;
 
 namespace Ntreev.Library
 {
-    public class ConfigurationItemDescriptor
+    sealed class ConfigurationItemDescriptor : ConfigurationPropertyDescriptor
     {
-        internal ConfigurationItemDescriptor(string name, Type type, string comment, object defaultValue)
+        public ConfigurationItemDescriptor(string name, Type type, string comment, object defaultValue)
         {
-            this.Name = name;
+            this.PropertyName = name;
             this.Comment = comment ?? string.Empty;
             this.DefaultValue = DefaultValue;
-            this.Type = type;
-            if (this.Type.IsArray == true)
+            this.PropertyType = type;
+            if (this.PropertyType.IsArray == true)
             {
                 this.IsArray = true;
-                this.Type = this.Type.GetElementType();
+                this.PropertyType = this.PropertyType.GetElementType();
             }
         }
 
-        internal ConfigurationItemDescriptor(string name, object value)
+        public ConfigurationItemDescriptor(string name, object value)
         {
-            this.Name = name;
+            this.PropertyName = name;
             this.Comment = string.Empty;
             this.DefaultValue = DBNull.Value;
-            this.Type = value.GetType();
-            if (this.Type.IsArray == true)
+            this.PropertyType = value.GetType();
+            if (this.PropertyType.IsArray == true)
             {
                 this.IsArray = true;
-                this.Type = this.Type.GetElementType();
+                this.PropertyType = this.PropertyType.GetElementType();
             }
         }
 
-        public override string ToString()
-        {
-            return this.Name;
-        }
+        public override string PropertyName { get; }
 
-        public string Name { get; }
+        public override Type PropertyType { get; }
 
-        public Type Type { get; }
+        public override string Comment { get; }
 
-        public string Comment { get; }
+        public override object DefaultValue { get; }
 
-        public object DefaultValue { get; }
+        public override bool IsArray { get; }
 
-        public bool IsArray { get; }
+        public override Type ScopeType => throw new NotImplementedException();
+
+        public override object Value { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

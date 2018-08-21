@@ -59,7 +59,7 @@ namespace Ntreev.Library
 
                     this.ValidatePropertyType(descriptor.PropertyType);
 
-                    var configDescriptor = new ConfigurationPropertyDescriptor(item, descriptor);
+                    var configDescriptor = new ConfigurationPropertyProviderDescriptor(item, descriptor);
                     if (this.properties.ContainsKey(configDescriptor.PropertyName) == true)
                         throw new ArgumentException($"{configDescriptor.PropertyName} property is already registered.");
                     this.properties.Add(configDescriptor);
@@ -71,8 +71,6 @@ namespace Ntreev.Library
                 ExeConfigFilename = path
             };
             this.config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
-
-            
 
             foreach (var item in this.properties)
             {

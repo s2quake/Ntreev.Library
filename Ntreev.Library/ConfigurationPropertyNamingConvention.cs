@@ -15,46 +15,17 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.Serialization;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
 namespace Ntreev.Library
 {
-    public abstract class ConfigurationPropertyDescriptor
+    public enum ConfigurationPropertyNamingConvention
     {
-        public void Reset()
-        {
-            this.OnReset();
-        }
+        None,
 
-        public override string ToString()
-        {
-            return this.PropertyName;
-        }
-
-        public abstract Type PropertyType { get; }
-
-        public abstract string PropertyName { get; }
-
-        public abstract string Comment { get; }
-
-        public abstract object DefaultValue { get; }
-
-        public abstract Type ScopeType { get; }
-
-        public abstract object Value { get; set; }
-
-        public abstract bool IsArray { get; }
-
-        protected virtual void OnReset()
-        {
-
-        }
-
-        internal bool ShouldSerializeValue => object.Equals(this.Value, this.DefaultValue);
+        CamelCase,
     }
 }

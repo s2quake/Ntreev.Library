@@ -69,10 +69,11 @@
     <Compile Include="..\Ntreev.Library\ConfigurationBase.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationItem.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationItemDescriptor.cs" />
-    <Compile Include="..\Ntreev.Library\ConfigurationItemDescriptorCollection.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationPropertyAttribute.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationPropertyNamingConvention.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationPropertyDescriptor.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationPropertyDescriptorCollection.cs" />
+    <Compile Include="..\Ntreev.Library\ConfigurationPropertyProviderDescriptor.cs" />
     <Compile Include="..\Ntreev.Library\ConsoleProgress.cs" />
     <Compile Include="..\Ntreev.Library\ConsoleProgressStyle.cs" />
     <Compile Include="..\Ntreev.Library\DateTimeExtension.cs" />

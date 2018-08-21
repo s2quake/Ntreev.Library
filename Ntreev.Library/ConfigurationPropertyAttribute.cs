@@ -26,11 +26,13 @@ namespace Ntreev.Library
     public class ConfigurationPropertyAttribute : Attribute
     {
         private readonly string propertyName;
+        private readonly ConfigurationPropertyNamingConvention namingConvention;
+        private string section;
         private Type scopeType;
 
         public ConfigurationPropertyAttribute()
         {
-            
+
         }
 
         public ConfigurationPropertyAttribute(string propertyName)
@@ -38,11 +40,16 @@ namespace Ntreev.Library
             this.propertyName = propertyName;
         }
 
+        public ConfigurationPropertyAttribute(ConfigurationPropertyNamingConvention namingConvention)
+        {
+            this.namingConvention = namingConvention;
+        }
+
         public string PropertyName
         {
             get { return this.propertyName; }
         }
-
+        
         public string ScopeTypeName
         {
             get
@@ -61,6 +68,31 @@ namespace Ntreev.Library
         {
             get { return this.scopeType ?? typeof(ConfigurationBase); }
             set { this.scopeType = value; }
+        }
+
+        public ConfigurationPropertyNamingConvention NamingConvention
+        {
+            get { return this.namingConvention; }
+        }
+
+        public string Section
+        {
+            get { return this.section; }
+            set { this.section = value; }
+        }
+
+        internal string GetPropertyName(string descriptorName)
+        {
+            var items = new List<string>();
+            if (this.section != null)
+                items.Add(this.section);
+            if (this.propertyName != null)
+                items.Add(this.propertyName);
+            else if (this.namingConvention == ConfigurationPropertyNamingConvention.None)
+                items.Add(descriptorName);
+            else if (this.namingConvention == ConfigurationPropertyNamingConvention.CamelCase)
+                items.Add(StringUtility.ToCamelCase(descriptorName));
+            return string.Join(".", items);
         }
     }
 }

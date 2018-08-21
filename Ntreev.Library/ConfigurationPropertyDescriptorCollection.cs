@@ -77,7 +77,7 @@ namespace Ntreev.Library
 
                     this.ValidatePropertyType(descriptor.PropertyType);
 
-                    var configDescriptor = new ConfigurationPropertyDescriptor(item, descriptor);
+                    var configDescriptor = new ConfigurationPropertyProviderDescriptor(item, descriptor);
                     if (this.ContainsKey(configDescriptor.PropertyName) == true)
                         throw new ArgumentException($"{configDescriptor.PropertyName} property is already registered.");
                     this.Add(configDescriptor);

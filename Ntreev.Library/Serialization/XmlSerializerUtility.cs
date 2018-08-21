@@ -91,6 +91,20 @@ namespace Ntreev.Library.Serialization
             }
         }
 
+        public static IDictionary<string, object> ToDictionary(object obj)
+        {
+            var serializer = GetSerializer(obj.GetType());
+            var settings = new XmlWriterSettings() { Encoding = Encoding.UTF8 };
+            var doc = new XmlDocument();
+            using (var writer = doc.CreateNavigator().AppendChild())
+            {
+                serializer.Serialize(writer, obj);
+                writer.Close();
+            }
+
+            return null;
+        }
+
         public static void Write(XmlWriter writer, object obj)
         {
             var serializer = GetSerializer(obj.GetType());
