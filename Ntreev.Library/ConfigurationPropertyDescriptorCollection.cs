@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Ntreev.Library
@@ -29,17 +30,23 @@ namespace Ntreev.Library
     {
         public ConfigurationPropertyDescriptorCollection()
         {
-            
+
         }
 
         public ConfigurationPropertyDescriptorCollection(IEnumerable<IConfigurationPropertyProvider> providers)
         {
-            this.Initialize(providers, null);
+            foreach (var item in providers)
+            {
+                this.Initialize(item, null);
+            }
         }
 
         public ConfigurationPropertyDescriptorCollection(IEnumerable<IConfigurationPropertyProvider> providers, Type scopeType)
         {
-            this.Initialize(providers, scopeType ?? throw new ArgumentNullException(nameof(scopeType)));
+            foreach (var item in providers)
+            {
+                this.Initialize(item, scopeType ?? throw new ArgumentNullException(nameof(scopeType)));
+            }
         }
 
         public void Add(ConfigurationPropertyDescriptor item)
@@ -63,25 +70,24 @@ namespace Ntreev.Library
             throw new ArgumentException("${type} can not use by property type.");
         }
 
-        private void Initialize(IEnumerable<IConfigurationPropertyProvider> providers, Type scopeType)
+        private void Initialize(IConfigurationPropertyProvider provider, Type scopeType)
         {
-            foreach (var item in providers)
+            var bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+            foreach (var item in provider.GetType().GetProperties(bindingFlags))
             {
-                foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(item))
-                {
-                    var attr = descriptor.Attributes[typeof(ConfigurationPropertyAttribute)] as ConfigurationPropertyAttribute;
-                    if (attr == null)
-                        continue;
-                    if (scopeType != null && attr.ScopeType != scopeType)
-                        continue;
+                if (item.CanRead == false || item.CanWrite == false)
+                    continue;
 
-                    this.ValidatePropertyType(descriptor.PropertyType);
+                var attr = item.GetCustomAttribute<ConfigurationPropertyAttribute>();
+                if (attr == null || attr.ScopeType != scopeType)
+                    continue;
 
-                    var configDescriptor = new ConfigurationPropertyProviderDescriptor(item, descriptor);
-                    if (this.ContainsKey(configDescriptor.PropertyName) == true)
-                        throw new ArgumentException($"{configDescriptor.PropertyName} property is already registered.");
-                    this.Add(configDescriptor);
-                }
+                this.ValidatePropertyType(item.PropertyType);
+
+                var configDescriptor = new ConfigurationPropertyProviderDescriptor(provider, item);
+                if (this.ContainsKey(configDescriptor.PropertyName) == true)
+                    throw new ArgumentException($"{configDescriptor.PropertyName} property is already registered.");
+                this.Add(configDescriptor);
             }
         }
     }

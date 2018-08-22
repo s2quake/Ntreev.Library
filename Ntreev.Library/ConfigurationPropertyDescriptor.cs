@@ -48,8 +48,6 @@ namespace Ntreev.Library
 
         public abstract object Value { get; set; }
 
-        public abstract bool IsArray { get; }
-
         protected virtual void OnReset()
         {
 

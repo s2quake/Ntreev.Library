@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Ntreev.Library
@@ -27,39 +28,37 @@ namespace Ntreev.Library
     sealed class ConfigurationPropertyProviderDescriptor : ConfigurationPropertyDescriptor
     {
         private readonly IConfigurationPropertyProvider target;
-        private readonly PropertyDescriptor descriptor;
+        private readonly PropertyInfo propertyInfo;
 
-        internal ConfigurationPropertyProviderDescriptor(IConfigurationPropertyProvider target, PropertyDescriptor descriptor)
+        internal ConfigurationPropertyProviderDescriptor(IConfigurationPropertyProvider target, PropertyInfo propertyInfo)
         {
             this.target = target;
-            this.descriptor = descriptor;
+            this.propertyInfo = propertyInfo;
 
-            if (descriptor.Attributes[typeof(ConfigurationPropertyAttribute)] is ConfigurationPropertyAttribute propAttr)
+            if (propertyInfo.GetCustomAttribute<ConfigurationPropertyAttribute>() is ConfigurationPropertyAttribute propAttr)
             {
-                this.PropertyName = $"{target.Name}.{propAttr.GetPropertyName(descriptor.Name)}";
+                this.PropertyName = $"{target.Name}.{propAttr.GetPropertyName(propertyInfo.Name)}";
                 this.ScopeType = propAttr.ScopeType;
             }
 
-            if (descriptor.Attributes[typeof(DefaultValueAttribute)] is DefaultValueAttribute defaultAttr)
+            if (propertyInfo.GetCustomAttribute<DefaultValueAttribute>() is DefaultValueAttribute defaultAttr)
             {
                 this.DefaultValue = defaultAttr.Value;
             }
 
-            this.PropertyType = descriptor.PropertyType;
-            if (this.PropertyType.IsArray == true)
-            {
-                this.IsArray = true;
-                this.PropertyType = this.PropertyType.GetElementType();
-            }
+            this.PropertyType = propertyInfo.PropertyType;
 
-            this.Comment = descriptor.Description;
+            if (propertyInfo.GetCustomAttribute<DescriptionAttribute>() is DescriptionAttribute descriptionAttr)
+            {
+                this.Comment = descriptionAttr.Description;
+            }
         }
 
         public override Type PropertyType { get; }
 
         public override string PropertyName { get; }
 
-        public override string Comment { get; }
+        public override string Comment { get; } = string.Empty;
 
         public override object DefaultValue { get; } = DBNull.Value;
 
@@ -67,26 +66,18 @@ namespace Ntreev.Library
 
         public override object Value
         {
-            get => this.descriptor.GetValue(this.target);
+            get => this.propertyInfo.GetValue(this.target);
             set
             {
-                if (value == null || value.GetType() == this.descriptor.PropertyType)
+                if (value == null || value.GetType() == this.propertyInfo.PropertyType)
                 {
-                    this.descriptor.SetValue(this.target, value);
+                    this.propertyInfo.SetValue(this.target, value);
                 }
                 else
                 {
-                    this.descriptor.SetValue(this.target, XmlConvertUtility.ToValue($"{value}", this.descriptor.PropertyType));
+                    this.propertyInfo.SetValue(this.target, XmlConvertUtility.ToValue($"{value}", this.propertyInfo.PropertyType));
                 }
             }
-        }
-
-        public override bool IsArray { get; }
-
-        protected override void OnReset()
-        {
-            base.OnReset();
-            this.descriptor.ResetValue(this.target);
         }
     }
 }

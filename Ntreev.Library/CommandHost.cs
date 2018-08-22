@@ -32,7 +32,7 @@ namespace Ntreev.Library
 
         public override string ToString()
         {
-            return $"{this.filename} {this.commandName} {string.Join(" ", this.items)}";
+            return $"\"{this.filename}\" {this.commandName} {string.Join(" ", this.items)}";
         }
 
         public void Add(object item)

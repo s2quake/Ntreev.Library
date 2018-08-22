@@ -11,28 +11,24 @@ namespace Ntreev.Library
     {
         public ConfigurationItemDescriptor(string name, Type type, string comment, object defaultValue)
         {
+            if (ConfigurationBase.CanSupportType(type) == false)
+                throw new ArgumentException();
             this.PropertyName = name;
             this.Comment = comment ?? string.Empty;
             this.DefaultValue = DefaultValue;
             this.PropertyType = type;
-            if (this.PropertyType.IsArray == true)
-            {
-                this.IsArray = true;
-                this.PropertyType = this.PropertyType.GetElementType();
-            }
         }
 
         public ConfigurationItemDescriptor(string name, object value)
         {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            if (ConfigurationBase.CanSupportType(value.GetType()) == false)
+                throw new ArgumentException();
             this.PropertyName = name;
             this.Comment = string.Empty;
             this.DefaultValue = DBNull.Value;
             this.PropertyType = value.GetType();
-            if (this.PropertyType.IsArray == true)
-            {
-                this.IsArray = true;
-                this.PropertyType = this.PropertyType.GetElementType();
-            }
         }
 
         public override string PropertyName { get; }
@@ -42,8 +38,6 @@ namespace Ntreev.Library
         public override string Comment { get; }
 
         public override object DefaultValue { get; }
-
-        public override bool IsArray { get; }
 
         public override Type ScopeType => throw new NotImplementedException();
 

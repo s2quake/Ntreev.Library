@@ -47,23 +47,32 @@ namespace Ntreev.Library
 
         }
 
+        private void InitializeProperties(Type scopeType, IConfigurationPropertyProvider provider)
+        {
+            var bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+            foreach (var item in provider.GetType().GetProperties(bindingFlags))
+            {
+                if (item.CanRead == false || item.CanWrite == false)
+                    continue;
+
+                var attr = item.GetCustomAttribute<ConfigurationPropertyAttribute>();
+                if (attr == null || attr.ScopeType != scopeType)
+                    continue;
+
+                this.ValidatePropertyType(item.PropertyType);
+
+                var configDescriptor = new ConfigurationPropertyProviderDescriptor(provider, item);
+                if (this.properties.ContainsKey(configDescriptor.PropertyName) == true)
+                    throw new ArgumentException($"{configDescriptor.PropertyName} property is already registered.");
+                this.properties.Add(configDescriptor);
+            }
+        }
+
         protected ConfigurationBaseLegacy(string path, Type scopeType, IEnumerable<IConfigurationPropertyProvider> providers)
         {
             foreach (var item in providers)
             {
-                foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(item))
-                {
-                    var attr = descriptor.Attributes[typeof(ConfigurationPropertyAttribute)] as ConfigurationPropertyAttribute;
-                    if (attr == null || attr.ScopeType != scopeType)
-                        continue;
-
-                    this.ValidatePropertyType(descriptor.PropertyType);
-
-                    var configDescriptor = new ConfigurationPropertyProviderDescriptor(item, descriptor);
-                    if (this.properties.ContainsKey(configDescriptor.PropertyName) == true)
-                        throw new ArgumentException($"{configDescriptor.PropertyName} property is already registered.");
-                    this.properties.Add(configDescriptor);
-                }
+                this.InitializeProperties(scopeType, item);
             }
 
             var fileMap = new ExeConfigurationFileMap()
