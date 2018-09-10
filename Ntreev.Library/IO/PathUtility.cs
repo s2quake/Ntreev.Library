@@ -127,5 +127,14 @@ namespace Ntreev.Library.IO
                 return Path.GetFullPath(path);
             }
         }
+
+        public static string GetDirectoryName(string path)
+        {
+            if (path.EndsWith(Path.AltDirectorySeparatorChar.ToString()))
+                path = path.Remove(path.Length - Path.AltDirectorySeparatorChar.ToString().Length);
+            else if (path.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                path = path.Remove(path.Length - Path.DirectorySeparatorChar.ToString().Length);
+            return Path.GetDirectoryName(path);
+        }
     }
 }
