@@ -32,6 +32,8 @@ namespace Ntreev.Library.Random
 {
     public static class RandomUtility
     {
+        private static readonly object lockobj = new object();
+        private static int count;
         private static System.Random random = new System.Random(DateTime.Now.Millisecond);
         private static string[] words;
         private static byte[] longBytes = new byte[8];
@@ -65,12 +67,30 @@ namespace Ntreev.Library.Random
 
         public static int Next(int min, int max)
         {
-            return random.Next(min, max);
+            lock (lockobj)
+            {
+                count++;
+                if (count >= 1000)
+                {
+                    random = new System.Random(DateTime.Now.Millisecond);
+                    count = 0;
+                }
+                return random.Next(min, max);
+            }
         }
 
         public static int Next(int max)
         {
-            return random.Next(max);
+            lock (lockobj)
+            {
+                count++;
+                if (count >= 1000)
+                {
+                    random = new System.Random(DateTime.Now.Millisecond);
+                    count = 0;
+                }
+                return random.Next(max);
+            }
         }
 
         public static long NextLong(long max)
