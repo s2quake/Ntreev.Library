@@ -206,6 +206,16 @@ namespace Ntreev.Library.ObjectModel
                     return;
                 }
 
+                if (this.category != null && value == null)
+                {
+                    this.isDisposing = true;
+                    this.category.Items.Remove(this as _I);
+                    this.category.Childs.Remove(this);
+                    this.category = null;
+                    this.isDisposing = false;
+                    return;
+                }
+
                 this.ValidateMove(value);
 
                 var oldCategory = this.Category;

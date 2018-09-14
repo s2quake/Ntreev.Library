@@ -156,7 +156,7 @@ namespace Ntreev.Library.ObjectModel
                 this.OnCollectionChanging(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
                 this.AddBase(this.GetItemKey(item), item);
                 item.Container = this as _IC;
-                item.Deleted += Item_Disposed;
+                item.Deleted += Item_Deleted;
 
                 this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
             }
@@ -181,7 +181,7 @@ namespace Ntreev.Library.ObjectModel
                     var key = this.SupportsNonUniqueName == true ? item.Path : item.Name;
                     this.AddBase(key, item);
                     item.Container = this as _IC;
-                    item.Deleted += Item_Disposed;
+                    item.Deleted += Item_Deleted;
                 }
 
                 this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
@@ -200,7 +200,7 @@ namespace Ntreev.Library.ObjectModel
                 this.OnCollectionChanging(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
                 string key = this.SupportsNonUniqueName == true ? item.Path : item.Name;
                 this.RemoveBase(key);
-                item.Deleted -= Item_Disposed;
+                item.Deleted -= Item_Deleted;
                 item.Container = null;
 
                 this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
@@ -227,7 +227,7 @@ namespace Ntreev.Library.ObjectModel
                 {
                     string key = this.SupportsNonUniqueName == true ? item.Path : item.Name;
                     this.RemoveBase(key);
-                    item.Deleted -= Item_Disposed;
+                    item.Deleted -= Item_Deleted;
                     item.Container = null;
                 }
 
@@ -432,7 +432,7 @@ namespace Ntreev.Library.ObjectModel
             get { return this.context.Categories; }
         }
 
-        private void Item_Disposed(object sender, EventArgs e)
+        private void Item_Deleted(object sender, EventArgs e)
         {
             var item = sender as _I;
             item.Category = null;
