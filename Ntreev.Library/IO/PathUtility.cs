@@ -66,6 +66,8 @@ namespace Ntreev.Library.IO
             var directoryName = Path.GetDirectoryName(tempFileName);
             var fileName = Path.GetFileNameWithoutExtension(tempFileName);
             var tempPath = Path.Combine(targetPath, fileName);
+            if (Directory.Exists(tempPath) == true)
+                Directory.Delete(tempPath, true);
             if (create == true)
                 Directory.CreateDirectory(tempPath);
             return tempPath;
