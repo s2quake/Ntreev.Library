@@ -118,12 +118,18 @@ namespace Ntreev.Library
                     if (target is IConfigurationPropertyProvider propertyProvider)
                     {
                         var key = $"{propertyProvider.Name}{attr.GetPropertyName(item.Name)}";
-                        item.SetValue(target, this.items[key]);
+                        if (this.items.ContainsKey(key) == true)
+                        {
+                            item.SetValue(target, this.items[key]);
+                        }
                     }
                     else
                     {
                         var key = $"{target.GetType().FullName}.{attr.GetPropertyName(item.Name)}";
-                        item.SetValue(target, this.items[key]);
+                        if (this.items.ContainsKey(key) == true)
+                        {
+                            item.SetValue(target, this.items[key]);
+                        }
                     }
                 }
                 catch
