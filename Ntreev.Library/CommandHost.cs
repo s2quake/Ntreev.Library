@@ -40,6 +40,16 @@ namespace Ntreev.Library
             this.items.Add(item);
         }
 
+        public void Remove(object item)
+        {
+            this.items.Remove(item);
+        }
+
+        public void Clear()
+        {
+            this.items.Clear();
+        }
+
         public bool WriteAllText(string path)
         {
             this.action = new Func<object>(() =>
