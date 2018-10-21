@@ -310,6 +310,8 @@
     </Compile>
     <Compile Include="..\Ntreev.Library\SignatureDate.cs" />
     <Compile Include="..\Ntreev.Library\SignatureDateProvider.cs" />
+    <Compile Include="..\Ntreev.Library\Dispatcher.cs" />
+    <Compile Include="..\Ntreev.Library\DispatcherScheduler.cs" />
     <Compile Include="..\Ntreev.Library\StepProgress.cs" />
     <Compile Include="..\Ntreev.Library\StringUtility.cs" />
     <Compile Include="..\Ntreev.Library\TagInfo.cs" />
