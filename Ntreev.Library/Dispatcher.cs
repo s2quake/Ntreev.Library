@@ -30,12 +30,14 @@ namespace Ntreev.Library
         private readonly DispatcherScheduler scheduler;
         private readonly TaskFactory factory;
         private readonly CancellationTokenSource cancellationToken;
+        private DispatcherSynchronizationContext context;
 
         public Dispatcher(object owner)
         {
             this.cancellationToken = new CancellationTokenSource();
             this.scheduler = new DispatcherScheduler(this.cancellationToken.Token);
             this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, this.scheduler);
+            this.context = new DispatcherSynchronizationContext(this.factory);
             this.Owner = owner;
             this.Thread = new Thread(() =>
             {
@@ -123,11 +125,33 @@ namespace Ntreev.Library
 
         public Thread Thread { get; }
 
+        public SynchronizationContext SynchronizationContext => this.context;
+
         public event EventHandler Disposed;
 
         protected virtual void OnDisposed(EventArgs e)
         {
             this.Disposed?.Invoke(this, e);
+        }
+    }
+
+    public sealed class DispatcherSynchronizationContext : SynchronizationContext
+    {
+        private readonly TaskFactory factory;
+
+        internal DispatcherSynchronizationContext(TaskFactory factory)
+        {
+            this.factory = factory;
+        }
+
+        public override void Send(SendOrPostCallback d, object state)
+        {
+            base.Send(d, state);
+        }
+
+        public override void Post(SendOrPostCallback d, object state)
+        {
+            this.factory.StartNew(() => d(state));
         }
     }
 }

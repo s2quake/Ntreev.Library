@@ -62,8 +62,8 @@ namespace Ntreev.Library
                 }
                 else
                 {
-                    eventSet.WaitOne();
-                    eventSet.Reset();
+                    this.eventSet.WaitOne();
+                    this.eventSet.Reset();
                 }
             }
         }
