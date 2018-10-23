@@ -29,13 +29,15 @@ namespace Ntreev.Library
     {
         private readonly DispatcherScheduler scheduler;
         private readonly TaskFactory factory;
-        private readonly CancellationTokenSource cancellationToken;
-        private DispatcherSynchronizationContext context;
+        private readonly CancellationTokenSource cancellationQueue;
+        private readonly CancellationTokenSource cancellationExecution;
+        private readonly DispatcherSynchronizationContext context;
 
         public Dispatcher(object owner)
         {
-            this.cancellationToken = new CancellationTokenSource();
-            this.scheduler = new DispatcherScheduler(this, this.cancellationToken.Token);
+            this.cancellationQueue = new CancellationTokenSource();
+            this.cancellationExecution = new CancellationTokenSource();
+            this.scheduler = new DispatcherScheduler(this, this.cancellationExecution.Token);
             this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, this.scheduler);
             this.context = new DispatcherSynchronizationContext(this.factory);
             this.Owner = owner;
@@ -70,6 +72,8 @@ namespace Ntreev.Library
 
         public void Invoke(Action action)
         {
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
             if (this.CheckAccess() == true)
             {
                 action();
@@ -83,11 +87,15 @@ namespace Ntreev.Library
 
         public Task InvokeAsync(Action action)
         {
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
             return this.factory.StartNew(action);
         }
 
         public TResult Invoke<TResult>(Func<TResult> callback)
         {
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
             if (this.CheckAccess() == true)
             {
                 return callback();
@@ -102,20 +110,28 @@ namespace Ntreev.Library
 
         public Task<TResult> InvokeAsync<TResult>(Func<TResult> callback)
         {
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
             return this.factory.StartNew(callback);
         }
 
         public void Dispose()
         {
-            this.cancellationToken.Cancel();
-            this.scheduler.Continue();
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
+            this.cancellationQueue.Cancel();
+            this.scheduler.Continue = false;
+            this.scheduler.Proceed();
         }
 
         public async Task DisposeAsync()
         {
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
             var task = this.factory.StartNew(() => { });
-            this.cancellationToken.Cancel();
-            this.scheduler.Continue();
+            this.cancellationQueue.Cancel();
+            this.scheduler.Continue = false;
+            this.scheduler.Proceed();
             await task;
         }
 

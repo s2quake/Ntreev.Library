@@ -42,10 +42,12 @@ namespace Ntreev.Library
             return this.isExecuting && TryExecuteTask(task);
         }
 
-        internal void Continue()
+        internal void Proceed()
         {
             this.eventSet.Set();
         }
+
+        internal bool Continue { get; set; } = true;
 
         internal void Run()
         {
@@ -58,7 +60,7 @@ namespace Ntreev.Library
                     this.isExecuting = false;
                     this.eventSet.Set();
                 }
-                else if (this.cancellation.IsCancellationRequested == true)
+                else if (this.Continue == false)
                 {
                     break;
                 }
