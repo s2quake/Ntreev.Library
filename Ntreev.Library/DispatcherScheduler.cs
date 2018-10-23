@@ -11,13 +11,15 @@ namespace Ntreev.Library
     class DispatcherScheduler : TaskScheduler
     {
         private static readonly object lockobj = new object();
+        private readonly Dispatcher dispatcher;
         private readonly CancellationToken cancellation;
         private readonly BlockingCollection<Task> taskQueue = new BlockingCollection<Task>();
-        private ManualResetEvent eventSet = new ManualResetEvent(false);
+        private readonly ManualResetEvent eventSet = new ManualResetEvent(false);
         private bool isExecuting;
 
-        public DispatcherScheduler(CancellationToken cancellation)
+        public DispatcherScheduler(Dispatcher dispatcher, CancellationToken cancellation)
         {
+            this.dispatcher = dispatcher;
             this.cancellation = cancellation;
         }
 

@@ -35,7 +35,7 @@ namespace Ntreev.Library
         public Dispatcher(object owner)
         {
             this.cancellationToken = new CancellationTokenSource();
-            this.scheduler = new DispatcherScheduler(this.cancellationToken.Token);
+            this.scheduler = new DispatcherScheduler(this, this.cancellationToken.Token);
             this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, this.scheduler);
             this.context = new DispatcherSynchronizationContext(this.factory);
             this.Owner = owner;
