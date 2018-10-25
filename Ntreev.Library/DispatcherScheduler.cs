@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,6 +58,7 @@ namespace Ntreev.Library
                 {
                     this.isExecuting = true;
                     this.TryExecuteTask(task);
+                    this.WaitForInnerTask(task);
                     this.isExecuting = false;
                     this.eventSet.Set();
                 }
@@ -68,6 +70,28 @@ namespace Ntreev.Library
                 {
                     this.eventSet.WaitOne();
                     this.eventSet.Reset();
+                }
+            }
+        }
+
+        private void WaitForInnerTask(Task task)
+        {
+            var taskType = task.GetType();
+            if (task.CreationOptions == TaskCreationOptions.AttachedToParent && taskType.IsGenericType && (taskType.GetGenericTypeDefinition() == typeof(Task<>)))
+            {
+                var genericType = taskType.GetGenericArguments()[0];
+                if (genericType == typeof(Task))
+                {
+                    var innerTask = ((Task<Task>)task).Result;
+                    innerTask.Wait();
+                }
+                else if (genericType.IsSubclassOf(typeof(Task)))
+                {
+                    var resultProperty = taskType.GetProperty("Result");
+                    var result = resultProperty.GetValue(task);
+                    var innerTask = (Task)result;
+                    innerTask.Wait();
+                    this.WaitForInnerTask(innerTask);
                 }
             }
         }

@@ -108,11 +108,34 @@ namespace Ntreev.Library
             }
         }
 
+        public TResult Invoke<TResult>(Func<TResult> callback, TaskCreationOptions creationOptions)
+        {
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
+            if (this.CheckAccess() == true)
+            {
+                return callback();
+            }
+            else
+            {
+                var task = this.factory.StartNew(callback, creationOptions);
+                task.Wait();
+                return task.Result;
+            }
+        }
+
         public Task<TResult> InvokeAsync<TResult>(Func<TResult> callback)
         {
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
             return this.factory.StartNew(callback);
+        }
+
+        public Task<TResult> InvokeAsync<TResult>(Func<TResult> callback, TaskCreationOptions creationOptions)
+        {
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
+            return this.factory.StartNew(callback, creationOptions);
         }
 
         public void Dispose()
@@ -162,7 +185,7 @@ namespace Ntreev.Library
 
         public override void Send(SendOrPostCallback d, object state)
         {
-            base.Send(d, state);
+            this.factory.StartNew(() => d(state));
         }
 
         public override void Post(SendOrPostCallback d, object state)
