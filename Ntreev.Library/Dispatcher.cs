@@ -85,6 +85,22 @@ namespace Ntreev.Library
             }
         }
 
+        public Task InvokeAsync(Task task)
+        {
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
+            task.Start(this.scheduler);
+            return task;
+        }
+
+        public Task<TResult> InvokeAsync<TResult>(Task<TResult> task)
+        {
+            if (this.cancellationQueue.IsCancellationRequested == true)
+                throw new OperationCanceledException();
+            task.Start(this.scheduler);
+            return task;
+        }
+
         public Task InvokeAsync(Action action)
         {
             if (this.cancellationQueue.IsCancellationRequested == true)

@@ -58,7 +58,7 @@ namespace Ntreev.Library
                 {
                     this.isExecuting = true;
                     this.TryExecuteTask(task);
-                    this.WaitForInnerTask(task);
+                    //this.WaitForInnerTask(task);
                     this.isExecuting = false;
                     this.eventSet.Set();
                 }
