@@ -308,10 +308,20 @@
     <Compile Include="..\Ntreev.Library\Serialization\XmlSerializerUtility.cs">
       <Link>Serialization\XmlSerializerUtility.cs</Link>
     </Compile>
+    <Compile Include="..\Ntreev.Library\Threading\Dispatcher.cs">
+      <Link>Threading\Dispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\Ntreev.Library\Threading\DispatcherScheduler.cs">
+      <Link>Threading\DispatcherScheduler.cs</Link>
+    </Compile>
+    <Compile Include="..\Ntreev.Library\Threading\IndexedDispatcher.cs">
+      <Link>Threading\IndexedDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\Ntreev.Library\Threading\TaskResetEvent.cs">
+      <Link>Threading\TaskResetEvent.cs</Link>
+    </Compile>
     <Compile Include="..\Ntreev.Library\SignatureDate.cs" />
     <Compile Include="..\Ntreev.Library\SignatureDateProvider.cs" />
-    <Compile Include="..\Ntreev.Library\Dispatcher.cs" />
-    <Compile Include="..\Ntreev.Library\DispatcherScheduler.cs" />
     <Compile Include="..\Ntreev.Library\StepProgress.cs" />
     <Compile Include="..\Ntreev.Library\StringUtility.cs" />
     <Compile Include="..\Ntreev.Library\TagInfo.cs" />

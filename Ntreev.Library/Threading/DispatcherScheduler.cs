@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ntreev.Library
+namespace Ntreev.Library.Threading
 {
     class DispatcherScheduler : TaskScheduler
     {
