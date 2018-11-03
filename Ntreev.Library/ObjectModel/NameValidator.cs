@@ -27,13 +27,11 @@ namespace Ntreev.Library.ObjectModel
 {
     public static class NameValidator
     {
-        private readonly static char[] invalidChars = new char[] { '\\', '/', ':', '*', '?', '\"', '<', '>', '|' };
-
         public static bool VerifyName(string name)
         {
             if (string.IsNullOrEmpty(name) == true)
                 return false;
-            return name.IndexOfAny(invalidChars) == -1;
+            return name.IndexOfAny(InvalidChars) == -1;
         }
 
         public static void ValidateName(string name)
@@ -107,9 +105,23 @@ namespace Ntreev.Library.ObjectModel
                 throw new ArgumentException(string.Format(Resources.Exception_InvalidPath_Format, itemPath), nameof(itemPath));
         }
 
-        public static char[] InvalidChars
+        public static bool VerifyPath(string path)
         {
-            get { return invalidChars; }
+            if (VerifyCategoryPath(path) == true)
+                return true;
+            if (VerifyItemPath(path) == true)
+                return true;
+            return false;
         }
+
+        public static void ValidatePath(string path)
+        {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+            if (VerifyPath(path) == false)
+                throw new ArgumentException(string.Format(Resources.Exception_InvalidPath_Format, path), nameof(path));
+        }
+
+        public static char[] InvalidChars { get; } = new char[] { '\\', '/', ':', '*', '?', '\"', '<', '>', '|' };
     }
 }
