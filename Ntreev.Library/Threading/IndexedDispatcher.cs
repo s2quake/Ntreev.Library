@@ -82,9 +82,9 @@ namespace Ntreev.Library.Threading
                 throw new OperationCanceledException();
             this.cancellationQueue.Cancel();
             var task = new Task(() => { });
-            lock (taskByIndex)
+            lock (this.taskByIndex)
             {
-                taskByIndex.Add(this.maxIndex + 1, task);
+                this.taskByIndex.Add(this.maxIndex, task);
             }
             this.isProceedable = false;
             this.eventSet.Set();
@@ -128,13 +128,13 @@ namespace Ntreev.Library.Threading
 
         private Task GetTask()
         {
-            lock (taskByIndex)
+            lock (this.taskByIndex)
             {
-                if (taskByIndex.ContainsKey(currentIndex) == true)
+                if (this.taskByIndex.ContainsKey(this.currentIndex) == true)
                 {
-                    var task = taskByIndex[currentIndex];
-                    taskByIndex.Remove(currentIndex);
-                    currentIndex++;
+                    var task = this.taskByIndex[this.currentIndex];
+                    this.taskByIndex.Remove(this.currentIndex);
+                    this.currentIndex++;
                     return task;
                 }
                 return null;
@@ -145,8 +145,8 @@ namespace Ntreev.Library.Threading
         {
             lock (taskByIndex)
             {
-                taskByIndex.Add(index, task);
-                this.maxIndex = Math.Max(index, this.maxIndex);
+                this.taskByIndex.Add(index, task);
+                this.maxIndex = Math.Max(index + 1, this.maxIndex);
                 this.eventSet.Set();
             }
         }

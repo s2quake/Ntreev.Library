@@ -50,7 +50,11 @@ namespace Ntreev.Library.Threading
             this.Dispatcher.VerifyAccess();
             if (this.setsByID.ContainsKey(id) == true)
             {
-                this.setsByID[id].Start();
+                var task = this.setsByID[id];
+                if (task.Status == TaskStatus.Created)
+                {
+                    task.Start();
+                }
             }
             else
             {

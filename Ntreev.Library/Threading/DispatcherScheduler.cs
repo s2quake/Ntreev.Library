@@ -31,8 +31,11 @@ namespace Ntreev.Library.Threading
 
         protected override void QueueTask(Task task)
         {
-            this.taskQueue.Add(task, this.cancellation);
-            this.eventSet.Set();
+            lock (lockobj)
+            {
+                this.taskQueue.Add(task, this.cancellation);
+                this.eventSet.Set();
+            }
         }
 
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
