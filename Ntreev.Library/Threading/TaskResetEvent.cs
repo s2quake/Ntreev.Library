@@ -45,20 +45,23 @@ namespace Ntreev.Library.Threading
             });
         }
 
-        public void Set(T id)
+        public void Set(params T[] ids)
         {
             this.Dispatcher.VerifyAccess();
-            if (this.setsByID.ContainsKey(id) == true)
+            foreach (var item in ids)
             {
-                var task = this.setsByID[id];
-                if (task.Status == TaskStatus.Created)
+                if (this.setsByID.ContainsKey(item) == true)
                 {
-                    task.Start();
+                    var task = this.setsByID[item];
+                    if (task.Status == TaskStatus.Created)
+                    {
+                        task.Start();
+                    }
                 }
-            }
-            else
-            {
-                this.setsByID.Add(id, Task.Run(() => { }));
+                else
+                {
+                    this.setsByID.Add(item, Task.Run(() => { }));
+                }
             }
         }
 
