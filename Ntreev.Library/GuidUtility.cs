@@ -51,5 +51,25 @@ namespace Ntreev.Library
                 return Guid.Parse(sb.ToString());
             }
         }
+
+        public static Guid Create(long left, long right)
+        {
+            var bytes = new byte[16];
+            BitConverter.GetBytes(left).CopyTo(bytes, 0);
+            BitConverter.GetBytes(right).CopyTo(bytes, 8);
+            return new Guid(bytes);
+        }
+
+        public static long GetLeft(Guid guid)
+        {
+            var bytes = guid.ToByteArray();
+            return BitConverter.ToInt64(bytes, 0);
+        }
+
+        public static long GetRight(Guid guid)
+        {
+            var bytes = guid.ToByteArray();
+            return BitConverter.ToInt64(bytes, 8);
+        }
     }
 }
