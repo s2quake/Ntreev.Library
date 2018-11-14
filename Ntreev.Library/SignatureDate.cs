@@ -57,6 +57,11 @@ namespace Ntreev.Library
             return string.Format("{0}, {1}", this.id ?? "(null)", this.dateTime);
         }
 
+        public string ToString(IFormatProvider provider)
+        {
+            return string.Format("{0}, {1}", this.id ?? "(null)", this.dateTime.ToString(provider));
+        }
+
         public static SignatureDate Parse(string text)
         {
             var match = Regex.Match(text, "(?<id>.+)[,] (?<date>.+)", RegexOptions.ExplicitCapture);
@@ -67,6 +72,19 @@ namespace Ntreev.Library
             {
                 id = id == "(null)" ? null : id,
                 dateTime = DateTime.Parse(match.Groups["date"].Value)
+            };
+        }
+
+        public static SignatureDate Parse(string text, IFormatProvider provider)
+        {
+            var match = Regex.Match(text, "(?<id>.+)[,] (?<date>.+)", RegexOptions.ExplicitCapture);
+            if (match.Success == false)
+                throw new FormatException();
+            var id = match.Groups["id"].Value;
+            return new SignatureDate()
+            {
+                id = id == "(null)" ? null : id,
+                dateTime = DateTime.Parse(match.Groups["date"].Value, provider)
             };
         }
 
