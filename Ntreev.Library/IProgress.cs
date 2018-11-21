@@ -27,10 +27,8 @@ namespace Ntreev.Library
     {
         void Report(double value, string message);
 
-        [Obsolete]
         void Fail(string message);
 
-        [Obsolete]
         void Complete(string message);
     }
 }
