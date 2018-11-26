@@ -592,15 +592,15 @@ namespace Ntreev.Library
                 writer.WriteEndElement();
             }
 
-            var properties = this.items.Where(item => this.descriptors.ContainsKey(item.Key) == true);
+            var properties = this.descriptors.Where(item => this.items.ContainsKey(item.PropertyName) == false);
             if (properties.Any() == true)
             {
                 foreach (var item in properties)
                 {
-                    var key = item.Key;
-                    var value = item.Value;
-                    writer.WriteStartElement(key);
-                    this.WriteValue(writer, value);
+                    if (object.Equals(item.Value, item.DefaultValue) == true)
+                        continue;
+                    writer.WriteStartElement(item.PropertyName);
+                    this.WriteValue(writer, item.Value);
                     writer.WriteEndElement();
                 }
             }

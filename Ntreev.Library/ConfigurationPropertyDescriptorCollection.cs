@@ -45,7 +45,7 @@ namespace Ntreev.Library
 
         public ConfigurationPropertyDescriptorCollection(IEnumerable<IConfigurationPropertyProvider> providers, Type scopeType)
         {
-            this.filterType = scopeType == typeof(ConfigurationBase) ? null : scopeType ?? throw new ArgumentNullException(nameof(scopeType));
+            this.filterType = scopeType;
             foreach (var item in providers)
             {
                 this.Initialize(item);
@@ -91,6 +91,9 @@ namespace Ntreev.Library
                 if (attr == null)
                     continue;
                 this.ValidateProperty(item);
+
+                if (this.filterType != null && this.filterType != attr.ScopeType)
+                    continue;
 
                 var configDescriptor = new ConfigurationPropertyProviderDescriptor(provider, item);
                 if (this.ContainsKey(configDescriptor.PropertyName) == true)
