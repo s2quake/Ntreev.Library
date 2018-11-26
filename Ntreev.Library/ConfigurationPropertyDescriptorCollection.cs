@@ -28,6 +28,8 @@ namespace Ntreev.Library
 {
     public sealed class ConfigurationPropertyDescriptorCollection : ContainerBase<ConfigurationPropertyDescriptor>
     {
+        private readonly Type filterType;
+
         public ConfigurationPropertyDescriptorCollection()
         {
 
@@ -37,15 +39,16 @@ namespace Ntreev.Library
         {
             foreach (var item in providers)
             {
-                this.Initialize(item, null);
+                this.Initialize(item);
             }
         }
 
         public ConfigurationPropertyDescriptorCollection(IEnumerable<IConfigurationPropertyProvider> providers, Type scopeType)
         {
+            this.filterType = scopeType == typeof(ConfigurationBase) ? null : scopeType ?? throw new ArgumentNullException(nameof(scopeType));
             foreach (var item in providers)
             {
-                this.Initialize(item, scopeType ?? throw new ArgumentNullException(nameof(scopeType)));
+                this.Initialize(item);
             }
         }
 
@@ -59,6 +62,15 @@ namespace Ntreev.Library
             this.RemoveBase(item.PropertyName);
         }
 
+        private void ValidateProperty(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo.CanRead == false)
+                throw new ArgumentException("property can not use. becuase property can not read");
+            if (propertyInfo.CanWrite == false)
+                throw new ArgumentException("property can not use. becuase property can not write");
+            this.ValidatePropertyType(propertyInfo.PropertyType);
+        }
+
         private void ValidatePropertyType(Type type)
         {
             if (type.IsEnum == true)
@@ -70,19 +82,15 @@ namespace Ntreev.Library
             throw new ArgumentException("${type} can not use by property type.");
         }
 
-        private void Initialize(IConfigurationPropertyProvider provider, Type scopeType)
+        private void Initialize(IConfigurationPropertyProvider provider)
         {
             var bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
             foreach (var item in provider.GetType().GetProperties(bindingFlags))
             {
-                if (item.CanRead == false || item.CanWrite == false)
-                    continue;
-
                 var attr = item.GetCustomAttribute<ConfigurationPropertyAttribute>();
-                if (attr == null || attr.ScopeType != scopeType)
+                if (attr == null)
                     continue;
-
-                this.ValidatePropertyType(item.PropertyType);
+                this.ValidateProperty(item);
 
                 var configDescriptor = new ConfigurationPropertyProviderDescriptor(provider, item);
                 if (this.ContainsKey(configDescriptor.PropertyName) == true)
