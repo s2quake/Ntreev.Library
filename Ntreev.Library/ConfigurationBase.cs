@@ -246,7 +246,6 @@ namespace Ntreev.Library
             get => this.items[name];
             set
             {
-                var configItem = new ConfigurationItem(name);
                 if (value != null)
                     this.SetValue(name, value);
                 else
@@ -553,12 +552,19 @@ namespace Ntreev.Library
                     }
                     else if (ConfigurationItem.VerifyName(name) == true)
                     {
-                        var descriptor = this.descriptors[name];
                         reader.ReadStartElement();
 
                         if (reader.NodeType == XmlNodeType.Text)
                         {
-                            this[name] = this.ReadValue(reader, descriptor == null ? typeof(string) : descriptor.PropertyType);
+                            if (this.descriptors.ContainsKey(name) == true)
+                            {
+                                var descriptor = this.descriptors[name];
+                                descriptor.Value = this.ReadValue(reader, descriptor.PropertyType);
+                            }
+                            else
+                            {
+                                this[name] = this.ReadValue(reader, typeof(string));
+                            }
                         }
                         else
                         {
