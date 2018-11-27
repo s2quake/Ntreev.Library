@@ -65,7 +65,6 @@
     <Compile Include="..\Ntreev.Library\AssemblyUtility.cs" />
     <Compile Include="..\Ntreev.Library\CommandHost.cs" />
     <Compile Include="..\Ntreev.Library\CommandOption.cs" />
-    <None Include="..\Ntreev.Library\ConfigurationBaseLegacy.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationBase.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationItem.cs" />
     <Compile Include="..\Ntreev.Library\ConfigurationItemDescriptor.cs" />
@@ -88,6 +87,7 @@
     <Compile Include="..\Ntreev.Library\GuidUtility.cs" />
     <Compile Include="..\Ntreev.Library\HashUtility.cs" />
     <Compile Include="..\Ntreev.Library\IConfigurationPropertyProvider.cs" />
+    <Compile Include="..\Ntreev.Library\IConfigurationCommitter.cs" />
     <Compile Include="..\Ntreev.Library\ICustomAttributeProviderExtension.cs" />
     <Compile Include="..\Ntreev.Library\IdentifierValidator.cs" />
     <Compile Include="..\Ntreev.Library\IExceptionPublisher.cs" />
