@@ -83,7 +83,6 @@
       <Link>Extensions\IServiceProvider.cs</Link>
     </Compile>
     <Compile Include="..\Ntreev.Library\FieldStack.cs" />
-    <Compile Include="..\Ntreev.Library\FileInfoExtension.cs" />
     <Compile Include="..\Ntreev.Library\GuidUtility.cs" />
     <Compile Include="..\Ntreev.Library\HashUtility.cs" />
     <Compile Include="..\Ntreev.Library\IConfigurationPropertyProvider.cs" />
