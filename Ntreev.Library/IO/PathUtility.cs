@@ -130,6 +130,30 @@ namespace Ntreev.Library.IO
             }
         }
 
+        public static string GetFullPath(string path, string baseDirectory)
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var exists = Directory.Exists(baseDirectory);
+            try
+            {
+                if (exists == false)
+                {
+                    Directory.CreateDirectory(baseDirectory);
+                }
+                Directory.SetCurrentDirectory(baseDirectory);
+                return GetFullPath(path);
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(currentDirectory);
+                if (exists == false)
+                {
+                    Directory.Delete(baseDirectory);
+                }
+            }
+        }
+
+
         public static string GetDirectoryName(string path)
         {
             if (path.EndsWith(Path.AltDirectorySeparatorChar.ToString()))
