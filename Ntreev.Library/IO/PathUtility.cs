@@ -122,12 +122,11 @@ namespace Ntreev.Library.IO
             if (Environment.OSVersion.Platform == PlatformID.Unix && path.StartsWith("~", StringComparison.CurrentCulture) == true)
             {
                 var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                return Regex.Replace(path, "^~(.*)", $"{home}$1");
+                path = Regex.Replace(path, "^~(.*)", $"{home}$1");
             }
-            else
-            {
-                return Path.GetFullPath(path);
-            }
+            path = Environment.ExpandEnvironmentVariables(path);
+            path = Path.GetFullPath(path);
+            return path;
         }
 
         public static string GetFullPath(string path, string baseDirectory)
