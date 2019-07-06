@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>4.0.18334.1549</Version>
+    <Version>4.0.19187.1259</Version>
     <AssemblyVersion>4.0</AssemblyVersion>
-    <FileVersion>4.0.18334.1549</FileVersion>
+    <FileVersion>4.0.19187.1259</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Copyright>Copyright © Ntreev Soft 2018</Copyright>
     <Description>this is submodule of crema project</Description>
@@ -14,7 +14,6 @@
     <RepositoryUrl>https://github.com/NtreevSoft/Ntreev.Library</RepositoryUrl>
     <PackageTags>Crema</PackageTags>
   </PropertyGroup>
-  
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -23,7 +22,6 @@
     <Reference Include="System.Runtime.Serialization" />
     <ProjectReference Include="..\Ntreev.Library\Ntreev.Library.csproj" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
@@ -31,7 +29,6 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
     <ProjectReference Include="..\Ntreev.Library\Ntreev.Library.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -39,12 +36,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
 </Project>
