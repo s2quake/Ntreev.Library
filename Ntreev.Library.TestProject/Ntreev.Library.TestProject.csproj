@@ -1,69 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E9985451-AE81-45D9-BAF0-D0850D76C0CE}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ntreev.Library.TestProject</RootNamespace>
-    <AssemblyName>Ntreev.Library.TestProject</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>4.0.18334.1549</Version>
+    <AssemblyVersion>4.0</AssemblyVersion>
+    <FileVersion>4.0.18334.1549</FileVersion>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicense>https://github.com/NtreevSoft/Ntreev.Library/blob/master/LICENSE.md</PackageLicense>
+    <Copyright>Copyright © Ntreev Soft 2018</Copyright>
+    <Description>this is submodule of crema project</Description>
+    <Company>NtreevSoft</Company>
+    <Authors>s2quake</Authors>
+    <RepositoryUrl>https://github.com/NtreevSoft/Ntreev.Library</RepositoryUrl>
+    <PackageTags>Crema</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Runtime.Serialization" />
+    <ProjectReference Include="..\Ntreev.Library\Ntreev.Library.csproj" />
+    <ProjectReference Include="..\Ntreev.Library.Random\Ntreev.Library.Random.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
+    <PackageReference Include="System.ComponentModel" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
+    <ProjectReference Include="..\Ntreev.Library\Ntreev.Library.csproj" />
+    <ProjectReference Include="..\Ntreev.Library.Random\Ntreev.Library.Random.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ntreev.Library.Net45\Ntreev.Library.csproj">
-      <Project>{1918437f-4fbf-4731-ac5b-981a4a4cb1f1}</Project>
-      <Name>Ntreev.Library</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ntreev.Library.Random\Ntreev.Library.Random.csproj">
-      <Project>{83f1180f-f170-48cf-be1e-ca60d6851800}</Project>
-      <Name>Ntreev.Library.Random</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="..\Ntreev.Library.AssemblyInfo\Ntreev.Library.AssemblyInfo.projitems" Label="Shared" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
