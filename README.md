@@ -1,5 +1,5 @@
 # Summary
-This project is used by [Crema Project](https://github.com/NtreevSoft/Crema) sub module
+This project is used by [Crema Project](../Crema) sub module
 
 # License
 MIT License
