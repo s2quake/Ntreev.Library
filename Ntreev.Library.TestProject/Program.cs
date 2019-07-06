@@ -29,6 +29,7 @@ namespace Ntreev.Library.TestProject
         static void Main(string[] args)
         {
             var text = RandomUtility.NextWord();
+            Console.WriteLine(text);
         }
     }
 }

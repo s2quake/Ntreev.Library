@@ -43,7 +43,7 @@ namespace Ntreev.Library.Random
         {
             int i = 0;
             using (var sr = new StringReader(Resources.words))
-            {
+             {
                 string line = null;
 
                 while ((line = sr.ReadLine()) != null)
