@@ -41,26 +41,33 @@ namespace Ntreev.Library.Random
 
         static RandomUtility()
         {
-            int i = 0;
-            using (var sr = new StringReader(Resources.words))
-             {
-                string line = null;
-
-                while ((line = sr.ReadLine()) != null)
-                {
-                    i++;
-                }
-            }
-
-            words = new string[i];
-            i = 0;
-            using (var sr = new StringReader(Resources.words))
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var resourceName = string.Join(".", typeof(RandomUtility).Namespace, "Resources", "words.txt");
+            var resourceStream = assembly.GetManifestResourceStream(resourceName);
+            using (var stream = new StreamReader(resourceStream))
             {
-                string line = null;
-
-                while ((line = sr.ReadLine()) != null)
+                var text = stream.ReadToEnd();
+                int i = 0;
+                using (var sr = new StringReader(text))
                 {
-                    words[i++] = line;
+                    string line = null;
+
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        i++;
+                    }
+                }
+
+                words = new string[i];
+                i = 0;
+                using (var sr = new StringReader(text))
+                {
+                    string line = null;
+
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        words[i++] = line;
+                    }
                 }
             }
         }
@@ -268,8 +275,8 @@ namespace Ntreev.Library.Random
             }
             else if (type == typeof(System.DateTime))
             {
-                var year = Next(1970, 2050+1);
-                var month = Next(1, 12+1);
+                var year = Next(1970, 2050 + 1);
+                var month = Next(1, 12 + 1);
                 var day = Next(1, 12 + 1);
 
                 var minValue = new DateTime(1970, 1, 1, 0, 0, 0).Ticks;
