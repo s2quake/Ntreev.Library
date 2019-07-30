@@ -72,11 +72,10 @@ namespace Ntreev.Library
 
         public static bool Verify(string value)
         {
-#if NETFRAMEWORK
-            return CodeGenerator.IsValidLanguageIndependentIdentifier(value);
-#else
-            return IsCorrected(value);
-#endif
+            if (value == null)
+                return false;
+            Regex regex = new Regex(IdentifierValidator.IdentiFierPattern);
+            return regex.IsMatch(value) == true;
         }
 
         public static void Validate(string value)
