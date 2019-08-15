@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
-    <TargetFrameworks>net45;netcoreapp3.0;netcoreapp2.2;netstandard2.0</TargetFrameworks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(OS)' == 'Unix'">
-    <TargetFrameworks>netcoreapp3.0;netcoreapp2.2;netstandard2.0</TargetFrameworks>
+  <PropertyGroup>
+    <TargetFrameworks Condition="'$(MSBuildRuntimeType)'=='Full'">net45</TargetFrameworks>
+    <TargetFrameworks Condition="'$(MSBuildRuntimeType)'=='Core' And '$(NETCoreAppMaximumVersion)'=='3.0'">netcoreapp3.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
