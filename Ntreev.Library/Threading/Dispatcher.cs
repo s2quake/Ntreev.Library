@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Ntreev.Library.Threading
 {
@@ -31,6 +32,9 @@ namespace Ntreev.Library.Threading
         private readonly CancellationTokenSource cancellationQueue;
         private readonly CancellationTokenSource cancellationExecution;
         private readonly DispatcherSynchronizationContext context;
+#if DEBUG
+        private readonly StackTrace stackTrace;
+#endif
 
         public Dispatcher(object owner)
         {
@@ -40,6 +44,10 @@ namespace Ntreev.Library.Threading
             this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, this.scheduler);
             this.context = new DispatcherSynchronizationContext(this.factory);
             this.Owner = owner;
+#if DEBUG
+            this.stackTrace = new StackTrace(true);
+#endif            
+
             this.Thread = new Thread(() =>
             {
                 this.scheduler.Run();
@@ -182,6 +190,10 @@ namespace Ntreev.Library.Threading
         public SynchronizationContext SynchronizationContext => this.context;
 
         public event EventHandler Disposed;
+
+#if DEBUG
+        internal string StackTrace => this.stackTrace.ToString();
+#endif
 
         protected virtual void OnDisposed(EventArgs e)
         {

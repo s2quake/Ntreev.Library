@@ -55,6 +55,12 @@ namespace Ntreev.Library.Threading
 
         internal void Run()
         {
+#if DEBUG
+            // 프로그램 종료시에도 Dispatcher가 여전히 실행중이라면 아래의 변수를 참고하여 
+            // Dispatcher가 정상적으로 Dispose 되는지 확인합니다.
+            var owner = this.dispatcher.Owner;
+            var stackStace = this.dispatcher.StackTrace;
+#endif
             while (true)
             {
                 if (this.taskQueue.TryTake(out var task) == true)
