@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ntreev.Library.Threading
 {
-    class DispatcherScheduler : TaskScheduler
+    public sealed class DispatcherScheduler : TaskScheduler
     {
         private static readonly object lockobj = new object();
         private readonly Dispatcher dispatcher;
@@ -17,12 +17,46 @@ namespace Ntreev.Library.Threading
         private readonly BlockingCollection<Task> taskQueue = new BlockingCollection<Task>();
         private readonly ManualResetEvent eventSet = new ManualResetEvent(false);
         private bool isExecuting;
+        private bool isRunning;
 
-        public DispatcherScheduler(Dispatcher dispatcher, CancellationToken cancellation)
+        internal DispatcherScheduler(Dispatcher dispatcher, CancellationToken cancellation)
         {
             this.dispatcher = dispatcher;
             this.cancellation = cancellation;
         }
+
+        public void ProcessAll()
+        {
+            this.dispatcher.VerifyAccess();
+            if (this.isRunning == true)
+                throw new InvalidOperationException("scheduler is already running.");
+
+            while (this.taskQueue.Count > 0)
+            {
+                if (this.taskQueue.TryTake(out var task) == true)
+                {
+                    this.isExecuting = true;
+                    this.TryExecuteTask(task);
+                    this.isExecuting = false;
+                }
+            }
+        }
+
+        public void ProcessOnce()
+        {
+            this.dispatcher.VerifyAccess();
+            if (this.isRunning == true)
+                throw new InvalidOperationException("scheduler is already running.");
+
+            if (this.taskQueue.TryTake(out var task) == true)
+            {
+                this.isExecuting = true;
+                this.TryExecuteTask(task);
+                this.isExecuting = false;
+            }
+        }
+
+        public new static DispatcherScheduler Current => Dispatcher.Current.Scheduler;
 
         protected override IEnumerable<Task> GetScheduledTasks()
         {
@@ -61,6 +95,7 @@ namespace Ntreev.Library.Threading
             var owner = this.dispatcher.Owner;
             var stackStace = this.dispatcher.StackTrace;
 #endif
+            this.isRunning = true;
             while (true)
             {
                 if (this.taskQueue.TryTake(out var task) == true)
@@ -80,6 +115,7 @@ namespace Ntreev.Library.Threading
                     this.eventSet.Reset();
                 }
             }
+            this.isRunning = false;
         }
     }
 }

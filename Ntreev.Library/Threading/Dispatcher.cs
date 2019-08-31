@@ -27,6 +27,8 @@ namespace Ntreev.Library.Threading
 {
     public class Dispatcher
     {
+        private static readonly Dictionary<Thread, Dispatcher> dispatcherByThread = new Dictionary<Thread, Dispatcher>();
+
         private readonly DispatcherScheduler scheduler;
         private readonly TaskFactory factory;
         private readonly CancellationTokenSource cancellationQueue;
@@ -35,14 +37,25 @@ namespace Ntreev.Library.Threading
 #if DEBUG
         private readonly StackTrace stackTrace;
 #endif
-
-        public Dispatcher(object owner)
+        private Dispatcher(Thread thread)
         {
             this.cancellationQueue = new CancellationTokenSource();
             this.cancellationExecution = new CancellationTokenSource();
-            this.scheduler = new DispatcherScheduler(this, this.cancellationExecution.Token);
-            this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, this.scheduler);
-            this.context = new DispatcherSynchronizationContext(this.factory);
+            this.scheduler = new DispatcherScheduler(this, cancellationExecution.Token);
+            this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, scheduler);
+            this.context = new DispatcherSynchronizationContext(factory);
+            this.Thread = thread;
+        }
+
+        public Dispatcher(object owner)
+        {
+            if (owner == null)
+                throw new ArgumentNullException(nameof(owner));
+            this.cancellationQueue = new CancellationTokenSource();
+            this.cancellationExecution = new CancellationTokenSource();
+            this.scheduler = new DispatcherScheduler(this, cancellationExecution.Token);
+            this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, scheduler);
+            this.context = new DispatcherSynchronizationContext(factory);
             this.Owner = owner;
 #if DEBUG
             this.stackTrace = new StackTrace(true);
@@ -163,6 +176,8 @@ namespace Ntreev.Library.Threading
 
         public void Dispose()
         {
+            if (this.Owner == null)
+                throw new InvalidOperationException("this is an object that cannot be disposed.");
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
             this.cancellationQueue.Cancel();
@@ -172,6 +187,8 @@ namespace Ntreev.Library.Threading
 
         public async Task DisposeAsync()
         {
+            if (this.Owner == null)
+                throw new InvalidOperationException("this is an object that cannot be disposed.");
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
             var task = this.factory.StartNew(() => { });
@@ -189,11 +206,26 @@ namespace Ntreev.Library.Threading
 
         public SynchronizationContext SynchronizationContext => this.context;
 
+        public static Dispatcher Current
+        {
+            get
+            {
+                var thread = Thread.CurrentThread;
+                if (dispatcherByThread.ContainsKey(thread) == false)
+                {
+                    dispatcherByThread.Add(thread, new Dispatcher(thread));
+                }
+                return dispatcherByThread[thread];
+            }
+        }
+
         public event EventHandler Disposed;
 
 #if DEBUG
-        internal string StackTrace => this.stackTrace.ToString();
+        internal string StackTrace => $"{this.stackTrace}";
 #endif
+
+        internal DispatcherScheduler Scheduler => this.scheduler;
 
         protected virtual void OnDisposed(EventArgs e)
         {
