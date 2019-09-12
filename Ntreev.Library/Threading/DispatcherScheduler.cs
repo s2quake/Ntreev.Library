@@ -25,35 +25,48 @@ namespace Ntreev.Library.Threading
             this.cancellation = cancellation;
         }
 
-        public void ProcessAll()
+        public int ProcessAll()
         {
-            this.dispatcher.VerifyAccess();
-            if (this.isRunning == true)
-                throw new InvalidOperationException("scheduler is already running.");
-
-            while (this.taskQueue.Count > 0)
-            {
-                if (this.taskQueue.TryTake(out var task) == true)
-                {
-                    this.isExecuting = true;
-                    this.TryExecuteTask(task);
-                    this.isExecuting = false;
-                }
-            }
+            return this.ProcessAll(int.MaxValue);
         }
 
-        public void ProcessOnce()
+        public int ProcessAll(int milliseconds)
         {
             this.dispatcher.VerifyAccess();
             if (this.isRunning == true)
                 throw new InvalidOperationException("scheduler is already running.");
+            if (this.eventSet.WaitOne(0) == false)
+                return 0;
 
+            var dateTime = DateTime.Now;
+            var count = 0;
+            while (this.taskQueue.TryTake(out var task))
+            {
+                this.isExecuting = true;
+                this.TryExecuteTask(task);
+                this.isExecuting = false;
+                count++;
+                var span = DateTime.Now - dateTime;
+                if (span.TotalMilliseconds > 300)
+                    break;
+            }
+            return count;
+        }
+
+        public bool ProcessOnce()
+        {
+            this.dispatcher.VerifyAccess();
+            if (this.isRunning == true)
+                throw new InvalidOperationException("scheduler is already running.");
+            if (this.eventSet.WaitOne(0) == false)
+                return false;
             if (this.taskQueue.TryTake(out var task) == true)
             {
                 this.isExecuting = true;
                 this.TryExecuteTask(task);
                 this.isExecuting = false;
             }
+            return this.taskQueue.Count != 0;
         }
 
         public new static DispatcherScheduler Current => Dispatcher.Current.Scheduler;
