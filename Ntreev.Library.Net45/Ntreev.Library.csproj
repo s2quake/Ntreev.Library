@@ -337,7 +337,6 @@
       <Link>Properties\Resources.resx</Link>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="..\Ntreev.Library.AssemblyInfo\Ntreev.Library.AssemblyInfo.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
