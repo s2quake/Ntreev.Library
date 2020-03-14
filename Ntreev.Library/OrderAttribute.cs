@@ -25,16 +25,20 @@ namespace Ntreev.Library
     [AttributeUsage(AttributeTargets.Class)]
     public class OrderAttribute : Attribute
     {
-        private readonly int order;
-
         public OrderAttribute(int order)
         {
-            this.order = order;
+            this.Order = order;
         }
 
-        public int Order
+        public int Order { get; }
+
+        public static int GetOrder(object obj)
         {
-            get { return this.order; }
+            if (obj != null && Attribute.GetCustomAttribute(obj.GetType(), typeof(OrderAttribute), false) is OrderAttribute attr)
+            {
+                return attr.Order;
+            }
+            return 0;
         }
     }
 }
