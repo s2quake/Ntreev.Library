@@ -17,17 +17,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class ConfigurationPropertyAttribute : Attribute
     {
-        private readonly string propertyName;
-        private readonly ConfigurationPropertyNamingConvention namingConvention;
-        private string section;
         private Type scopeType;
 
         public ConfigurationPropertyAttribute()
@@ -37,19 +32,16 @@ namespace Ntreev.Library
 
         public ConfigurationPropertyAttribute(string propertyName)
         {
-            this.propertyName = propertyName;
+            this.PropertyName = propertyName;
         }
 
         public ConfigurationPropertyAttribute(ConfigurationPropertyNamingConvention namingConvention)
         {
-            this.namingConvention = namingConvention;
+            this.NamingConvention = namingConvention;
         }
 
-        public string PropertyName
-        {
-            get { return this.propertyName; }
-        }
-        
+        public string PropertyName { get; private set; }
+
         public string ScopeTypeName
         {
             get
@@ -58,39 +50,31 @@ namespace Ntreev.Library
                     return this.scopeType.AssemblyQualifiedName;
                 return string.Empty;
             }
-            set
-            {
-                this.scopeType = Type.GetType(value);
-            }
+            set => this.scopeType = Type.GetType(value);
         }
 
         public Type ScopeType
         {
-            get { return this.scopeType ?? typeof(ConfigurationBase); }
-            set { this.scopeType = value; }
+            get => this.scopeType ?? typeof(ConfigurationBase);
+            set => this.scopeType = value;
         }
 
-        public ConfigurationPropertyNamingConvention NamingConvention
-        {
-            get { return this.namingConvention; }
-        }
+        public ConfigurationPropertyNamingConvention NamingConvention { get; private set; }
 
-        public string Section
-        {
-            get { return this.section; }
-            set { this.section = value; }
-        }
+        public string Section { get; set; }
+
+        public bool IsEncrypted { get; set; }
 
         internal string GetPropertyName(string descriptorName)
         {
             var items = new List<string>();
-            if (this.section != null)
-                items.Add(this.section);
-            if (this.propertyName != null)
-                items.Add(this.propertyName);
-            else if (this.namingConvention == ConfigurationPropertyNamingConvention.None)
+            if (this.Section != null)
+                items.Add(this.Section);
+            if (this.PropertyName != null)
+                items.Add(this.PropertyName);
+            else if (this.NamingConvention == ConfigurationPropertyNamingConvention.None)
                 items.Add(descriptorName);
-            else if (this.namingConvention == ConfigurationPropertyNamingConvention.CamelCase)
+            else if (this.NamingConvention == ConfigurationPropertyNamingConvention.CamelCase)
                 items.Add(StringUtility.ToCamelCase(descriptorName));
             return string.Join(".", items);
         }

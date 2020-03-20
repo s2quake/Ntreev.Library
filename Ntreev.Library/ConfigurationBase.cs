@@ -1,36 +1,41 @@
 ﻿using Ntreev.Library.IO;
-using Ntreev.Library.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Ntreev.Library
 {
+    public interface IConfigurationSerializer
+    {
+        void Serialize(Stream stream, IReadOnlyDictionary<string, object> properties);
+
+        void Deserialize(Stream stream, IDictionary<string, object> properties);
+    }
+
     [XmlRoot(RootElement, Namespace = Namespace)]
-    public class ConfigurationBase : IXmlSerializable, IReadOnlyDictionary<string, object>
+    public class ConfigurationBase : IReadOnlyDictionary<string, object>
     {
         public const string Namespace = "http://schemas.ntreev.com/configurations";
         public const string RootElement = "configurations";
         public const string SerializableElement = "serializables";
 
         private readonly Dictionary<string, object> items = new Dictionary<string, object>();
-        private readonly ConfigurationPropertyDescriptorCollection descriptors;
         private readonly Type scopeType;
+        private IConfigurationSerializer serializer = new ConfigurationSerializerDeprecated();
+        private IConfigurationSerializer serializer1 = new ConfigurationSerializer();
 
         public ConfigurationBase()
         {
             this.scopeType = typeof(ConfigurationBase);
-            this.descriptors = new ConfigurationPropertyDescriptorCollection();
+            this.Descriptors = new ConfigurationPropertyDescriptorCollection();
         }
 
         public ConfigurationBase(IEnumerable<IConfigurationPropertyProvider> providers)
@@ -43,11 +48,13 @@ namespace Ntreev.Library
             : this()
         {
             this.scopeType = scopeType;
-            this.descriptors = new ConfigurationPropertyDescriptorCollection(providers, scopeType);
+            this.Descriptors = new ConfigurationPropertyDescriptorCollection(providers, scopeType);
         }
 
         public static bool CanSupportType(Type value)
         {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
             if (value == typeof(sbyte) || value == typeof(byte) ||
                 value == typeof(short) || value == typeof(ushort) ||
                 value == typeof(int) || value == typeof(uint) ||
@@ -64,8 +71,194 @@ namespace Ntreev.Library
             }
             else
             {
-                return false;
+                var converter = TypeDescriptor.GetConverter(value);
+                if (converter.CanConvertTo(typeof(string)) == false)
+                    return false;
+                if (converter.CanConvertFrom(typeof(string)) == false)
+                    return false;
+                return true;
             }
+        }
+
+        public static Type ConvertToConfigType(Type value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            if (value == typeof(sbyte) || value == typeof(byte) ||
+                value == typeof(short) || value == typeof(ushort) ||
+                value == typeof(int) || value == typeof(uint) ||
+                value == typeof(long) || value == typeof(ulong) ||
+                value == typeof(float) || value == typeof(double) || value == typeof(decimal) ||
+                value == typeof(bool) || value == typeof(string) ||
+                value == typeof(DateTime) || value == typeof(TimeSpan))
+            {
+                return typeof(decimal);
+            }
+            else if (value.IsArray == true && CanSupportType(value.GetElementType()) == true)
+            {
+                var elementType = ConvertToConfigType(value.GetElementType());
+                return elementType.MakeArrayType(value.GetArrayRank());
+            }
+            else
+            {
+                var converter = TypeDescriptor.GetConverter(value);
+                if (converter.CanConvertTo(typeof(string)) == false)
+                    throw new NotSupportedException("cannot supported type");
+                if (converter.CanConvertFrom(typeof(string)) == false)
+                    throw new NotSupportedException("cannot supported type");
+                return typeof(string);
+            }
+        }
+
+        public static object ConvertToConfig(object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            var type = value.GetType();
+            if (CanSupportType(type) == false)
+                throw new NotSupportedException("cannot supported type");
+
+            if (type == typeof(sbyte) || type == typeof(byte) ||
+                type == typeof(short) || type == typeof(ushort) ||
+                type == typeof(int) || type == typeof(uint) ||
+                type == typeof(long) || type == typeof(ulong) ||
+                type == typeof(float) || type == typeof(double) || type == typeof(decimal))
+            {
+                if (value is IConvertible c)
+                {
+                    return c.ToDecimal(CultureInfo.CurrentCulture);
+                }
+                throw new NotImplementedException();
+            }
+            else if (value is DateTime dateTime)
+            {
+                return dateTime.ToUniversalTime();
+            }
+            else if (type == typeof(bool) || type == typeof(string) || type == typeof(TimeSpan))
+            {
+                return value;
+            }
+            else if (type.IsArray == true)
+            {
+                var sourceValue = value as Array;
+                var rank = type.GetArrayRank();
+                var lengths = new int[rank];
+                for (var i = 0; i < rank; i++)
+                {
+                    lengths[i] = sourceValue.GetLength(i);
+                }
+                var elementType = ConvertToConfigType(type.GetElementType());
+                var destValue = Array.CreateInstance(elementType, lengths);
+                var indics = new int[lengths.Length];
+                while (IncrementIndics(indics, lengths))
+                {
+                    var v = sourceValue.GetValue(indics);
+                    var c = ConvertToConfig(v);
+                    destValue.SetValue(c, indics);
+                }
+                return destValue;
+            }
+            else
+            {
+                var converter = TypeDescriptor.GetConverter(value);
+                return converter.ConvertTo(null, CultureInfo.CurrentCulture, value, typeof(string));
+            }
+
+            static bool IncrementIndics(int[] indics, int[] lengths)
+            {
+                indics[lengths.Length - 1]++;
+                for (var i = indics.Length - 1; i >= 0; i--)
+                {
+                    if (indics[i] >= lengths[i])
+                    {
+                        indics[i] = 0;
+                        if (i == 0)
+                            return false;
+                        indics[i - 1]++;
+                    }
+                }
+                return true;
+            }
+        }
+
+        public static object ConvertFromConfig(object value, Type destinationType)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            if (destinationType == null)
+                throw new ArgumentNullException(nameof(destinationType));
+
+            if (value is decimal d)
+            {
+                if (d is IConvertible c)
+                {
+                    if (destinationType == typeof(sbyte))
+                    {
+                        return c.ToSByte(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(byte))
+                    {
+                        return c.ToByte(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(short))
+                    {
+                        return c.ToInt16(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(ushort))
+                    {
+                        return c.ToUInt16(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(int))
+                    {
+                        return c.ToInt32(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(uint))
+                    {
+                        return c.ToUInt32(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(long))
+                    {
+                        return c.ToInt64(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(ulong))
+                    {
+                        return c.ToUInt64(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(float))
+                    {
+                        return c.ToSingle(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(double))
+                    {
+                        return c.ToDouble(CultureInfo.CurrentCulture);
+                    }
+                    else if (destinationType == typeof(decimal))
+                    {
+                        return d;
+                    }
+                }
+            }
+            else if (value is bool b)
+            {
+                if (destinationType == typeof(bool))
+                    return value;
+            }
+            else if (value is DateTime dt)
+            {
+                if (destinationType == typeof(DateTime))
+                    return value;
+            }
+            else if (value is TimeSpan ts)
+            {
+                if (destinationType == typeof(TimeSpan))
+                    return value;
+            }
+            else if (value is string s)
+            {
+                var converter = TypeDescriptor.GetConverter(destinationType);
+                return converter.ConvertFromString(s);
+            }
+            throw new NotImplementedException();
         }
 
         public void Commit(object target)
@@ -151,33 +344,29 @@ namespace Ntreev.Library
 
         public void Write(string filename)
         {
-            this.Write(filename, null);
-        }
-
-        public void Write(string filename, string schemaLocation)
-        {
-            if (this is IXmlSerializable serializable)
+            using var stream = File.OpenWrite(filename);
+            using var stream1 = File.Open(filename + "1", FileMode.Create);
+            var serializables = this.items.Where(item => this.Descriptors.ContainsKey(item.Key) == false);
+            var descriptors = this.Descriptors.Where(item => this.items.ContainsKey(item.PropertyName) == false);
+            var properties = new Dictionary<string, object>(serializables.Count() + descriptors.Count());
+            if (serializables.Any() == true)
             {
-                var settings = new XmlWriterSettings() { Indent = true };
-                using (var stringWriter = new Utf8StringWriter())
+                foreach (var item in serializables)
                 {
-                    using (var writer = XmlWriter.Create(stringWriter, settings))
-                    {
-                        writer.WriteStartElement(RootElement, Namespace);
-                        if (schemaLocation != null)
-                        {
-                            writer.WriteAttributeString("xsi", "schemaLocation", XmlSchema.InstanceNamespace, $"{Namespace} {schemaLocation}");
-                        }
-                        serializable.WriteXml(writer);
-                        writer.WriteEndElement();
-                    }
-                    File.WriteAllText(filename, stringWriter.ToString());
+                    properties.Add(item.Key, item.Value);
                 }
             }
-            else
+            if (descriptors.Any() == true)
             {
-                throw new NotImplementedException();
+                foreach (var item in descriptors)
+                {
+                    if (object.Equals(item.Value, item.DefaultValue) == true)
+                        continue;
+                    properties.Add(item.PropertyName, item.Value);
+                }
             }
+            //this.serializer.Serialize(stream, properties);
+            this.serializer1.Serialize(stream1, properties);
         }
 
         public void WriteSchema(string filename)
@@ -201,40 +390,39 @@ namespace Ntreev.Library
             }
         }
 
-        public void ReadSchema(string filename)
-        {
+        //public void ReadSchema(string filename)
+        //{
 
-        }
+        //}
 
         public void Read(string filename)
         {
-            if (this is IXmlSerializable serializable)
-            {
-                using (var reader = XmlReader.Create(filename))
-                {
-                    serializable.ReadXml(reader);
-                }
+            using var stream = File.OpenRead(filename);
+            using var stream1 = File.OpenRead(filename + "1");
+            var properties = new Dictionary<string, object>();
+            this.serializer.Deserialize(stream, properties);
+            var properties1 = new Dictionary<string, object>();
+            this.serializer1.Deserialize(stream1, properties1);
 
-                foreach (var item in this.descriptors)
-                {
-                    if (this.Contains(item.PropertyName) == true)
-                    {
-                        item.Value = this[item.PropertyName];
-                    }
-                }
-            }
-            else
+            foreach (var item in properties)
             {
-                throw new NotImplementedException();
+                this.SetValue(item.Key, item.Value);
+            }
+            foreach (var item in this.Descriptors)
+            {
+                if (this.Contains(item.PropertyName) == true)
+                {
+                    item.Value = this[item.PropertyName];
+                }
             }
         }
 
         public void AddDescriptor(string name, Type type, string comment, object defaultValue)
         {
-            if (this.descriptors.ContainsKey(name) == true)
+            if (this.Descriptors.ContainsKey(name) == true)
                 throw new ArgumentException();
 
-            this.descriptors.Add(new ConfigurationItemDescriptor(name, type, comment, defaultValue));
+            this.Descriptors.Add(new ConfigurationItemDescriptor(name, type, comment, defaultValue));
         }
 
         public int Count => this.items.Count;
@@ -253,11 +441,16 @@ namespace Ntreev.Library
             }
         }
 
-        public ConfigurationPropertyDescriptorCollection Descriptors => this.descriptors;
+        public ConfigurationPropertyDescriptorCollection Descriptors { get; private set; }
 
         private void SetValue(string key, object value)
         {
-            this.items[key] = value;
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            this.items[key] = ConvertToConfig(value);
         }
 
         private void WriteValue(XmlWriter writer, object value)
@@ -364,255 +557,209 @@ namespace Ntreev.Library
             }
         }
 
-        string GetSchmeLocation(XmlReader reader)
-        {
-            if (reader.MoveToFirstAttribute() == true)
-            {
-                do
-                {
-                    if (reader.NamespaceURI == XmlSchema.InstanceNamespace && reader.LocalName == "schemaLocation")
-                    {
-                        return reader.Value;
-                    }
-                }
-                while (reader.MoveToNextAttribute());
-            }
-            return null;
-        }
-
         private void ReadSerializableElement(XmlReader reader)
         {
-            reader.ReadStartElement();
-            reader.MoveToContent();
-
-            while (reader.NodeType == XmlNodeType.Element)
-            {
-                if (reader.IsEmptyElement == false)
-                {
-                    var name = reader.GetAttribute("name");
-                    var type = reader.GetAttribute("type");
-                    try
-                    {
-                        var runtimeType = Type.GetType(type);
-
-                        reader.ReadStartElement();
-                        var value = XmlSerializerUtility.Read(reader, runtimeType);
-                        reader.ReadEndElement();
-                        this.SetValue(name, value);
-                    }
-                    catch
-                    {
-                        reader.Skip();
-                    }
-                }
-                else
-                {
-                    reader.Skip();
-                }
-                reader.MoveToContent();
-            }
+            //var items = new Dictionary<string, object>();
+            //this.serializer.Deserialize(reader, items);
+            //foreach (var item in items)
+            //{
+            //    this.SetValue(item.Key, item.Value);
+            //}
         }
 
-        #region IXmlSerializable
+        //#region IXmlSerializable
 
-        XmlSchema IXmlSerializable.GetSchema()
-        {
-            var schema = new XmlSchema
-            {
-                TargetNamespace = Namespace
-            };
-            schema.Namespaces.Add(string.Empty, schema.TargetNamespace);
-            schema.ElementFormDefault = XmlSchemaForm.Qualified;
+        //XmlSchema IXmlSerializable.GetSchema()
+        //{
+        //    var schema = new XmlSchema
+        //    {
+        //        TargetNamespace = Namespace
+        //    };
+        //    schema.Namespaces.Add(string.Empty, schema.TargetNamespace);
+        //    schema.ElementFormDefault = XmlSchemaForm.Qualified;
 
-            var rootElement = new XmlSchemaElement() { Name = RootElement };
-            var rootComplexType = new XmlSchemaComplexType();
-            var rootGroup = new XmlSchemaAll() { MinOccurs = 0 } as XmlSchemaGroupBase;
-            rootComplexType.Particle = rootGroup;
-            rootElement.SchemaType = rootComplexType;
-            schema.Items.Add(rootElement);
+        //    var rootElement = new XmlSchemaElement() { Name = RootElement };
+        //    var rootComplexType = new XmlSchemaComplexType();
+        //    var rootGroup = new XmlSchemaAll() { MinOccurs = 0 } as XmlSchemaGroupBase;
+        //    rootComplexType.Particle = rootGroup;
+        //    rootElement.SchemaType = rootComplexType;
+        //    schema.Items.Add(rootElement);
 
-            {
-                var element = new XmlSchemaElement() { Name = SerializableElement, MinOccurs = 0 };
-                var complexType = new XmlSchemaComplexType();
-                var sequence = new XmlSchemaSequence();
-                var itemElement = new XmlSchemaElement() { Name = "item", MaxOccursString = "unbounded" };
-                var itemComplexType = new XmlSchemaComplexType();
-                var itemComplexTypeParticle = new XmlSchemaSequence();
-                itemComplexTypeParticle.Items.Add(new XmlSchemaAny() { ProcessContents = XmlSchemaContentProcessing.Skip });
-                itemComplexType.Attributes.Add(new XmlSchemaAttribute() { Name = "name", Use = XmlSchemaUse.Required });
-                itemComplexType.Attributes.Add(new XmlSchemaAttribute() { Name = "type", Use = XmlSchemaUse.Required });
-                itemComplexType.Particle = itemComplexTypeParticle;
-                itemElement.SchemaType = itemComplexType;
-                sequence.Items.Add(itemElement);
-                complexType.Particle = sequence;
-                element.SchemaType = complexType;
-                rootGroup.Items.Add(element);
-            }
+        //    {
+        //        var element = new XmlSchemaElement() { Name = SerializableElement, MinOccurs = 0 };
+        //        var complexType = new XmlSchemaComplexType();
+        //        var sequence = new XmlSchemaSequence();
+        //        var itemElement = new XmlSchemaElement() { Name = "item", MaxOccursString = "unbounded" };
+        //        var itemComplexType = new XmlSchemaComplexType();
+        //        var itemComplexTypeParticle = new XmlSchemaSequence();
+        //        itemComplexTypeParticle.Items.Add(new XmlSchemaAny() { ProcessContents = XmlSchemaContentProcessing.Skip });
+        //        itemComplexType.Attributes.Add(new XmlSchemaAttribute() { Name = "name", Use = XmlSchemaUse.Required });
+        //        itemComplexType.Attributes.Add(new XmlSchemaAttribute() { Name = "type", Use = XmlSchemaUse.Required });
+        //        itemComplexType.Particle = itemComplexTypeParticle;
+        //        itemElement.SchemaType = itemComplexType;
+        //        sequence.Items.Add(itemElement);
+        //        complexType.Particle = sequence;
+        //        element.SchemaType = complexType;
+        //        rootGroup.Items.Add(element);
+        //    }
 
-            foreach (var item in this.descriptors)
-            {
-                var group = rootGroup as XmlSchemaGroupBase;
-                var element = new XmlSchemaElement() { Name = item.PropertyName, MaxOccurs = 1, MinOccurs = 0 };
-                var propertyType = item.PropertyType;
+        //    foreach (var item in this.Descriptors)
+        //    {
+        //        var group = rootGroup as XmlSchemaGroupBase;
+        //        var element = new XmlSchemaElement() { Name = item.PropertyName, MaxOccurs = 1, MinOccurs = 0 };
+        //        var propertyType = item.PropertyType;
 
-                this.WriteComment(element, item.Comment);
+        //        this.WriteComment(element, item.Comment);
 
-                if (item.PropertyType.IsArray == true)
-                {
-                    var complexType = new XmlSchemaComplexType();
-                    var sequence = new XmlSchemaSequence() { MaxOccursString = "unbounded", MinOccurs = 0 };
-                    complexType.Particle = sequence;
-                    element.SchemaType = complexType;
-                    group.Items.Add(element);
-                    element = new XmlSchemaElement() { Name = "item" };
-                    group = sequence;
-                    propertyType = item.PropertyType.GetElementType();
-                }
+        //        if (item.PropertyType.IsArray == true)
+        //        {
+        //            var complexType = new XmlSchemaComplexType();
+        //            var sequence = new XmlSchemaSequence() { MaxOccursString = "unbounded", MinOccurs = 0 };
+        //            complexType.Particle = sequence;
+        //            element.SchemaType = complexType;
+        //            group.Items.Add(element);
+        //            element = new XmlSchemaElement() { Name = "item" };
+        //            group = sequence;
+        //            propertyType = item.PropertyType.GetElementType();
+        //        }
 
-                if (propertyType == typeof(bool))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("boolean", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(string))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("string", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(float))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("float", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(double))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("double", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(sbyte))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("byte", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(byte))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("unsignedByte", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(short))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("short", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(ushort))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("unsignedShort", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(int))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("int", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(uint))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("unsignedInt", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(long))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("long", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(ulong))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("unsignedLong", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(DateTime))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("dateTime", XmlSchema.Namespace);
-                }
-                else if (propertyType == typeof(TimeSpan))
-                {
-                    element.SchemaTypeName = new XmlQualifiedName("duration", XmlSchema.Namespace);
-                }
+        //        if (propertyType == typeof(bool))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("boolean", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(string))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("string", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(float))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("float", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(double))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("double", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(sbyte))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("byte", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(byte))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("unsignedByte", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(short))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("short", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(ushort))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("unsignedShort", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(int))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("int", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(uint))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("unsignedInt", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(long))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("long", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(ulong))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("unsignedLong", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(DateTime))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("dateTime", XmlSchema.Namespace);
+        //        }
+        //        else if (propertyType == typeof(TimeSpan))
+        //        {
+        //            element.SchemaTypeName = new XmlQualifiedName("duration", XmlSchema.Namespace);
+        //        }
 
-                group.Items.Add(element);
-            }
+        //        group.Items.Add(element);
+        //    }
 
-            return schema;
-        }
+        //    return schema;
+        //}
 
-        void IXmlSerializable.ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-            if (reader.NamespaceURI != Namespace)
-                return;
+        //void IXmlSerializable.ReadXml(XmlReader reader)
+        //{
+        //    reader.MoveToContent();
+        //    if (reader.NamespaceURI != Namespace)
+        //        return;
 
-            reader.ReadStartElement();
-            reader.MoveToContent();
+        //    reader.ReadStartElement();
+        //    reader.MoveToContent();
 
-            while (reader.NodeType == XmlNodeType.Element)
-            {
-                var name = reader.Name;
-                if (reader.IsEmptyElement == false)
-                {
-                    if (name == SerializableElement)
-                    {
-                        this.ReadSerializableElement(reader);
-                    }
-                    else if (ConfigurationItem.VerifyName(name) == true)
-                    {
-                        reader.ReadStartElement();
+        //    while (reader.NodeType == XmlNodeType.Element)
+        //    {
+        //        var name = reader.Name;
+        //        if (reader.IsEmptyElement == false)
+        //        {
+        //            if (name == SerializableElement)
+        //            {
+        //                this.ReadSerializableElement(reader);
+        //            }
+        //            else if (ConfigurationItem.VerifyName(name) == true)
+        //            {
+        //                reader.ReadStartElement();
 
-                        if (reader.NodeType == XmlNodeType.Text)
-                        {
-                            if (this.descriptors.ContainsKey(name) == true)
-                            {
-                                var descriptor = this.descriptors[name];
-                                descriptor.Value = this.ReadValue(reader, descriptor.PropertyType);
-                            }
-                            else
-                            {
-                                this[name] = this.ReadValue(reader, typeof(string));
-                            }
-                        }
-                        else
-                        {
+        //                if (reader.NodeType == XmlNodeType.Text)
+        //                {
+        //                    if (this.Descriptors.ContainsKey(name) == true)
+        //                    {
+        //                        var descriptor = this.Descriptors[name];
+        //                        descriptor.Value = this.ReadValue(reader, descriptor.PropertyType);
+        //                    }
+        //                    else
+        //                    {
+        //                        this[name] = this.ReadValue(reader, typeof(string));
+        //                    }
+        //                }
+        //                else
+        //                {
 
-                        }
-                        reader.ReadEndElement();
-                    }
-                }
-                else
-                {
-                    reader.Skip();
-                }
-                reader.MoveToContent();
-            }
-        }
+        //                }
+        //                reader.ReadEndElement();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            reader.Skip();
+        //        }
+        //        reader.MoveToContent();
+        //    }
+        //}
 
-        void IXmlSerializable.WriteXml(XmlWriter writer)
-        {
-            var serializables = this.items.Where(item => this.descriptors.ContainsKey(item.Key) == false);
-            if (serializables.Any() == true)
-            {
-                writer.WriteStartElement(SerializableElement);
-                foreach (var item in serializables)
-                {
-                    writer.WriteStartElement("item");
-                    writer.WriteAttributeString("name", item.Key);
-                    writer.WriteAttributeString("type", item.Value.GetType().AssemblyQualifiedName);
-                    XmlSerializerUtility.Write(writer, item.Value);
-                    writer.WriteEndElement();
-                }
-                writer.WriteEndElement();
-            }
+        //void IXmlSerializable.WriteXml(XmlWriter writer)
+        //{
+        //    //var serializables = this.items.Where(item => this.Descriptors.ContainsKey(item.Key) == false);
+        //    //var properties = this.Descriptors.Where(item => this.items.ContainsKey(item.PropertyName) == false);
+        //    //var items = new Dictionary<string, object>(serializables.Count() + properties.Count());
+        //    //if (serializables.Any() == true)
+        //    //{
+        //    //    foreach (var item in serializables)
+        //    //    {
+        //    //        items.Add(item.Key, item.Value);
+        //    //    }
+        //    //}
+        //    //if (properties.Any() == true)
+        //    //{
+        //    //    foreach (var item in properties)
+        //    //    {
+        //    //        if (object.Equals(item.Value, item.DefaultValue) == true)
+        //    //            continue;
+        //    //        items.Add(item.PropertyName, item.Value);
+        //    //    }
+        //    //}
+        //    //this.serializer.Serialize(writer, items);
+        //}
 
-            var properties = this.descriptors.Where(item => this.items.ContainsKey(item.PropertyName) == false);
-            if (properties.Any() == true)
-            {
-                foreach (var item in properties)
-                {
-                    if (object.Equals(item.Value, item.DefaultValue) == true)
-                        continue;
-                    writer.WriteStartElement(item.PropertyName);
-                    this.WriteValue(writer, item.Value);
-                    writer.WriteEndElement();
-                }
-            }
-        }
-
-        #endregion
+        //#endregion
 
         #region IReadOnlyDictionary
 

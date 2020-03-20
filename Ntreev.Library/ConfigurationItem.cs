@@ -1,28 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Ntreev.Library
 {
+    [Obsolete]
     public struct ConfigurationItem
     {
         private const string keySection = "section";
         private const string keySubSection = "subsection";
         private const string keyKey = "key";
         private static readonly string pattern = $"(?<{keySection}>[^.]+)[.]?(?<{keySubSection }>.*)[.](?<{keyKey}>.+)";
-        private string section;
-        private string subSection;
-        private string key;
 
         public ConfigurationItem(string name)
         {
             var match = Regex.Match(name, pattern, RegexOptions.ExplicitCapture);
-            this.section = match.Groups[keySection].Value;
-            this.subSection = match.Groups[keySubSection].Value;
-            this.key = match.Groups[keyKey].Value;
+            this.Section = match.Groups[keySection].Value;
+            this.SubSection = match.Groups[keySubSection].Value;
+            this.Key = match.Groups[keyKey].Value;
         }
 
         public ConfigurationItem(string section, string key)
@@ -33,9 +27,9 @@ namespace Ntreev.Library
 
         public ConfigurationItem(string section, string subSection, string key)
         {
-            this.section = section ?? throw new ArgumentNullException(nameof(section));
-            this.subSection = subSection ?? throw new ArgumentNullException(nameof(subSection));
-            this.key = key ?? throw new ArgumentNullException(nameof(key));
+            this.Section = section ?? throw new ArgumentNullException(nameof(section));
+            this.SubSection = subSection ?? throw new ArgumentNullException(nameof(subSection));
+            this.Key = key ?? throw new ArgumentNullException(nameof(key));
         }
 
         public override string ToString()
@@ -56,19 +50,19 @@ namespace Ntreev.Library
             return match.Success;
         }
 
-        public string Section => this.section;
+        public string Section { get; private set; }
 
-        public string SubSection => this.subSection;
+        public string SubSection { get; private set; }
 
-        public string Key => this.key;
+        public string Key { get; private set; }
 
         public string Name
         {
             get
             {
-                if (this.subSection == string.Empty)
-                    return $"{this.section}.{this.key}";
-                return $"{this.section}.{this.subSection}.{this.key}";
+                if (this.SubSection == string.Empty)
+                    return $"{this.Section}.{this.Key}";
+                return $"{this.Section}.{this.SubSection}.{this.Key}";
             }
         }
 

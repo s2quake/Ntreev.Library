@@ -17,19 +17,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace Ntreev.Library.Threading
 {
     public class Dispatcher
     {
         private static readonly Dictionary<Thread, Dispatcher> dispatcherByThread = new Dictionary<Thread, Dispatcher>();
-
-        private readonly DispatcherScheduler scheduler;
         private readonly TaskFactory factory;
         private readonly CancellationTokenSource cancellationQueue;
         private readonly CancellationTokenSource cancellationExecution;
@@ -41,8 +37,8 @@ namespace Ntreev.Library.Threading
         {
             this.cancellationQueue = new CancellationTokenSource();
             this.cancellationExecution = new CancellationTokenSource();
-            this.scheduler = new DispatcherScheduler(this, cancellationExecution.Token);
-            this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, scheduler);
+            this.Scheduler = new DispatcherScheduler(this, cancellationExecution.Token);
+            this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, Scheduler);
             this.context = new DispatcherSynchronizationContext(factory);
             this.Thread = thread;
         }
@@ -53,8 +49,8 @@ namespace Ntreev.Library.Threading
                 throw new ArgumentNullException(nameof(owner));
             this.cancellationQueue = new CancellationTokenSource();
             this.cancellationExecution = new CancellationTokenSource();
-            this.scheduler = new DispatcherScheduler(this, cancellationExecution.Token);
-            this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, scheduler);
+            this.Scheduler = new DispatcherScheduler(this, cancellationExecution.Token);
+            this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, Scheduler);
             this.context = new DispatcherSynchronizationContext(factory);
             this.Owner = owner;
 #if DEBUG
@@ -63,7 +59,7 @@ namespace Ntreev.Library.Threading
 
             this.Thread = new Thread(() =>
             {
-                this.scheduler.Run();
+                this.Scheduler.Run();
                 this.OnDisposed(EventArgs.Empty);
             })
             {
@@ -109,7 +105,7 @@ namespace Ntreev.Library.Threading
         {
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
-            task.Start(this.scheduler);
+            task.Start(this.Scheduler);
             return task;
         }
 
@@ -117,7 +113,7 @@ namespace Ntreev.Library.Threading
         {
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
-            task.Start(this.scheduler);
+            task.Start(this.Scheduler);
             return task;
         }
 
@@ -181,8 +177,8 @@ namespace Ntreev.Library.Threading
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
             this.cancellationQueue.Cancel();
-            this.scheduler.Continue = false;
-            this.scheduler.Proceed();
+            this.Scheduler.Continue = false;
+            this.Scheduler.Proceed();
         }
 
         public async Task DisposeAsync()
@@ -193,8 +189,8 @@ namespace Ntreev.Library.Threading
                 throw new OperationCanceledException();
             var task = this.factory.StartNew(() => { });
             this.cancellationQueue.Cancel();
-            this.scheduler.Continue = false;
-            this.scheduler.Proceed();
+            this.Scheduler.Continue = false;
+            this.Scheduler.Proceed();
             await task;
         }
 
@@ -225,7 +221,7 @@ namespace Ntreev.Library.Threading
         internal string StackTrace => $"{this.stackTrace}";
 #endif
 
-        internal DispatcherScheduler Scheduler => this.scheduler;
+        internal DispatcherScheduler Scheduler { get; private set; }
 
         protected virtual void OnDisposed(EventArgs e)
         {
