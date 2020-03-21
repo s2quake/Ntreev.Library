@@ -12,6 +12,21 @@ namespace Ntreev.Library
         public const string RootElement = "configurations";
         public const string SerializableElement = "serializables";
 
+        public bool Verify(Stream stream)
+        {
+            using var reader = XmlReader.Create(stream);
+            //reader.ReadStartElement();
+            //reader.MoveToContent();
+            //while (reader.NodeType == XmlNodeType.Element)
+            //{
+            //    this.Deserialize(reader, properties);
+            //}
+            //reader.ReadEndElement();
+            //reader.MoveToContent();
+
+            return false;
+        }
+
         public void Serialize(Stream stream, IReadOnlyDictionary<string, object> properties)
         {
             var settings = new XmlWriterSettings() { Indent = true };
@@ -34,6 +49,8 @@ namespace Ntreev.Library
             reader.MoveToContent();
         }
 
+        public string Name => "Deprecated";
+
         private void Serialize(XmlWriter writer, IReadOnlyDictionary<string, object> properties)
         {
             writer.WriteStartElement(SerializableElement);
@@ -48,7 +65,7 @@ namespace Ntreev.Library
             writer.WriteEndElement();
         }
 
-        public void Deserialize(XmlReader reader, IDictionary<string, object> properties)
+        private void Deserialize(XmlReader reader, IDictionary<string, object> properties)
         {
             reader.ReadStartElement();
             reader.MoveToContent();

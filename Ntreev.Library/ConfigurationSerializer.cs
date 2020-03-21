@@ -29,6 +29,21 @@ namespace Ntreev.Library
             { typeof(string), "string" },
         };
 
+        public bool Verify(Stream stream)
+        {
+            using var reader = XmlReader.Create(stream);
+            //reader.ReadStartElement();
+            //reader.MoveToContent();
+            //while (reader.NodeType == XmlNodeType.Element)
+            //{
+            //    this.Deserialize(reader, properties);
+            //}
+            //reader.ReadEndElement();
+            //reader.MoveToContent();
+
+            return false;
+        }
+
         public void Serialize(Stream stream, IReadOnlyDictionary<string, object> properties)
         {
             var settings = new XmlWriterSettings() { Indent = true };
@@ -46,7 +61,9 @@ namespace Ntreev.Library
             reader.ReadEndElement();
         }
 
-        public void WriteGroups(XmlWriter writer, IReadOnlyDictionary<string, object> properties)
+        public string Name => "xml";
+
+        private void WriteGroups(XmlWriter writer, IReadOnlyDictionary<string, object> properties)
         {
             var query = from item in properties
                         let keyItem = new KeyItem(item.Key, item.Value)
@@ -168,23 +185,6 @@ namespace Ntreev.Library
             writer.WriteAttributeString("Type", this.nameByType[type]);
         }
 
-        //private Type GetType(string type)
-        //{
-        //    if (type == null)
-        //        throw new ArgumentNullException(nameof(type));
-        //    if (type == "number")
-        //        return typeof(decimal);
-        //    else if (type == "boolean")
-        //        return typeof(bool);
-        //    else if (type == "datetime")
-        //        return typeof(DateTime);
-        //    else if (type == "timespan")
-        //        return typeof(TimeSpan);
-        //    else if (type == "string")
-        //        return typeof(string);
-        //    throw new NotImplementedException();
-        //}
-
         private void ReadGroups(XmlReader reader, IDictionary<string, object> properties)
         {
             reader.MoveToContent();
@@ -194,7 +194,14 @@ namespace Ntreev.Library
                 {
                     var groupName = reader.GetAttribute("Name");
                     reader.ReadStartElement("Group");
-                    this.ReadGroup(reader, properties);
+                    if (groupName != null)
+                    {
+                        this.ReadGroup(reader, groupName, properties);
+                    }
+                    else
+                    {
+                        this.ReadItem(reader, null, properties);
+                    }
                     reader.ReadEndElement();
                 }
                 else
@@ -205,7 +212,7 @@ namespace Ntreev.Library
             }
         }
 
-        private void ReadGroup(XmlReader reader, IDictionary<string, object> properties)
+        private void ReadGroup(XmlReader reader, string parentName, IDictionary<string, object> properties)
         {
             reader.MoveToContent();
             while (reader.NodeType == XmlNodeType.Element)
@@ -213,6 +220,28 @@ namespace Ntreev.Library
                 if (reader.IsEmptyElement == false)
                 {
                     var name = reader.Name;
+                    var fullName = parentName != null ? $"{parentName}.{name}" : name;
+                    reader.ReadStartElement(name);
+                    this.ReadItem(reader, fullName, properties);
+                    reader.ReadEndElement();
+                }
+                else
+                {
+                    reader.Skip();
+                }
+                reader.MoveToContent();
+            }
+        }
+
+        private void ReadItem(XmlReader reader, string parentName, IDictionary<string, object> properties)
+        {
+            reader.MoveToContent();
+            while (reader.NodeType == XmlNodeType.Element)
+            {
+                if (reader.IsEmptyElement == false)
+                {
+                    var name = reader.Name;
+                    var fullName = parentName != null ? $"{parentName}.{name}" : name;
                     var type = reader.GetAttribute("Type");
                     var length = reader.GetAttribute("Length");
                     var rank = reader.GetAttribute("Rank");
@@ -224,12 +253,12 @@ namespace Ntreev.Library
                         var arrayValue = Array.CreateInstance(elementType, lengths);
                         var indics = new int[arrayValue.Rank];
                         this.ReadArray(reader, arrayValue, indics, 0);
-                        properties.Add(name, arrayValue);
+                        properties.Add(fullName, arrayValue);
                     }
                     else
                     {
                         var value = this.ReadField(reader, type);
-                        properties.Add(name, value);
+                        properties.Add(fullName, value);
                     }
                     reader.ReadEndElement();
                 }
