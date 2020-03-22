@@ -71,11 +71,14 @@ namespace Ntreev.Library
                 value == typeof(short) || value == typeof(ushort) ||
                 value == typeof(int) || value == typeof(uint) ||
                 value == typeof(long) || value == typeof(ulong) ||
-                value == typeof(float) || value == typeof(double) || value == typeof(decimal) ||
-                value == typeof(bool) || value == typeof(string) ||
-                value == typeof(DateTime) || value == typeof(TimeSpan))
+                value == typeof(float) || value == typeof(double) || value == typeof(decimal))
             {
                 return typeof(decimal);
+            }
+            else if (value == typeof(bool) || value == typeof(string) || 
+                value == typeof(DateTime) || value == typeof(TimeSpan))
+            {
+                return value;
             }
             else if (value.IsArray == true && CanSupportType(value.GetElementType()) == true)
             {
@@ -133,11 +136,14 @@ namespace Ntreev.Library
                 var elementType = ConvertToConfigType(type.GetElementType());
                 var destValue = Array.CreateInstance(elementType, lengths);
                 var indics = new int[lengths.Length];
-                while (IncrementIndics(indics, lengths))
+                if (sourceValue.Length > 0)
                 {
-                    var v = sourceValue.GetValue(indics);
-                    var c = ConvertToConfig(v);
-                    destValue.SetValue(c, indics);
+                    do
+                    {
+                        var v = sourceValue.GetValue(indics);
+                        var c = ConvertToConfig(v);
+                        destValue.SetValue(c, indics);
+                    } while (IncrementIndics(indics, lengths));
                 }
                 return destValue;
             }
@@ -294,7 +300,8 @@ namespace Ntreev.Library
                         var key = $"{propertyProvider.Name}{attr.GetPropertyName(item.Name)}";
                         if (this.items.ContainsKey(key) == true)
                         {
-                            item.SetValue(target, this.items[key]);
+                            var value = this.GetValue(key, item.PropertyType);
+                            item.SetValue(target, value);
                         }
                     }
                     else
@@ -302,7 +309,8 @@ namespace Ntreev.Library
                         var key = $"{target.GetType().FullName}.{attr.GetPropertyName(item.Name)}";
                         if (this.items.ContainsKey(key) == true)
                         {
-                            item.SetValue(target, this.items[key]);
+                            var value = this.GetValue(key, item.PropertyType);
+                            item.SetValue(target, value);
                         }
                     }
                 }
@@ -372,6 +380,23 @@ namespace Ntreev.Library
             this.Descriptors.Add(new ConfigurationItemDescriptor(name, type, comment, defaultValue));
         }
 
+        public object GetValue(string key, Type destinationType)
+        {
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            return ConvertFromConfig(this[key], destinationType);
+        }
+
+        public void SetValue(string key, object value)
+        {
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            this.items[key] = ConvertToConfig(value);
+        }
+
         public int Count => this.items.Count;
 
         public virtual string Name => "configurations";
@@ -389,16 +414,6 @@ namespace Ntreev.Library
         }
 
         public ConfigurationPropertyDescriptorCollection Descriptors { get; private set; }
-
-        private void SetValue(string key, object value)
-        {
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
-
-            this.items[key] = ConvertToConfig(value);
-        }
 
         private void WriteValue(XmlWriter writer, object value)
         {

@@ -29,21 +29,6 @@ namespace Ntreev.Library
             { typeof(string), "string" },
         };
 
-        public bool Verify(Stream stream)
-        {
-            using var reader = XmlReader.Create(stream);
-            //reader.ReadStartElement();
-            //reader.MoveToContent();
-            //while (reader.NodeType == XmlNodeType.Element)
-            //{
-            //    this.Deserialize(reader, properties);
-            //}
-            //reader.ReadEndElement();
-            //reader.MoveToContent();
-
-            return false;
-        }
-
         public void Serialize(Stream stream, IReadOnlyDictionary<string, object> properties)
         {
             var settings = new XmlWriterSettings() { Indent = true };
@@ -56,9 +41,17 @@ namespace Ntreev.Library
         public void Deserialize(Stream stream, IDictionary<string, object> properties)
         {
             using var reader = XmlReader.Create(stream);
-            reader.ReadStartElement();
-            this.ReadGroups(reader, properties);
-            reader.ReadEndElement();
+            reader.MoveToContent();
+            if (reader.IsEmptyElement == false)
+            {
+                reader.ReadStartElement();
+                this.ReadGroups(reader, properties);
+                reader.ReadEndElement();
+            }
+            else
+            {
+                reader.Skip();
+            }
         }
 
         public string Name => "xml";
