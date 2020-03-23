@@ -6,9 +6,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>4.0.2083.1238</Version>
+    <Version>4.0.2084.0758</Version>
     <AssemblyVersion>4.0</AssemblyVersion>
-    <FileVersion>4.0.2083.1238</FileVersion>
+    <FileVersion>4.0.2084.0758</FileVersion>
     <RepositoryType>git</RepositoryType>
     <PackageLicense>https://github.com/NtreevSoft/Ntreev.Library/blob/master/LICENSE.md</PackageLicense>
     <Copyright>Copyright © Ntreev Soft 2018</Copyright>
