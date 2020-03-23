@@ -5,9 +5,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>4.0.2080.2200</Version>
+    <Version>4.0.2083.1238</Version>
     <AssemblyVersion>4.0</AssemblyVersion>
-    <FileVersion>4.0.2080.2200</FileVersion>
+    <FileVersion>4.0.2083.1238</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Copyright>Copyright © Ntreev Soft 2018</Copyright>
     <Description>this is submodule of crema project</Description>
