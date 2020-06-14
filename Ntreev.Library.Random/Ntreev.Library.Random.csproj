@@ -2,9 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;net45</TargetFrameworks>
-    <Version>4.0.20166.1229</Version>
+    <Version>4.0.20166.1236</Version>
     <AssemblyVersion>4.0</AssemblyVersion>
-    <FileVersion>4.0.20166.1229</FileVersion>
+    <FileVersion>4.0.20166.1236</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Copyright>Copyright © Ntreev Soft 2018</Copyright>
     <Description>this is submodule of crema project</Description>

@@ -24,10 +24,10 @@ namespace Ntreev.Library.Threading
 
         public int ProcessAll()
         {
-            return this.ProcessAll(int.MaxValue);
+            return this.Process(int.MaxValue);
         }
 
-        public int ProcessAll(int milliseconds)
+        public int Process(int milliseconds)
         {
             this.dispatcher.VerifyAccess();
             if (this.isRunning == true)
