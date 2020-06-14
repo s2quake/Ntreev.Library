@@ -44,7 +44,7 @@ namespace Ntreev.Library.Threading
                 this.isExecuting = false;
                 count++;
                 var span = DateTime.Now - dateTime;
-                if (span.TotalMilliseconds > 300)
+                if (span.TotalMilliseconds > milliseconds)
                     break;
             }
             return count;
