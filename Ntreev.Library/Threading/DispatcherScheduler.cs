@@ -36,18 +36,19 @@ namespace Ntreev.Library.Threading
                 return 0;
 
             var dateTime = DateTime.Now;
-            var count = 0;
+            var completion = 0;
+            var count = this.taskQueue.Count;
             while (this.taskQueue.TryTake(out var task))
             {
                 this.isExecuting = true;
                 this.TryExecuteTask(task);
                 this.isExecuting = false;
-                count++;
+                completion++;
                 var span = DateTime.Now - dateTime;
-                if (span.TotalMilliseconds > milliseconds)
+                if (span.TotalMilliseconds > milliseconds || completion >= count)
                     break;
             }
-            return count;
+            return completion;
         }
 
         public bool ProcessOnce()
