@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;net45</TargetFrameworks>
     <OutputType>Exe</OutputType>
-    <Version>4.0.20166.1236</Version>
+    <Version>4.0.20179.0842</Version>
     <AssemblyVersion>4.0</AssemblyVersion>
-    <FileVersion>4.0.20166.1236</FileVersion>
+    <FileVersion>4.0.20179.0842</FileVersion>
     <RepositoryType>git</RepositoryType>
     <PackageLicense>https://github.com/NtreevSoft/Ntreev.Library/blob/master/LICENSE.md</PackageLicense>
     <Copyright>Copyright © Ntreev Soft 2018</Copyright>

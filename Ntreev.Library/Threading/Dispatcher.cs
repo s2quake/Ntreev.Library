@@ -56,7 +56,6 @@ namespace Ntreev.Library.Threading
 #if DEBUG
             this.stackTrace = new StackTrace(true);
 #endif            
-
             this.Thread = new Thread(() =>
             {
                 this.Scheduler.Run();
@@ -66,6 +65,11 @@ namespace Ntreev.Library.Threading
                 Name = owner.ToString()
             };
             this.Thread.Start();
+        }
+
+        public static Task<Dispatcher> CreateAsync(object owner)
+        {
+            return Task.Run(() => new Dispatcher(owner));
         }
 
         public override string ToString()
