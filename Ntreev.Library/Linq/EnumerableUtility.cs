@@ -327,6 +327,16 @@ namespace Ntreev.Library.Linq
             return -1;
         }
 
+        public static bool IsEmpty<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.Any() == false;
+        }
+
+        public static bool IsSingle<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.Count() == 1;
+        }
+
         private static void Visit<T>(T item, Func<T, IEnumerable<T>> getDependencies, List<T> sorted, Dictionary<T, bool> visited)
         {
             var alreadyVisited = visited.TryGetValue(item, out bool inProcess);
