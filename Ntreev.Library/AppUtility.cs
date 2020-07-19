@@ -32,15 +32,8 @@ namespace Ntreev.Library
         {
             get
             {
-                if (productName != null)
-                    return productName;
-
                 var assembly = Assembly.GetEntryAssembly();
-                var attr = assembly.GetCustomAttribute(typeof(AssemblyProductAttribute)) as AssemblyProductAttribute;
-                var name = attr == null || attr.Product == AppDomain.CurrentDomain.FriendlyName ? null : attr.Product;
-                if (AppDomain.CurrentDomain.FriendlyName.EndsWith("vshost.exe") == true)
-                    return name + ".vshost";
-                return name;
+                return FileVersionInfo.GetVersionInfo(assembly.Location).ProductName;
             }
             set
             {
