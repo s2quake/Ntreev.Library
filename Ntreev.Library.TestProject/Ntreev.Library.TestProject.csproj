@@ -1,22 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;net45</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Exe</OutputType>
-    <Version>4.0.20179.0842</Version>
+    <Version>4.0.20214.1121</Version>
     <AssemblyVersion>4.0</AssemblyVersion>
-    <FileVersion>4.0.20179.0842</FileVersion>
+    <FileVersion>4.0.20214.1121</FileVersion>
     <RepositoryType>git</RepositoryType>
-    <PackageLicense>https://github.com/NtreevSoft/Ntreev.Library/blob/master/LICENSE.md</PackageLicense>
-    <Copyright>Copyright © Ntreev Soft 2018</Copyright>
+    <PackageLicense>https://github.com/s2quake/Ntreev.Library/blob/master/LICENSE.md</PackageLicense>
+    <Copyright>Copyright © JSSoft 2020</Copyright>
     <Description>this is submodule of crema project</Description>
-    <Company>NtreevSoft</Company>
     <Authors>s2quake</Authors>
-    <RepositoryUrl>https://github.com/NtreevSoft/Ntreev.Library</RepositoryUrl>
+    <RepositoryUrl>https://github.com/s2quake/Ntreev.Library</RepositoryUrl>
     <PackageTags>Crema</PackageTags>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Ntreev.Library\Ntreev.Library.csproj" />
     <ProjectReference Include="..\Ntreev.Library.Random\Ntreev.Library.Random.csproj" />
   </ItemGroup>
