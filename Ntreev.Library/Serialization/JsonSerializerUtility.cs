@@ -37,7 +37,6 @@ using Ntreev.Library.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
@@ -45,7 +44,7 @@ namespace Ntreev.Library.Serialization
 {
     public static class JsonSerializerUtility
     {
-        private static Dictionary<Type, DataContractJsonSerializer> serializers = new Dictionary<Type, DataContractJsonSerializer>();
+        private static readonly Dictionary<Type, DataContractJsonSerializer> serializers = new Dictionary<Type, DataContractJsonSerializer>();
 
         public static DataContractJsonSerializer GetSerializer(Type type)
         {
@@ -67,16 +66,12 @@ namespace Ntreev.Library.Serialization
 
         public static string GetString(object obj, bool indent)
         {
-            using (var stream = new MemoryStream())
-            {
-                Write(stream, obj, indent);
-                stream.Position = 0;
+            using var stream = new MemoryStream();
+            Write(stream, obj, indent);
+            stream.Position = 0;
 
-                using (var reader = new StreamReader(stream))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
 
         public static void Write(Stream stream, object obj)
@@ -86,12 +81,9 @@ namespace Ntreev.Library.Serialization
 
         public static void Write(Stream stream, object obj, bool indent)
         {
+            using var writer = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8, false, indent);
             var serializer = GetSerializer(obj.GetType());
-
-            using (var writer = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8, false, indent))
-            {
-                serializer.WriteObject(writer, obj);
-            }
+            serializer.WriteObject(writer, obj);
         }
 
         public static void Write(string filename, object obj)
@@ -101,10 +93,8 @@ namespace Ntreev.Library.Serialization
 
         public static void Write(string filename, object obj, bool indent)
         {
-            using (var stream = FileUtility.OpenWrite(filename))
-            {
-                Write(stream, obj, indent);
-            }
+            using var stream = FileUtility.OpenWrite(filename);
+            Write(stream, obj, indent);
         }
 
         public static object Read(Stream stream, Type type)
@@ -115,10 +105,8 @@ namespace Ntreev.Library.Serialization
 
         public static object Read(string filename, Type type)
         {
-            using (var stream = File.OpenRead(filename))
-            {
-                return Read(stream, type);
-            }
+            using var stream = File.OpenRead(filename);
+            return Read(stream, type);
         }
 
         public static T Read<T>(Stream stream)
@@ -133,10 +121,8 @@ namespace Ntreev.Library.Serialization
 
         public static object ReadString(string text, Type type)
         {
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(text)))
-            {
-                return Read(stream, type);
-            }
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));
+            return Read(stream, type);
         }
 
         public static T ReadString<T>(string text)

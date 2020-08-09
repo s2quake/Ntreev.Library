@@ -15,13 +15,9 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Ntreev.Library.IO
 {
@@ -39,17 +35,6 @@ namespace Ntreev.Library.IO
             Marshal.Copy(bytes, 0, ptr, size);
             value = (T)Marshal.PtrToStructure(ptr, typeof(T));
             Marshal.FreeHGlobal(ptr);
-        }
-
-        private static byte[] GetBytes<TStruct>(TStruct data)
-            where TStruct : struct
-        {
-            var structSize = Marshal.SizeOf(typeof(TStruct));
-            var buffer = new byte[structSize];
-            var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-            Marshal.StructureToPtr(data, handle.AddrOfPinnedObject(), false);
-            handle.Free();
-            return buffer;
         }
     }
 }

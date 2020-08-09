@@ -16,10 +16,7 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace Ntreev.Library.Serialization
@@ -221,34 +218,34 @@ namespace Ntreev.Library.Serialization
 
             if (value.GetType().IsEnum == true)
                 return value.ToString();
-            else if (value is bool)
-                return ToString((bool)value);
-            else if (value is float)
-                return ToString((float)value);
-            else if (value is double)
-                return ToString((double)value);
-            else if (value is byte)
-                return ToString((byte)value);
-            else if (value is sbyte)
-                return ToString((sbyte)value);
-            else if (value is short)
-                return ToString((short)value);
-            else if (value is ushort)
-                return ToString((ushort)value);
-            else if (value is int)
-                return ToString((int)value);
-            else if (value is uint)
-                return ToString((uint)value);
-            else if (value is long)
-                return ToString((long)value);
-            else if (value is ulong)
-                return ToString((ulong)value);
-            else if (value is DateTime)
-                return ToString((DateTime)value);
-            else if (value is TimeSpan)
-                return ToString((TimeSpan)value);
-            else if (value is Guid)
-                return ToString((Guid)value);
+            else if (value is bool boolean)
+                return ToString(boolean);
+            else if (value is float single)
+                return ToString(single);
+            else if (value is double @double)
+                return ToString(@double);
+            else if (value is byte byte1)
+                return ToString(byte1);
+            else if (value is sbyte @byte)
+                return ToString(@byte);
+            else if (value is short int5)
+                return ToString(int5);
+            else if (value is ushort int4)
+                return ToString(int4);
+            else if (value is int int3)
+                return ToString(int3);
+            else if (value is uint int2)
+                return ToString(int2);
+            else if (value is long int1)
+                return ToString(int1);
+            else if (value is ulong @int)
+                return ToString(@int);
+            else if (value is DateTime time)
+                return ToString(time);
+            else if (value is TimeSpan span)
+                return ToString(span);
+            else if (value is Guid guid)
+                return ToString(guid);
             else if (value is string)
                 return value as string;
 

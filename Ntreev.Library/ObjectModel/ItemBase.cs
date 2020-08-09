@@ -15,17 +15,12 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-using Ntreev.Library;
-using Ntreev.Library.Properties;
-using System.Data;
-using System.ComponentModel;
-using System.IO;
 using Ntreev.Library.IO;
+using Ntreev.Library.Properties;
+using System;
+using System.ComponentModel;
+using System.Data;
+using System.Linq;
 
 namespace Ntreev.Library.ObjectModel
 {
@@ -40,23 +35,19 @@ namespace Ntreev.Library.ObjectModel
         private string path;
         internal _C category;
         private _IC container;
-        private int depth;
-        private bool isDisposed;
-        private bool isDisposing;
         private PropertyCollection extendedProperties;
 
         public void Dispose()
         {
             this.ValidateDelete();
 
-            var itemName = this.Name;
             var itemPath = this.Path;
             var container = this.container;
 
-            this.isDisposing = true;
+            this.IsDisposing = true;
             this.OnDeleted(EventArgs.Empty);
-            this.isDisposing = false;
-            this.isDisposed = true;
+            this.IsDisposing = false;
+            this.IsDisposed = true;
 
             if (container != null)
                 container.InvokeItemDeleted(itemPath, this as _I);
@@ -67,9 +58,9 @@ namespace Ntreev.Library.ObjectModel
             var dest = obj as _I;
             if (this.Category == dest.Category)
                 return this.Name.CompareTo(dest.Name);
-            if (this.depth == dest.depth)
+            if (this.Depth == dest.Depth)
                 return this.Category.CompareTo(dest.Category);
-            return this.depth.CompareTo(dest.depth);
+            return this.Depth.CompareTo(dest.Depth);
         }
 
         public void ValidateRename(string newName)
@@ -113,7 +104,7 @@ namespace Ntreev.Library.ObjectModel
 
         public void ValidateDelete()
         {
-            if (this.isDisposed == true)
+            if (this.IsDisposed == true)
                 throw new ObjectDisposedException(this.name);
         }
 
@@ -176,26 +167,19 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        public bool IsDisposed
-        {
-            get { return this.isDisposed; }
-            internal set { this.isDisposed = value; }
-        }
+        public bool IsDisposed { get; internal set; }
 
-        public int Depth
-        {
-            get { return this.depth; }
-        }
+        public int Depth { get; private set; }
 
         public _C Category
         {
-            get { return this.category; }
+            get => this.category;
             set
             {
                 if (this.category == value)
                     return;
 
-                if (this.isDisposing == true)
+                if (this.IsDisposing == true)
                 {
                     if (this.category != null)
                     {
@@ -208,11 +192,11 @@ namespace Ntreev.Library.ObjectModel
 
                 if (this.category != null && value == null)
                 {
-                    this.isDisposing = true;
+                    this.IsDisposing = true;
                     this.category.Items.Remove(this as _I);
                     this.category.Childs.Remove(this);
                     this.category = null;
-                    this.isDisposing = false;
+                    this.IsDisposing = false;
                     return;
                 }
 
@@ -245,13 +229,13 @@ namespace Ntreev.Library.ObjectModel
 
         public _IC Container
         {
-            get { return this.container; }
+            get => this.container;
             internal set
             {
                 var isSame = this.container == value;
 
                 this.container = value;
-                this.depth = this.Category == null ? 0 : this.Category.Path.Where(item => item == PathUtility.SeparatorChar).Count() + 1;
+                this.Depth = this.Category == null ? 0 : this.Category.Path.Where(item => item == PathUtility.SeparatorChar).Count() + 1;
                 this.path = null;
 
                 if (isSame == false)
@@ -291,10 +275,7 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        public virtual ItemAttributes ItemAttributes
-        {
-            get { return ItemAttributes.None; }
-        }
+        public virtual ItemAttributes ItemAttributes => ItemAttributes.None;
 
         public event EventHandler Renamed;
 
@@ -337,22 +318,13 @@ namespace Ntreev.Library.ObjectModel
             this.OnPathChanged(oldPath, newPath);
         }
 
-        internal bool IsDisposing
-        {
-            get { return this.isDisposing; }
-        }
+        internal bool IsDisposing { get; private set; }
 
         #region IItem
 
-        IItem IItem.Parent
-        {
-            get { return this.Category; }
-        }
+        IItem IItem.Parent => this.Category;
 
-        IContainer<IItem> IItem.Childs
-        {
-            get { return EmpryContainer<IItem>.Default; }
-        }
+        IContainer<IItem> IItem.Childs => EmpryContainer<IItem>.Default;
 
         event EventHandler IItem.Moved
         {

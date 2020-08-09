@@ -24,7 +24,7 @@ namespace Ntreev.Library.Threading
                 this.OnDisposed(EventArgs.Empty);
             })
             {
-                Name = $"IndexedDispatcher: {owner.ToString()}"
+                Name = $"IndexedDispatcher: {owner}"
             };
             this.Thread.Start();
         }

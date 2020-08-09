@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -29,10 +28,8 @@ namespace Ntreev.Library
     {
         public static string GetHashValue(Stream stream)
         {
-            using (var algorithm = SHA256.Create())
-            {
-                return GetHashValue(algorithm, stream);
-            }
+            using var algorithm = SHA256.Create();
+            return GetHashValue(algorithm, stream);
         }
 
         public static string GetHashValue(HashAlgorithm algorithm, Stream stream)
@@ -48,26 +45,20 @@ namespace Ntreev.Library
 
         public static string GetHashValueFromFile(string filename)
         {
-            using (var stream = File.OpenRead(filename))
-            {
-                return GetHashValue(stream);
-            }
+            using var stream = File.OpenRead(filename);
+            return GetHashValue(stream);
         }
 
         public static string GetHashValueFromFile(HashAlgorithm algorithm, string filename)
         {
-            using (var stream = File.OpenRead(filename))
-            {
-                return GetHashValue(algorithm, stream);
-            }
+            using var stream = File.OpenRead(filename);
+            return GetHashValue(algorithm, stream);
         }
 
         public static string GetHashValue(byte[] buffer)
         {
-            using (var algorithm = SHA256.Create())
-            {
-                return GetHashValue(algorithm, buffer);
-            }
+            using var algorithm = SHA256.Create();
+            return GetHashValue(algorithm, buffer);
         }
 
         public static string GetHashValue(HashAlgorithm algorithm, byte[] buffer)
@@ -83,10 +74,8 @@ namespace Ntreev.Library
 
         public static string GetHashValue(params object[] args)
         {
-            using (var algorithm = SHA256.Create())
-            {
-                return GetHashValue(algorithm, args);
-            }
+            using var algorithm = SHA256.Create();
+            return GetHashValue(algorithm, args);
         }
 
         public static string GetHashValue(HashAlgorithm algorithm, params object[] args)

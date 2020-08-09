@@ -15,15 +15,11 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Xml.Serialization;
 
 namespace Ntreev.Library
 {
@@ -35,10 +31,10 @@ namespace Ntreev.Library
         public const char Separator = ',';
         private const string unusedString = "Unused";
         private const string allString = "All";
-        private static string[] allValue = null;
-        private static string[] unusedValue = new string[] { };
+        private static readonly string[] allValue = null;
+        private static readonly string[] unusedValue = new string[] { };
 
-        private static Dictionary<string, string> textToColor = new Dictionary<string, string>(StringComparer.CurrentCultureIgnoreCase);
+        private static readonly Dictionary<string, string> textToColor = new Dictionary<string, string>(StringComparer.CurrentCultureIgnoreCase);
 
         private string[] value;
         private int hash;
@@ -117,7 +113,7 @@ namespace Ntreev.Library
         [IgnoreDataMember]
         public string[] Values
         {
-            get { return this.value; }
+            get => this.value;
             set
             {
                 this.value = FromString(value);
@@ -128,7 +124,7 @@ namespace Ntreev.Library
         [DataMember]
         public string Value
         {
-            get { return ToString(this.value); }
+            get => ToString(this.value);
             set
             {
                 this.value = FromString(value);

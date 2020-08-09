@@ -16,12 +16,8 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Ntreev.Library.ObjectModel;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization
 {
@@ -29,7 +25,7 @@ namespace Ntreev.Library.IO.Virtualization
     {
         IFolder CreateFolder(string name);
 
-        IFile CreateFile(string name, Stream stream, long length, IProgress progress);
+        IFile CreateFile(string name, Stream stream, long length);
 
         void Rename(string name);
 

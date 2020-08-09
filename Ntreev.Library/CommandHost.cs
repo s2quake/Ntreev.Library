@@ -155,9 +155,9 @@ namespace Ntreev.Library
 
         public bool ThrowOnError { get; set; }
 
-        public string ErrorMessage { get => this.errorList == null ? string.Empty : string.Join(Environment.NewLine, this.errorList.Where(item => item != null)); }
+        public string ErrorMessage => this.errorList == null ? string.Empty : string.Join(Environment.NewLine, this.errorList.Where(item => item != null));
 
-        public string Message { get => this.outputList == null ? string.Empty : string.Join(Environment.NewLine, this.outputList.Where(item => item != null)); }
+        public string Message => this.outputList == null ? string.Empty : string.Join(Environment.NewLine, this.outputList.Where(item => item != null));
 
         public IReadOnlyList<object> Items => this.items;
 
@@ -172,19 +172,17 @@ namespace Ntreev.Library
 
         private string[] GetLines(string text, bool removeEmptyLine)
         {
-            using (var sr = new StringReader(text))
+            using var sr = new StringReader(text);
+            var line = null as string;
+            var lineList = new List<string>();
+            while ((line = sr.ReadLine()) != null)
             {
-                var line = null as string;
-                var lineList = new List<string>();
-                while ((line = sr.ReadLine()) != null)
+                if (line.Trim() != string.Empty || removeEmptyLine == false)
                 {
-                    if (line.Trim() != string.Empty || removeEmptyLine == false)
-                    {
-                        lineList.Add(line);
-                    }
+                    lineList.Add(line);
                 }
-                return lineList.ToArray();
             }
+            return lineList.ToArray();
         }
 
         #region IEnumerable

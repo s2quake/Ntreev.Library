@@ -45,14 +45,12 @@ namespace Ntreev.Library.Threading
 
         public Dispatcher(object owner)
         {
-            if (owner == null)
-                throw new ArgumentNullException(nameof(owner));
             this.cancellationQueue = new CancellationTokenSource();
             this.cancellationExecution = new CancellationTokenSource();
             this.Scheduler = new DispatcherScheduler(this, cancellationExecution.Token);
             this.factory = new TaskFactory(new CancellationToken(false), TaskCreationOptions.None, TaskContinuationOptions.None, Scheduler);
             this.context = new DispatcherSynchronizationContext(factory);
-            this.Owner = owner;
+            this.Owner = owner ?? throw new ArgumentNullException(nameof(owner));
 #if DEBUG
             this.stackTrace = new StackTrace(true);
 #endif            

@@ -15,11 +15,7 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.IO;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 
 namespace Ntreev.Library.ObjectModel
 {
@@ -30,20 +26,17 @@ namespace Ntreev.Library.ObjectModel
         where _CC : CategoryContainer<_I, _C, _IC, _CC, _CT>, new()
         where _CT : ItemContext<_I, _C, _IC, _CC, _CT>
     {
-        private _IC items;
-        private _CC categories;
-
         public ItemContext()
         {
-            this.items = new _IC();
-            this.categories = new _CC();
-            this.items.Context = this as _CT;
-            this.categories.Context = this as _CT;
+            this.Items = new _IC();
+            this.Categories = new _CC();
+            this.Items.Context = this as _CT;
+            this.Categories.Context = this as _CT;
         }
 
         public void Clear()
         {
-            this.categories.Clear();
+            this.Categories.Clear();
         }
 
         public bool Contains(string itemPath)
@@ -52,10 +45,10 @@ namespace Ntreev.Library.ObjectModel
                 return this.Categories.Contains(itemPath);
 
             var itemName = new ItemName(itemPath);
-            if (this.items.SupportsNonUniqueName == false)
-                return this.items.Contains(itemName.Name);
+            if (this.Items.SupportsNonUniqueName == false)
+                return this.Items.Contains(itemName.Name);
 
-            return this.items.Contains(itemName.Name, itemName.CategoryPath);
+            return this.Items.Contains(itemName.Name, itemName.CategoryPath);
         }
 
         public IItem this[string itemPath]
@@ -66,74 +59,65 @@ namespace Ntreev.Library.ObjectModel
                     return this.Categories[itemPath];
 
                 var itemName = new ItemName(itemPath);
-                if (this.items.SupportsNonUniqueName == false)
-                    return this.items[itemName.Name];
+                if (this.Items.SupportsNonUniqueName == false)
+                    return this.Items[itemName.Name];
 
-                return this.items[itemName.Name, itemName.CategoryPath];
+                return this.Items[itemName.Name, itemName.CategoryPath];
             }
         }
 
-        public _IC Items
-        {
-            get { return this.items; }
-        }
+        public _IC Items { get; }
 
-        public _CC Categories
-        {
-            get { return this.categories; }
-        }
+        public _CC Categories { get; }
 
-        public _C Root
-        {
-            get { return this.categories.Root; }
-        }
+        public _C Root => this.Categories.Root;
 
         public event ItemCreatedEventHandler<_I> ItemCreated
         {
-            add { this.items.ItemCreated += value; }
-            remove { this.items.ItemCreated -= value; }
+            add { this.Items.ItemCreated += value; }
+            remove { this.Items.ItemCreated -= value; }
         }
 
         public event ItemMovedEventHandler<_I> ItemMoved
         {
-            add { this.items.ItemMoved += value; }
-            remove { this.items.ItemMoved -= value; }
+            add { this.Items.ItemMoved += value; }
+            remove { this.Items.ItemMoved -= value; }
         }
 
         public event ItemRenamedEventHandler<_I> ItemRenamed
         {
-            add { this.items.ItemRenamed += value; }
-            remove { this.items.ItemRenamed -= value; }
+            add { this.Items.ItemRenamed += value; }
+            remove { this.Items.ItemRenamed -= value; }
         }
 
         public event ItemDeletedEventHandler<_I> ItemDeleted
         {
-            add { this.items.ItemDeleted += value; }
-            remove { this.items.ItemDeleted -= value; }
+            add { this.Items.ItemDeleted += value; }
+            remove { this.Items.ItemDeleted -= value; }
         }
 
         public event CategoryEventHandler<_C> CategoryCreated
         {
-            add { this.categories.CategoryCreated += value; }
-            remove { this.categories.CategoryCreated -= value; }
+            add { this.Categories.CategoryCreated += value; }
+            remove { this.Categories.CategoryCreated -= value; }
         }
 
         public event CategoryMovedEventHandler<_C> CategoryMoved
         {
-            add { this.categories.CategoryMoved += value; }
-            remove { this.categories.CategoryMoved -= value; }
+            add { this.Categories.CategoryMoved += value; }
+            remove { this.Categories.CategoryMoved -= value; }
         }
 
         public event CategoryRenamedEventHandler<_C> CategoryRenamed
         {
-            add { this.categories.CategoryRenamed += value; }
-            remove { this.categories.CategoryRenamed -= value; }
+            add { this.Categories.CategoryRenamed += value; }
+            remove { this.Categories.CategoryRenamed -= value; }
         }
 
         public event CategoryDeletedEventHandler<_C> CategoryDeleted
         {
-            add { this.categories.CategoryDeleted += value; }
-            remove { this.categories.CategoryDeleted -= value; }
+            add { this.Categories.CategoryDeleted += value; }
+            remove { this.Categories.CategoryDeleted -= value; }
         }
 
         #region IEnumerator

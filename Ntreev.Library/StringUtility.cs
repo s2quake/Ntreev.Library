@@ -15,23 +15,24 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Ntreev.Library.IO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
 using System.IO;
 using System.IO.Compression;
-using System.Text.RegularExpressions;
+using System.Linq;
 using System.Security;
-using Ntreev.Library.IO;
-using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Ntreev.Library
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0017:개체 초기화 단순화", Justification = "<보류 중>")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:간단한 'using' 문 사용", Justification = "<보류 중>")]
     public static class StringUtility
     {
-        private static string Passphrase = "seckey";
+        private static readonly string Passphrase = "seckey";
 
         public static string Encrypt(string text, string key)
         {
@@ -449,11 +450,11 @@ namespace Ntreev.Library
                 }
 
                 char c;
-                //#if HAVE_CHAR_TO_STRING_WITH_CULTURE
+#if HAVE_CHAR_TO_STRING_WITH_CULTURE
                 c = char.ToLower(chars[i], CultureInfo.InvariantCulture);
-                //#else
+#else
                 c = char.ToLowerInvariant(chars[i]);
-                //#endif
+#endif
                 chars[i] = c;
             }
 

@@ -16,9 +16,6 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library
 {
@@ -56,19 +53,10 @@ namespace Ntreev.Library
 
         }
 
-        public ProgressChangeState State
-        {
-            get { return this.state; }
-        }
+        public ProgressChangeState State => this.state;
 
-        public double Value
-        {
-            get { return this.value; }
-        }
+        public double Value => this.value;
 
-        public string Message
-        {
-            get { return this.message; }
-        }
+        public string Message => this.message;
     }
 }

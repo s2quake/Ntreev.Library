@@ -19,14 +19,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.ObjectModel
 {
     public abstract class ContainerBase<T> : IContainer<T>
     {
-        private Dictionary<string, T> keyToValue;
+        private readonly Dictionary<string, T> keyToValue;
 
         protected ContainerBase()
         {
@@ -72,17 +70,14 @@ namespace Ntreev.Library.ObjectModel
             get
             {
                 if (key == null)
-                    return default(T);
+                    return default;
                 if (this.keyToValue.ContainsKey(key) == false)
-                    return default(T);
+                    return default;
                 return this.keyToValue[key];
             }
         }
 
-        public IEnumerable<string> Keys
-        {
-            get { return this.keyToValue.Keys; }
-        }
+        public IEnumerable<string> Keys => this.keyToValue.Keys;
 
         public event NotifyCollectionChangedEventHandler CollectionChanging;
 

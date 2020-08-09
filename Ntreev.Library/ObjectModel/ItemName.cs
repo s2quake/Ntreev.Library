@@ -17,10 +17,6 @@
 
 using Ntreev.Library.IO;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.ObjectModel
 {
@@ -52,7 +48,7 @@ namespace Ntreev.Library.ObjectModel
 
         public string Path
         {
-            get { return this.path; }
+            get => this.path;
             set
             {
                 NameValidator.ValidateItemPath(value);
@@ -66,14 +62,11 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        public string CategoryPath
-        {
-            get { return this.categoryPath; }
-        }
+        public string CategoryPath => this.categoryPath;
 
         public string Name
         {
-            get { return this.name; }
+            get => this.name;
             set
             {
                 this.name = value;
@@ -81,13 +74,7 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        public string[] Segments
-        {
-            get
-            {
-                return this.path.Split(new char[] { PathUtility.SeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-            }
-        }
+        public string[] Segments => this.path.Split(new char[] { PathUtility.SeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
 
         public static implicit operator string(ItemName itemName)
         {

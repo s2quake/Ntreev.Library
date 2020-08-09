@@ -17,10 +17,7 @@
 
 using Ntreev.Library.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization.Local
 {
@@ -60,10 +57,7 @@ namespace Ntreev.Library.IO.Virtualization.Local
             return File.OpenWrite(this.LocalPath);
         }
 
-        public string LocalPath
-        {
-            get { return string.Format("{0}{1}", this.Context.LocalPath, this.Path); }
-        }
+        public string LocalPath => string.Format("{0}{1}", this.Context.LocalPath, this.Path);
 
         public long Size { get; set; }
 
@@ -87,20 +81,11 @@ namespace Ntreev.Library.IO.Virtualization.Local
 
         #region IFile
 
-        IFolder IFile.Parent
-        {
-            get { return this.Category; }
-        }
+        IFolder IFile.Parent => this.Category;
 
-        IStorage IFile.Storage
-        {
-            get { return this.Context; }
-        }
+        IStorage IFile.Storage => this.Context;
 
-        string IFileSystem.Path
-        {
-            get { return this.Path; }
-        }
+        string IFileSystem.Path => this.Path;
 
         #endregion
     }

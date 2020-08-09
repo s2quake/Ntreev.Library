@@ -16,11 +16,8 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Ntreev.Library.ObjectModel;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization.Local
 {
@@ -38,10 +35,7 @@ namespace Ntreev.Library.IO.Virtualization.Local
             return this.ContainsKey(path);
         }
 
-        IFolder IFolderCollection.this[string path]
-        {
-            get { return this[path]; }
-        }
+        IFolder IFolderCollection.this[string path] => this[path];
 
         IEnumerator<IFolder> IEnumerable<IFolder>.GetEnumerator()
         {

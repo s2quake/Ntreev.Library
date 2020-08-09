@@ -15,11 +15,6 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Ntreev.Library.ObjectModel
 {
     public class CategoryDeletedEventArgs<T> : CategoryEventArgs<T>
@@ -32,9 +27,6 @@ namespace Ntreev.Library.ObjectModel
             this.categoryPath = categoryPath;
         }
 
-        public string CategoryPath
-        {
-            get { return this.categoryPath; }
-        }
+        public string CategoryPath => this.categoryPath;
     }
 }

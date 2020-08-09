@@ -15,49 +15,30 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization
 {
     public static class IFolderExtension
     {
-        public static IFile CreateFileAsync(this IFolder folder, string name, Stream stream, IProgress progress)
+        public static IFile CreateFileAsync(this IFolder folder, string name, Stream stream)
         {
-            return folder.CreateFile(name, stream, stream.Length, progress);
-        }
-
-        public static IFile CreateFile(this IFolder folder, IFile file)
-        {
-            return CreateFile(folder, file, file.Name);
+            return folder.CreateFile(name, stream, stream.Length);
         }
 
         public static IFile CreateFile(this IFolder folder, IFile file, string name)
         {
-            using (var stream = file.OpenRead())
-            {
-                return folder.CreateFile(name, stream, file.Size, new Progress());
-            }
-        }
-
-        public static IFile CreateFile(this IFolder folder, IFile file, string name, IProgress progress)
-        {
-            using (var stream = file.OpenRead())
-            {
-                return folder.CreateFile(name, stream, file.Size, progress);
-            }
+            using var stream = file.OpenRead();
+            return folder.CreateFile(name, stream, file.Size);
         }
 
         public static IFile CreateFile(this IFolder folder, string name)
         {
-            using (var stream = new MemoryStream())
-            {
-                return folder.CreateFile(name, stream, 0, new Progress());
-            }
+            using var stream = new MemoryStream();
+            return folder.CreateFile(name, stream, 0);
         }
 
         public static IFile CreateFile(this IFolder folder, string name, string contents)
@@ -67,14 +48,12 @@ namespace Ntreev.Library.IO.Virtualization
 
         public static IFile CreateFile(this IFolder folder, string name, string contents, Encoding encoding)
         {
-            using (var stream = new MemoryStream())
-            using (var writer = new StreamWriter(stream, encoding))
-            {
-                writer.Write(contents);
-                writer.Flush();
-                stream.Position = 0;
-                return folder.CreateFile(name, stream, stream.Length, new Progress());
-            }
+            using var stream = new MemoryStream();
+            using var writer = new StreamWriter(stream, encoding);
+            writer.Write(contents);
+            writer.Flush();
+            stream.Position = 0;
+            return folder.CreateFile(name, stream, stream.Length);
         }
 
         public static IFile CreateFile(this IFolder folder, string name, IEnumerable<string> contents)
@@ -84,17 +63,15 @@ namespace Ntreev.Library.IO.Virtualization
 
         public static IFile CreateFile(this IFolder folder, string name, IEnumerable<string> contents, Encoding encoding)
         {
-            using (var stream = new MemoryStream())
-            using (var writer = new StreamWriter(stream, encoding))
+            using var stream = new MemoryStream();
+            using var writer = new StreamWriter(stream, encoding);
+            foreach (var item in contents)
             {
-                foreach (var item in contents)
-                {
-                    writer.WriteLine(item);
-                }
-                writer.Flush();
-                stream.Position = 0;
-                return folder.CreateFile(name, stream, stream.Length, new Progress());
+                writer.WriteLine(item);
             }
+            writer.Flush();
+            stream.Position = 0;
+            return folder.CreateFile(name, stream, stream.Length);
         }
 
         public static IEnumerable<string> GetPathList(this IFolder folder)
@@ -107,7 +84,6 @@ namespace Ntreev.Library.IO.Virtualization
                     yield return i;
                 }
             }
-
             foreach (var item in folder.Files)
             {
                 yield return item.Path;
@@ -124,7 +100,6 @@ namespace Ntreev.Library.IO.Virtualization
                     yield return i;
                 }
             }
-
             foreach (var item in folder.Files)
             {
                 yield return item;
@@ -138,7 +113,7 @@ namespace Ntreev.Library.IO.Virtualization
 
         public static string ToLocalPath(this IFolder folder, IFolder rootFolder)
         {
-            int index = folder.Path.IndexOf(rootFolder.Path, StringComparison.OrdinalIgnoreCase);
+            var index = folder.Path.IndexOf(rootFolder.Path, StringComparison.OrdinalIgnoreCase);
             if (index < 0)
                 return folder.Path;
             return folder.Path.Remove(index, rootFolder.Path.Length);

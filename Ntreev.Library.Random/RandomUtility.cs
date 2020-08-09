@@ -15,59 +15,51 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library;
+using Ntreev.Library.IO;
+using Ntreev.Library.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections;
-using Ntreev.Library.ObjectModel;
-using Ntreev.Library.Random.Properties;
-using Ntreev.Library.IO;
 
 namespace Ntreev.Library.Random
 {
     public static class RandomUtility
     {
         private static readonly object lockobj = new object();
+        private static readonly string[] words;
+        private static readonly byte[] longBytes = new byte[8];
+        private static readonly byte[] intBytes = new byte[4];
         private static int count;
         private static System.Random random = new System.Random(DateTime.Now.Millisecond);
-        private static string[] words;
-        private static byte[] longBytes = new byte[8];
-        private static byte[] intBytes = new byte[4];
 
         static RandomUtility()
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var resourceName = string.Join(".", typeof(RandomUtility).Namespace, "Resources", "words.txt");
             var resourceStream = assembly.GetManifestResourceStream(resourceName);
-            using (var stream = new StreamReader(resourceStream))
+            using var stream = new StreamReader(resourceStream);
+            var text = stream.ReadToEnd();
+            int i = 0;
+            using (var sr = new StringReader(text))
             {
-                var text = stream.ReadToEnd();
-                int i = 0;
-                using (var sr = new StringReader(text))
-                {
-                    string line = null;
+                string line = null;
 
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        i++;
-                    }
+                while ((line = sr.ReadLine()) != null)
+                {
+                    i++;
                 }
+            }
 
-                words = new string[i];
-                i = 0;
-                using (var sr = new StringReader(text))
+            words = new string[i];
+            i = 0;
+            using (var sr = new StringReader(text))
+            {
+                string line = null;
+
+                while ((line = sr.ReadLine()) != null)
                 {
-                    string line = null;
-
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        words[i++] = line;
-                    }
+                    words[i++] = line;
                 }
             }
         }
@@ -332,7 +324,7 @@ namespace Ntreev.Library.Random
         {
             var list = enumerable.Where(predicate).ToArray();
             if (list.Any() == false)
-                return default(T);
+                return default;
             var count = list.Length;
             var index = Next(count);
             return list[index];
@@ -378,7 +370,7 @@ namespace Ntreev.Library.Random
                     return item;
             }
 
-            return default(T);
+            return default;
         }
 
         public static T WeightedRandom<T>(this IEnumerable<T> enumerable, Func<T, int> weightSelector)

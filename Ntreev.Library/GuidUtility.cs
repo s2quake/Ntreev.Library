@@ -16,12 +16,9 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Ntreev.Library
 {
@@ -33,23 +30,21 @@ namespace Ntreev.Library
             do
             {
                 id = Guid.NewGuid();
-            } while(char.IsLetter(id.ToString().First()) == false);
+            } while (char.IsLetter(id.ToString().First()) == false);
             return id;
         }
 
         public static Guid FromName(string name)
         {
-            using (var md5 = MD5.Create())
-            {
-                var bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(name));
-                var sb = new StringBuilder();
+            using var md5 = MD5.Create();
+            var bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(name));
+            var sb = new StringBuilder();
 
-                for (var i = 0; i < bytes.Length; i++)
-                {
-                    sb.Append(bytes[i].ToString("x2"));
-                }
-                return Guid.Parse(sb.ToString());
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                sb.Append(bytes[i].ToString("x2"));
             }
+            return Guid.Parse(sb.ToString());
         }
 
         public static Guid Create(long left, long right)

@@ -75,7 +75,7 @@ namespace Ntreev.Library
             {
                 return typeof(decimal);
             }
-            else if (value == typeof(bool) || value == typeof(string) || 
+            else if (value == typeof(bool) || value == typeof(string) ||
                 value == typeof(DateTime) || value == typeof(TimeSpan))
             {
                 return value;

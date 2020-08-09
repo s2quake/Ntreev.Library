@@ -15,19 +15,12 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library;
 using Ntreev.Library.IO;
 using Ntreev.Library.Linq;
 using Ntreev.Library.Properties;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 
 namespace Ntreev.Library.ObjectModel
@@ -42,21 +35,15 @@ namespace Ntreev.Library.ObjectModel
         private string name;
         private string path;
         internal _C parent;
-        private readonly ItemCollection items;
-        private readonly CategoryCollection categories;
-        private readonly ChildCollection childs;
         private _CC container;
-        private int depth;
         private ItemAttributes itemAttributes;
-        private bool isDisposed;
-        private bool isDisposing;
         private PropertyCollection extendedProperties;
 
         public CategoryBase()
         {
-            this.items = new ItemCollection(this);
-            this.categories = new CategoryCollection(this);
-            this.childs = new ChildCollection(this);
+            this.Items = new ItemCollection(this);
+            this.Categories = new CategoryCollection(this);
+            this.Childs = new ChildCollection(this);
         }
 
         internal CategoryBase(ItemAttributes itemAttributes)
@@ -72,10 +59,10 @@ namespace Ntreev.Library.ObjectModel
             var categoryPath = this.Path;
             var container = this.container;
 
-            this.isDisposing = true;
+            this.IsDisposing = true;
             this.OnDeleted(EventArgs.Empty);
-            this.isDisposing = false;
-            this.isDisposed = true;
+            this.IsDisposing = false;
+            this.IsDisposed = true;
 
             if (container != null)
                 container.InvokeCategoryDeleted(categoryPath, this as _C);
@@ -92,9 +79,9 @@ namespace Ntreev.Library.ObjectModel
 
             if (this.Parent == dest.Parent)
                 return this.Path.CompareTo(dest.Path);
-            if (this.depth == dest.depth)
+            if (this.Depth == dest.Depth)
                 return (this.Parent as IComparable).CompareTo(dest.Parent);
-            return this.depth.CompareTo(dest.depth);
+            return this.Depth.CompareTo(dest.Depth);
         }
 
         public void ValidateRename(string newName)
@@ -118,7 +105,7 @@ namespace Ntreev.Library.ObjectModel
             {
                 if (parent.Categories.ContainsKey(newName) == true)
                     throw new ArgumentException(string.Format(Resources.Exception_AlreadyExistedItem_Format, newName));
-                if (parent.items.ContainsKey(newName) == true)
+                if (parent.Items.ContainsKey(newName) == true)
                     throw new ArgumentException(string.Format(Resources.Exception_AlreadyExistedItem_Format, newName));
                 this.ValidateMove(parent);
             }
@@ -138,7 +125,7 @@ namespace Ntreev.Library.ObjectModel
             if (EnumerableUtility.Descendants(this, item => item.Categories).Contains(parent) == true)
                 throw new ArgumentException(Resources.Exception_ChildFolderCannotBeSetAsParent, nameof(parent));
 
-            if (parent.Categories.ContainsKey(this.Name) == true && parent.categories[this.Name] != this)
+            if (parent.Categories.ContainsKey(this.Name) == true && parent.Categories[this.Name] != this)
                 throw new ArgumentException(Resources.Exception_SameFolderInParent, nameof(parent));
 
             if (parent.Items.ContainsKey(this.Name) == true)
@@ -147,7 +134,7 @@ namespace Ntreev.Library.ObjectModel
 
         public void ValidateDelete()
         {
-            if (this.isDisposed == true)
+            if (this.IsDisposed == true)
                 throw new ObjectDisposedException(this.name);
 
             if (this.ItemAttributes.HasFlag(ItemAttributes.Indestructible) == true)
@@ -160,30 +147,24 @@ namespace Ntreev.Library.ObjectModel
             return relative.ToString();
         }
 
-        public ItemCollection Items
-        {
-            get { return this.items; }
-        }
+        public ItemCollection Items { get; }
 
-        public CategoryCollection Categories
-        {
-            get { return this.categories; }
-        }
+        public CategoryCollection Categories { get; }
 
         public _C Parent
         {
-            get { return this.parent; }
+            get => this.parent;
             set
             {
                 if (this.parent == value)
                     return;
 
-                if (this.isDisposing == true)
+                if (this.IsDisposing == true)
                 {
                     if (this.parent != null)
                     {
-                        this.parent.categories.Remove(this as _C);
-                        this.parent.childs.Remove(this);
+                        this.parent.Categories.Remove(this as _C);
+                        this.parent.Childs.Remove(this);
                     }
                     this.parent = null;
                     return;
@@ -197,15 +178,15 @@ namespace Ntreev.Library.ObjectModel
 
                 if (this.parent != null)
                 {
-                    this.parent.categories.Remove(this as _C);
-                    this.parent.childs.Remove(this);
+                    this.parent.Categories.Remove(this as _C);
+                    this.parent.Childs.Remove(this);
                 }
                 this.parent = value;
                 this.path = null;
                 if (this.parent != null)
                 {
-                    this.parent.categories.Add(this as _C);
-                    this.parent.childs.Add(this);
+                    this.parent.Categories.Add(this as _C);
+                    this.parent.Childs.Add(this);
                 }
                 this.OnMoved(EventArgs.Empty);
                 this.OnPathChanged(oldPath, this.Path);
@@ -240,8 +221,8 @@ namespace Ntreev.Library.ObjectModel
                 this.path = null;
                 if (parent != null)
                 {
-                    parent.categories.Move(oldName, this as _C);
-                    parent.childs.Move(oldName, this);
+                    parent.Categories.Move(oldName, this as _C);
+                    parent.Childs.Move(oldName, this);
                 }
 
                 this.OnRenamed(EventArgs.Empty);
@@ -264,26 +245,13 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        public string Key
-        {
-            get { return this.Path; }
-        }
+        public string Key => this.Path;
 
-        public bool IsDisposed
-        {
-            get { return this.isDisposed; }
-            internal set { this.isDisposed = value; }
-        }
+        public bool IsDisposed { get; internal set; }
 
-        public int Depth
-        {
-            get { return this.depth; }
-        }
+        public int Depth { get; private set; }
 
-        public virtual ItemAttributes ItemAttributes
-        {
-            get { return this.itemAttributes; }
-        }
+        public virtual ItemAttributes ItemAttributes => this.itemAttributes;
 
         [Browsable(false)]
         public PropertyCollection ExtendedProperties
@@ -300,12 +268,12 @@ namespace Ntreev.Library.ObjectModel
 
         public _CC Container
         {
-            get { return this.container; }
+            get => this.container;
             internal set
             {
                 var isSame = this.container == value;
                 this.container = value;
-                this.depth = this.Parent == null ? 0 : this.Parent.Path.Where(item => item == PathUtility.SeparatorChar).Count() + 1;
+                this.Depth = this.Parent == null ? 0 : this.Parent.Path.Where(item => item == PathUtility.SeparatorChar).Count() + 1;
                 this.path = null;
 
                 if (isSame == false)
@@ -343,10 +311,7 @@ namespace Ntreev.Library.ObjectModel
             this.OnPathChanged(null, PathUtility.Separator);
         }
 
-        internal ChildCollection Childs
-        {
-            get { return this.childs; }
-        }
+        internal ChildCollection Childs { get; }
 
         protected virtual void OnRenamed(EventArgs e)
         {
@@ -377,7 +342,7 @@ namespace Ntreev.Library.ObjectModel
 
             this.parent = null;
             this.container = null;
-            this.depth = 0;
+            this.Depth = 0;
         }
 
         protected virtual void OnAttached()
@@ -405,7 +370,7 @@ namespace Ntreev.Library.ObjectModel
 
         protected void SetItemAttributes(ItemAttributes flag, bool value)
         {
-            flag = flag & ~ItemAttributes.Root;
+            flag &= ~ItemAttributes.Root;
 
             if (value == true)
             {
@@ -417,10 +382,7 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        protected internal bool IsDisposing
-        {
-            get { return this.isDisposing; }
-        }
+        protected internal bool IsDisposing { get; private set; }
 
         private static string CreatePath(string name, _C parent)
         {
@@ -433,8 +395,8 @@ namespace Ntreev.Library.ObjectModel
 
         ItemAttributes IItemAttributeProvider.ItemAttributes
         {
-            get { return this.itemAttributes; }
-            set { this.itemAttributes = value; }
+            get => this.itemAttributes;
+            set => this.itemAttributes = value;
         }
         #endregion
 
@@ -442,11 +404,9 @@ namespace Ntreev.Library.ObjectModel
 
         public class ItemCollection : ContainerBase<_I>
         {
-            private readonly CategoryBase<_I, _C, _IC, _CC, _CT> category;
-
             public ItemCollection(CategoryBase<_I, _C, _IC, _CC, _CT> category)
             {
-                this.category = category;
+                this.Category = category;
             }
 
             internal void Add(_I item)
@@ -467,27 +427,16 @@ namespace Ntreev.Library.ObjectModel
                 this.ReplaceKeyBase(oldName, item.Name);
             }
 
-            internal CategoryBase<_I, _C, _IC, _CC, _CT> Category
-            {
-                get { return this.category; }
-            }
+            internal CategoryBase<_I, _C, _IC, _CC, _CT> Category { get; }
 
-            public new _I this[string name]
-            {
-                get
-                {
-                    return base[name];
-                }
-            }
+            public new _I this[string name] => base[name];
         }
 
         public class CategoryCollection : ContainerBase<_C>
         {
-            private readonly CategoryBase<_I, _C, _IC, _CC, _CT> category;
-
             public CategoryCollection(CategoryBase<_I, _C, _IC, _CC, _CT> category)
             {
-                this.category = category;
+                this.Category = category;
             }
 
             internal void Add(_C category)
@@ -507,33 +456,22 @@ namespace Ntreev.Library.ObjectModel
                 this.ReplaceKeyBase(oldName, category.Name);
             }
 
-            internal CategoryBase<_I, _C, _IC, _CC, _CT> Category
-            {
-                get { return this.category; }
-            }
+            internal CategoryBase<_I, _C, _IC, _CC, _CT> Category { get; }
 
-            public new _C this[string name]
-            {
-                get
-                {
-                    return base[name];
-                }
-            }
+            public new _C this[string name] => base[name];
         }
 
         internal class ChildCollection : ContainerBase<IItem>
         {
-            private readonly CategoryBase<_I, _C, _IC, _CC, _CT> category;
-
             public ChildCollection(CategoryBase<_I, _C, _IC, _CC, _CT> category)
             {
-                this.category = category;
+                this.Category = category;
             }
+
+            public CategoryBase<_I, _C, _IC, _CC, _CT> Category { get; }
 
             internal void Add(IItem category)
             {
-                //if (category.IsDisposed == true)
-                //    throw new ObjectDisposedException(category.Name);
                 this.AddBase(category.Name, category);
             }
 
@@ -552,15 +490,9 @@ namespace Ntreev.Library.ObjectModel
 
         #region IItem
 
-        IItem IItem.Parent
-        {
-            get { return this.Parent; }
-        }
+        IItem IItem.Parent => this.Parent;
 
-        IContainer<IItem> IItem.Childs
-        {
-            get { return this.childs; }
-        }
+        IContainer<IItem> IItem.Childs => this.Childs;
 
         #endregion
     }

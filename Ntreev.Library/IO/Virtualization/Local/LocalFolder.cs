@@ -17,10 +17,7 @@
 
 using Ntreev.Library.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization.Local
 {
@@ -28,19 +25,19 @@ namespace Ntreev.Library.IO.Virtualization.Local
     {
         public LocalFolder CreateFolder(string name)
         {
-            string path = this.GenerateFolderPath(name);
+            var path = this.GenerateFolderPath(name);
             Directory.CreateDirectory(path);
             return this.Container.AddNew(this, name);
         }
 
-        public LocalFile CreateFile(string name, Stream stream, long length, IProgress progress)
+        public LocalFile CreateFile(string name, Stream stream, long length)
         {
-            string path = this.GenerateFilePath(name);
-            using(Stream writeStream = File.Create(path))
+            var path = this.GenerateFilePath(name);
+            using (var writeStream = File.Create(path))
             {
-                stream.CopyTo(length, writeStream, progress);
+                stream.CopyTo(length, writeStream, new Progress());
             }
-            LocalFile file = this.Context.Items.AddNew(this, name);
+            var file = this.Context.Items.AddNew(this, name);
 
             file.Size = length;
             file.ModifiedDateTime = File.GetLastWriteTime(path);
@@ -50,7 +47,7 @@ namespace Ntreev.Library.IO.Virtualization.Local
 
         public void Rename(string name)
         {
-            string newPath = System.IO.Path.Combine(this.Parent.LocalPath, name);
+            var newPath = System.IO.Path.Combine(this.Parent.LocalPath, name);
             Directory.Move(this.LocalPath, newPath);
             this.Name = name;
         }
@@ -63,8 +60,8 @@ namespace Ntreev.Library.IO.Virtualization.Local
 
         public void MoveTo(string folderPath)
         {
-            LocalFolder parentFolder = this.Container[folderPath];
-            string newPath = System.IO.Path.Combine(parentFolder.LocalPath, this.Name);
+            var parentFolder = this.Container[folderPath];
+            var newPath = System.IO.Path.Combine(parentFolder.LocalPath, this.Name);
             Directory.Move(this.LocalPath, newPath);
             this.Parent = parentFolder;
         }
@@ -79,13 +76,7 @@ namespace Ntreev.Library.IO.Virtualization.Local
             return System.IO.Path.Combine(this.LocalPath, name);
         }
 
-        public string LocalPath
-        {
-            get 
-            {
-                return string.Format("{0}{1}", this.Context.LocalPath, this.Path); 
-            }
-        }
+        public string LocalPath => string.Format("{0}{1}", this.Context.LocalPath, this.Path);
 
         public DateTime ModifiedDateTime
         {
@@ -100,35 +91,20 @@ namespace Ntreev.Library.IO.Virtualization.Local
             return this.CreateFolder(name);
         }
 
-        IFile IFolder.CreateFile(string name, Stream stream, long length, IProgress progress)
+        IFile IFolder.CreateFile(string name, Stream stream, long length)
         {
-            return this.CreateFile(name, stream, length, progress);
+            return this.CreateFile(name, stream, length);
         }
 
-        IFolder IFolder.Parent
-        {
-            get { return this.Parent; }
-        }
+        IFolder IFolder.Parent => this.Parent;
 
-        IContainer<IFolder> IFolder.Folders
-        {
-            get { return this.Categories; }
-        }
+        IContainer<IFolder> IFolder.Folders => this.Categories;
 
-        IContainer<IFile> IFolder.Files
-        {
-            get { return this.Items; }
-        }
+        IContainer<IFile> IFolder.Files => this.Items;
 
-        IStorage IFolder.Storage
-        {
-            get { return this.Context; }
-        }
+        IStorage IFolder.Storage => this.Context;
 
-        string IFileSystem.Path
-        {
-            get { return this.Path; }
-        }
+        string IFileSystem.Path => this.Path;
 
         #endregion
     }

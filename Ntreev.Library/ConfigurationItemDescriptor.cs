@@ -10,7 +10,7 @@ namespace Ntreev.Library
                 throw new ArgumentException();
             this.PropertyName = name;
             this.Comment = comment ?? string.Empty;
-            this.DefaultValue = DefaultValue;
+            this.DefaultValue = defaultValue;
             this.PropertyType = type;
         }
 

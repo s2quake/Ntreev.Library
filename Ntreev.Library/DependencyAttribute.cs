@@ -36,10 +36,7 @@ namespace Ntreev.Library
             this.typeName = type.AssemblyQualifiedName;
         }
 
-        public string DependencyTypeName
-        {
-            get { return this.typeName; }
-        }
+        public string DependencyTypeName => this.typeName;
 
         internal Type DependencyType
         {

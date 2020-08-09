@@ -15,16 +15,12 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Ntreev.Library.Linq;
+using Ntreev.Library.Properties;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.IO;
-using System.Collections;
-using System;
-using Ntreev.Library;
-using System.Diagnostics;
-using Ntreev.Library.Properties;
-using Ntreev.Library.Linq;
 
 namespace Ntreev.Library.ObjectModel
 {
@@ -51,13 +47,7 @@ namespace Ntreev.Library.ObjectModel
             return query.ToArray();
         }
 
-        public new _C this[string categoryPath]
-        {
-            get
-            {
-                return base[categoryPath];
-            }
-        }
+        public new _C this[string categoryPath] => base[categoryPath];
 
         public _C Prepare(string categoryPath)
         {
@@ -270,14 +260,11 @@ namespace Ntreev.Library.ObjectModel
 
         }
 
-        protected _IC ItemContainer
-        {
-            get { return this.context.Items; }
-        }
+        protected _IC ItemContainer => this.context.Items;
 
         public _CT Context
         {
-            get { return this.context; }
+            get => this.context;
             internal set
             {
                 this.context = value;
@@ -315,7 +302,6 @@ namespace Ntreev.Library.ObjectModel
 
             foreach (_C item in items)
             {
-                _C d = this[item.Path];
                 this.RemoveBase(item.Path);
             }
         }

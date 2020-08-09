@@ -17,10 +17,8 @@
 
 using Ntreev.Library.Properties;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -63,7 +61,6 @@ namespace Ntreev.Library.IO
             var tempFileName = Path.GetTempFileName();
             File.Delete(tempFileName);
             Thread.Sleep(1);
-            var directoryName = Path.GetDirectoryName(tempFileName);
             var fileName = Path.GetFileNameWithoutExtension(tempFileName);
             var tempPath = Path.Combine(targetPath, fileName);
             if (Directory.Exists(tempPath) == true)

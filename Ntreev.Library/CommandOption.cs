@@ -4,8 +4,8 @@ namespace Ntreev.Library
 {
     public class CommandOption
     {
-        private object key;
-        private object value;
+        private readonly object key;
+        private readonly object value;
 
         public CommandOption(string name)
         {
@@ -31,14 +31,14 @@ namespace Ntreev.Library
 
         public override string ToString()
         {
-            if (this.key is string s)
+            if (this.key is string)
             {
                 if (this.value == null)
                     return $"--{this.key}";
                 else
                     return $"--{this.key} {this.value}";
             }
-            else if (this.key is char c)
+            else if (this.key is char)
             {
                 if (this.value == null)
                     return $"-{this.key}";

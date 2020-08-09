@@ -17,10 +17,7 @@
 
 using Ntreev.Library.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization.Memory
 {
@@ -31,7 +28,7 @@ namespace Ntreev.Library.IO.Virtualization.Memory
             return this.Container.AddNew(this, name);
         }
 
-        public MemoryFile CreateFile(string name, Stream stream, long length, IProgress progress)
+        public MemoryFile CreateFile(string name, Stream stream, long length)
         {
             var file = this.Context.Items.AddNew(this, name);
 
@@ -73,35 +70,20 @@ namespace Ntreev.Library.IO.Virtualization.Memory
             return this.CreateFolder(name);
         }
 
-        IFile IFolder.CreateFile(string name, Stream stream, long length, IProgress progress)
+        IFile IFolder.CreateFile(string name, Stream stream, long length)
         {
-            return this.CreateFile(name, stream, length, progress);
+            return this.CreateFile(name, stream, length);
         }
 
-        IFolder IFolder.Parent
-        {
-            get { return this.Parent; }
-        }
+        IFolder IFolder.Parent => this.Parent;
 
-        IContainer<IFolder> IFolder.Folders
-        {
-            get { return this.Categories; }
-        }
+        IContainer<IFolder> IFolder.Folders => this.Categories;
 
-        IContainer<IFile> IFolder.Files
-        {
-            get { return this.Items; }
-        }
+        IContainer<IFile> IFolder.Files => this.Items;
 
-        IStorage IFolder.Storage
-        {
-            get { return this.Context; }
-        }
+        IStorage IFolder.Storage => this.Context;
 
-        string IFileSystem.Path
-        {
-            get { return this.Path; }
-        }
+        string IFileSystem.Path => this.Path;
 
         #endregion
     }

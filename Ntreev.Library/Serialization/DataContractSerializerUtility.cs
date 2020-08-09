@@ -19,7 +19,6 @@ using Ntreev.Library.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
@@ -28,7 +27,7 @@ namespace Ntreev.Library.Serialization
 {
     public static class DataContractSerializerUtility
     {
-        private static Dictionary<Type, DataContractSerializer> serializers = new Dictionary<Type, DataContractSerializer>();
+        private static readonly Dictionary<Type, DataContractSerializer> serializers = new Dictionary<Type, DataContractSerializer>();
 
         public static DataContractSerializer GetSerializer(Type type)
         {
@@ -50,16 +49,12 @@ namespace Ntreev.Library.Serialization
 
         public static string GetString(object obj, bool indent)
         {
-            using (var stream = new MemoryStream())
-            {
-                Write(stream, obj, indent);
-                stream.Position = 0;
+            using var stream = new MemoryStream();
+            Write(stream, obj, indent);
+            stream.Position = 0;
 
-                using (var reader = new StreamReader(stream))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
 
         public static void Write(XmlWriter writer, object obj)
@@ -75,13 +70,9 @@ namespace Ntreev.Library.Serialization
 
         public static void Write(Stream stream, object obj, bool indent)
         {
-            var serializer = GetSerializer(obj.GetType());
-
             var settings = new XmlWriterSettings() { Indent = indent, Encoding = Encoding.UTF8, };
-            using (var writer = XmlWriter.Create(stream, settings))
-            {
-                Write(writer, obj);
-            }
+            using var writer = XmlWriter.Create(stream, settings);
+            Write(writer, obj);
         }
 
         public static void Write(string filename, object obj)
@@ -91,10 +82,8 @@ namespace Ntreev.Library.Serialization
 
         public static void Write(string filename, object obj, bool indent)
         {
-            using (var stream = FileUtility.OpenWrite(filename))
-            {
-                Write(stream, obj, indent);
-            }
+            using var stream = FileUtility.OpenWrite(filename);
+            Write(stream, obj, indent);
         }
 
         public static object Read(XmlReader reader, Type type)
@@ -111,10 +100,8 @@ namespace Ntreev.Library.Serialization
 
         public static object Read(string filename, Type type)
         {
-            using (var stream = File.OpenRead(filename))
-            {
-                return Read(stream, type);
-            }
+            using var stream = File.OpenRead(filename);
+            return Read(stream, type);
         }
 
         public static T Read<T>(XmlReader reader)
@@ -134,11 +121,9 @@ namespace Ntreev.Library.Serialization
 
         public static object ReadString(string text, Type type)
         {
-            using (var sr = new StringReader(text))
-            using (var reader = XmlReader.Create(sr))
-            {
-                return Read(reader, type);
-            }
+            using var sr = new StringReader(text);
+            using var reader = XmlReader.Create(sr);
+            return Read(reader, type);
         }
 
         public static T ReadString<T>(string text)

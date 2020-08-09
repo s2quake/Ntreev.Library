@@ -32,13 +32,14 @@ namespace Ntreev.Library
         {
             get
             {
-                var assembly = Assembly.GetEntryAssembly();
-                return FileVersionInfo.GetVersionInfo(assembly.Location).ProductName;
+                if (productName == null)
+                {
+                    var assembly = Assembly.GetEntryAssembly();
+                    productName = FileVersionInfo.GetVersionInfo(assembly.Location).ProductName;
+                }
+                return productName;
             }
-            set
-            {
-                productName = value;
-            }
+            set => productName = value;
         }
 
         public static string ProductVersion
@@ -51,19 +52,10 @@ namespace Ntreev.Library
                 var versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
                 return versionInfo.ProductVersion;
             }
-            set
-            {
-                productVersion = value;
-            }
+            set => productVersion = value;
         }
 
-        public static string StartupPath
-        {
-            get
-            {
-                return System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-            }
-        }
+        public static string StartupPath => System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 
         public static string UserAppDataPath
         {
@@ -73,17 +65,13 @@ namespace Ntreev.Library
                     return userAppDataPath;
                 return GetUserAppDataPath();
             }
-            set
-            {
-                userAppDataPath = value;
-            }
+            set => userAppDataPath = value;
         }
 
         public static string GetUserAppDataPath()
         {
             var assembly = Assembly.GetEntryAssembly();
-            var attr = assembly.GetCustomAttribute(typeof(AssemblyCompanyAttribute)) as AssemblyCompanyAttribute;
-            var companyName = attr == null || attr.Company == string.Empty ? "UnknownCompany" : attr.Company;
+            var companyName = !(assembly.GetCustomAttribute(typeof(AssemblyCompanyAttribute)) is AssemblyCompanyAttribute attr) || attr.Company == string.Empty ? "UnknownCompany" : attr.Company;
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), companyName, assembly.GetName().Name.ToString());
             return path;
         }

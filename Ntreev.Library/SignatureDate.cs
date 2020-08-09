@@ -15,15 +15,9 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.Serialization;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 
 namespace Ntreev.Library
 {
@@ -113,15 +107,15 @@ namespace Ntreev.Library
         [DataMember(EmitDefaultValue = false)]
         public DateTime DateTime
         {
-            get { return this.dateTime; }
-            set { this.dateTime = value; }
+            get => this.dateTime;
+            set => this.dateTime = value;
         }
 
         [DataMember(EmitDefaultValue = false)]
         public string ID
         {
-            get { return this.id; }
-            set { this.id = value; }
+            get => this.id;
+            set => this.id = value;
         }
 
         public static bool operator ==(SignatureDate left, SignatureDate right)

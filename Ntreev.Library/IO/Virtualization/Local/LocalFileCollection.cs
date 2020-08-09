@@ -19,17 +19,12 @@ using Ntreev.Library.ObjectModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization.Local
 {
     public class LocalFileCollection : ItemContainer<LocalFile, LocalFolder, LocalFileCollection, LocalFolderCollection, LocalStorage>, IFileCollection
     {
-        public override bool SupportsNonUniqueName
-        {
-            get { return true; }
-        }
+        public override bool SupportsNonUniqueName => true;
 
         internal LocalFile AddNew(LocalFolder parent, string name)
         {

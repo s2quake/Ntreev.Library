@@ -19,9 +19,7 @@ using Ntreev.Library.IO;
 using Ntreev.Library.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.ObjectModel
 {
@@ -57,7 +55,7 @@ namespace Ntreev.Library.ObjectModel
 
         public string Path
         {
-            get { return this.path; }
+            get => this.path;
             set
             {
                 NameValidator.ValidateCategoryPath(value);
@@ -72,14 +70,11 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        public string ParentPath
-        {
-            get { return this.parentPath; }
-        }
+        public string ParentPath => this.parentPath;
 
         public string Name
         {
-            get { return this.name; }
+            get => this.name;
             set
             {
                 this.name = value;
@@ -87,13 +82,7 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        public string[] Segments
-        {
-            get
-            {
-                return this.path.Split(new char[] { PathUtility.SeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
-            }
-        }
+        public string[] Segments => this.path.Split(new char[] { PathUtility.SeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
 
         public static implicit operator string(CategoryName categoryName)
         {
@@ -129,7 +118,7 @@ namespace Ntreev.Library.ObjectModel
 
             var result = query.Concat(items)
                               .Distinct()
-                              .Where(item => categoryOnly == true ? NameValidator.VerifyCategoryPath(item) : true)
+                              .Where(item => categoryOnly != true || NameValidator.VerifyCategoryPath(item))
                               .OrderBy(item => item)
                               .ToArray();
 
@@ -137,7 +126,7 @@ namespace Ntreev.Library.ObjectModel
                 return result;
             return new string[] { PathUtility.Separator };
 
-            IEnumerable<string> QueryParents(string path)
+            static IEnumerable<string> QueryParents(string path)
             {
                 return EnumerableUtility.Ancestors(path, item =>
                 {

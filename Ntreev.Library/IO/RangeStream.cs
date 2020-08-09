@@ -16,10 +16,7 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.IO
 {
@@ -27,57 +24,36 @@ namespace Ntreev.Library.IO
     {
         private readonly Stream stream;
         private readonly long position;
-        private readonly long length;
 
-        public RangeStream(Stream stream, long position, long length)
+        public RangeStream(Stream stream, long position)
         {
             this.stream = stream;
             this.position = position;
-            this.length = length;
         }
 
         public RangeStream(Stream stream)
         {
             this.stream = stream;
             this.position = stream.Position;
-            this.length = stream.Length;
         }
 
-        public override bool CanRead
-        {
-            get { return this.stream.CanRead; }
-        }
+        public override bool CanRead => this.stream.CanRead;
 
-        public override bool CanSeek
-        {
-            get { return this.stream.CanSeek; }
-        }
+        public override bool CanSeek => this.stream.CanSeek;
 
-        public override bool CanWrite
-        {
-            get { return this.stream.CanWrite; }
-        }
+        public override bool CanWrite => this.stream.CanWrite;
 
         public override void Flush()
         {
-            
+
         }
 
-        public override long Length
-        {
-            get { return this.stream.Length - this.position; }
-        }
+        public override long Length => this.stream.Length - this.position;
 
         public override long Position
         {
-            get
-            {
-                return this.stream.Position - this.position;
-            }
-            set
-            {
-                this.stream.Position = this.position + value;
-            }
+            get => this.stream.Position - this.position;
+            set => this.stream.Position = this.position + value;
         }
 
         public override int Read(byte[] buffer, int offset, int count)

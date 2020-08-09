@@ -19,7 +19,7 @@ namespace Ntreev.Library
 {
     public enum ConsoleProgressStyle
     {
-        None, 
+        None,
 
         Percent,
 

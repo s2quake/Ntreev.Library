@@ -15,11 +15,7 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library
 {
@@ -63,7 +59,7 @@ namespace Ntreev.Library
 
         public void Begin(int steps, string format, params object[] args)
         {
-            this.Begin(step, string.Format(format, args));
+            this.Begin(steps, string.Format(format, args));
         }
 
         /// <summary>
@@ -159,10 +155,7 @@ namespace Ntreev.Library
             this.Fail(e.Message);
         }
 
-        public int Step
-        {
-            get { return this.step; }
-        }
+        public int Step => this.step;
 
         public event ProgressChangedEventHandler Changed;
 

@@ -15,14 +15,13 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Ntreev.Library.ObjectModel;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
-using Ntreev.Library;
 using System.Security.Cryptography;
-using Ntreev.Library.ObjectModel;
+using System.Text;
 
 namespace Ntreev.Library.IO
 {
@@ -30,7 +29,7 @@ namespace Ntreev.Library.IO
     {
         private const string backupPostFix = ".bak";
 
-        public static void Copy(string sourceFileName, string destFileName, bool overwrite)
+        public static void Copy(string sourceFileName, string destFileName)
         {
             var isExistPrevImage = false;
             var attr = FileAttributes.Archive;
@@ -45,7 +44,6 @@ namespace Ntreev.Library.IO
 
             if (isExistPrevImage == true)
                 File.SetAttributes(destFileName, attr);
-
         }
 
         public static void SetAttribute(string path, FileAttributes fileAttributes)
@@ -78,10 +76,8 @@ namespace Ntreev.Library.IO
 
         public static string GetString(string filename)
         {
-            using (StreamReader sr = new StreamReader(filename))
-            {
-                return sr.ReadToEnd();
-            }
+            using StreamReader sr = new StreamReader(filename);
+            return sr.ReadToEnd();
         }
 
         public static string ToAbsolutePath(string path)
@@ -118,18 +114,16 @@ namespace Ntreev.Library.IO
 
         public static string GetHash(string filename)
         {
-            using (var sha = new SHA256CryptoServiceProvider())
-            using (var stream = File.OpenRead(filename))
-            {
-                var bytes = sha.ComputeHash(stream);
+            using var sha = new SHA256CryptoServiceProvider();
+            using var stream = File.OpenRead(filename);
+            var bytes = sha.ComputeHash(stream);
 
-                var sBuilder = new StringBuilder();
-                for (var i = 0; i < bytes.Length; i++)
-                {
-                    sBuilder.Append(bytes[i].ToString("x2"));
-                }
-                return sBuilder.ToString();
+            var sBuilder = new StringBuilder();
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                sBuilder.Append(bytes[i].ToString("x2"));
             }
+            return sBuilder.ToString();
         }
 
         public static void Prepare(string filename)
@@ -206,7 +200,7 @@ namespace Ntreev.Library.IO
                 return;
             var backupPath = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileName(filename) + backupPostFix);
             FileUtility.Delete(backupPath);
-            FileUtility.Copy(filename, backupPath, false);
+            FileUtility.Copy(filename, backupPath);
             FileUtility.Delete(filename);
         }
 
@@ -216,7 +210,7 @@ namespace Ntreev.Library.IO
             if (File.Exists(backupPath) == false)
                 return;
             FileUtility.Delete(filename);
-            FileUtility.Copy(backupPath, filename, false);
+            FileUtility.Copy(backupPath, filename);
             FileUtility.Delete(backupPath);
         }
 

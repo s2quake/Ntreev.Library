@@ -15,16 +15,11 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Ntreev.Library.ObjectModel
 {
     public class ItemCreatedEventArgs<T> : ItemEventArgs<T>
     {
-        private object[] args;
+        private readonly object[] args;
 
         public ItemCreatedEventArgs(T item, params object[] args)
             : base(item)
@@ -32,9 +27,6 @@ namespace Ntreev.Library.ObjectModel
             this.args = args;
         }
 
-        public object[] Arguments
-        {
-            get { return this.args; }
-        }
+        public object[] Arguments => this.args;
     }
 }

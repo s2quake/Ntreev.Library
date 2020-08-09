@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization
@@ -32,11 +31,9 @@ namespace Ntreev.Library.IO.Virtualization
 
         public static string ReadAllText(this IFile file, Encoding encoding)
         {
-            using (var stream = file.OpenRead())
-            using (var reader = new StreamReader(stream, encoding))
-            {
-                return reader.ReadToEnd();
-            }
+            using var stream = file.OpenRead();
+            using var reader = new StreamReader(stream, encoding);
+            return reader.ReadToEnd();
         }
 
         public static IEnumerable<string> ReadAllLines(this IFile file)
@@ -66,11 +63,9 @@ namespace Ntreev.Library.IO.Virtualization
 
         public static void WriteAllText(this IFile file, string contents, Encoding encoding)
         {
-            using (var stream = file.OpenWrite())
-            using (var writer = new StreamWriter(stream, encoding))
-            {
-                writer.Write(contents);
-            }
+            using var stream = file.OpenWrite();
+            using var writer = new StreamWriter(stream, encoding);
+            writer.Write(contents);
         }
 
         public static void WriteAllLines(this IFile file, IEnumerable<string> contents)
@@ -80,23 +75,19 @@ namespace Ntreev.Library.IO.Virtualization
 
         public static void WriteAllLines(this IFile file, IEnumerable<string> contents, Encoding encoding)
         {
-            using (var stream = file.OpenWrite())
-            using (var writer = new StreamWriter(stream, encoding))
+            using var stream = file.OpenWrite();
+            using var writer = new StreamWriter(stream, encoding);
+            foreach (var item in contents)
             {
-                foreach (var item in contents)
-                {
-                    writer.WriteLine(item);
-                }
+                writer.WriteLine(item);
             }
         }
 
         public static void Modify(this IFile file, IFile sourceFile)
         {
-            using (var readStream = sourceFile.OpenRead())
-            using (var writeStream = file.OpenWrite())
-            {
-                readStream.CopyTo(writeStream);
-            }
+            using var readStream = sourceFile.OpenRead();
+            using var writeStream = file.OpenWrite();
+            readStream.CopyTo(writeStream);
         }
 
         public static string ToLocalPath(this IFile file)

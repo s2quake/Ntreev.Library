@@ -17,14 +17,9 @@
 
 using Ntreev.Library.ObjectModel;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Ntreev.Library.IO.Virtualization.Local
 {
@@ -43,37 +38,26 @@ namespace Ntreev.Library.IO.Virtualization.Local
             return this.LocalPath;
         }
 
-        public string LocalPath
-        {
-            get { return this.uri.LocalPath; }
-        }
+        public string LocalPath => this.uri.LocalPath;
 
-        public string Name
-        {
-            get { return this.LocalPath; }
-        }
+        public string Name => this.LocalPath;
 
-        public Uri Uri
-        {
-            get { return this.uri; }
-        }
+        public Uri Uri => this.uri;
 
         internal string GetHashValue(LocalFile file)
         {
-            using (var hashBuilder = SHA256.Create())
-            using (var stream = File.OpenRead(file.LocalPath))
+            using var hashBuilder = SHA256.Create();
+            using var stream = File.OpenRead(file.LocalPath);
+            var data = hashBuilder.ComputeHash(stream);
+
+            var sBuilder = new StringBuilder();
+
+            for (var i = 0; i < data.Length; i++)
             {
-                var data = hashBuilder.ComputeHash(stream);
-
-                var sBuilder = new StringBuilder();
-
-                for (var i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
-
-                return sBuilder.ToString();
+                sBuilder.Append(data[i].ToString("x2"));
             }
+
+            return sBuilder.ToString();
         }
 
         private void LoadCategories(LocalFolder parentCategory)
@@ -131,20 +115,11 @@ namespace Ntreev.Library.IO.Virtualization.Local
 
         #region IStorage
 
-        IFolder IStorage.Root
-        {
-            get { return this.Root; }
-        }
+        IFolder IStorage.Root => this.Root;
 
-        IFolderCollection IStorage.Folders
-        {
-            get { return this.Categories; }
-        }
+        IFolderCollection IStorage.Folders => this.Categories;
 
-        IFileCollection IStorage.Files
-        {
-            get { return this.Items; }
-        }
+        IFileCollection IStorage.Files => this.Items;
 
         #endregion
     }

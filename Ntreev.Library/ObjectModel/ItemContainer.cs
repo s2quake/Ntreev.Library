@@ -15,16 +15,11 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Ntreev.Library.Properties;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System;
-using System.Collections;
-using System.Diagnostics;
-using Ntreev.Library;
-using System.ComponentModel;
-using System.Reflection;
-using Ntreev.Library.Properties;
 
 namespace Ntreev.Library.ObjectModel
 {
@@ -110,13 +105,7 @@ namespace Ntreev.Library.ObjectModel
             return query.ToArray();
         }
 
-        public new _I this[string name]
-        {
-            get
-            {
-                return base[name];
-            }
-        }
+        public new _I this[string name] => base[name];
 
         public _I this[string name, string categoryPath]
         {
@@ -135,10 +124,7 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        public virtual bool SupportsNonUniqueName
-        {
-            get { return false; }
-        }
+        public virtual bool SupportsNonUniqueName => false;
 
         public event ItemCreatedEventHandler<_I> ItemCreated;
 
@@ -419,7 +405,7 @@ namespace Ntreev.Library.ObjectModel
 
         public _CT Context
         {
-            get { return this.context; }
+            get => this.context;
             internal set
             {
                 this.context = value;
@@ -427,10 +413,7 @@ namespace Ntreev.Library.ObjectModel
             }
         }
 
-        private _CC CategoryContainer
-        {
-            get { return this.context.Categories; }
-        }
+        private _CC CategoryContainer => this.context.Categories;
 
         private void Item_Deleted(object sender, EventArgs e)
         {

@@ -17,21 +17,16 @@
 
 using Ntreev.Library.ObjectModel;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Ntreev.Library.IO.Virtualization.Memory
 {
     public class MemoryStorage : ItemContext<MemoryFile, MemoryFolder, MemoryFileCollection, MemoryFolderCollection, MemoryStorage>, IStorage
     {
-        private string name;
-        private Uri uri = null;
+        private readonly string name;
+        private readonly Uri uri = null;
 
         public MemoryStorage()
             : this(string.Empty)
@@ -49,50 +44,33 @@ namespace Ntreev.Library.IO.Virtualization.Memory
             return this.name;
         }
 
-        public string Name
-        {
-            get { return this.name; }
-        }
+        public string Name => this.name;
 
-        public Uri Uri
-        {
-            get { return this.uri; }
-        }
+        public Uri Uri => this.uri;
 
         internal string GetHashValue(MemoryFile file)
         {
-            using (SHA256 hashBuilder = SHA256.Create())
-            using (Stream stream = new MemoryStream(file.Data))
+            using SHA256 hashBuilder = SHA256.Create();
+            using Stream stream = new MemoryStream(file.Data);
+            byte[] data = hashBuilder.ComputeHash(stream);
+
+            StringBuilder sBuilder = new StringBuilder();
+
+            for (int i = 0; i < data.Length; i++)
             {
-                byte[] data = hashBuilder.ComputeHash(stream);
-
-                StringBuilder sBuilder = new StringBuilder();
-
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
-
-                return sBuilder.ToString();
+                sBuilder.Append(data[i].ToString("x2"));
             }
+
+            return sBuilder.ToString();
         }
 
         #region IStorage
 
-        IFolder IStorage.Root
-        {
-            get { return this.Root; }
-        }
+        IFolder IStorage.Root => this.Root;
 
-        IFolderCollection IStorage.Folders
-        {
-            get { return this.Categories; }
-        }
+        IFolderCollection IStorage.Folders => this.Categories;
 
-        IFileCollection IStorage.Files
-        {
-            get { return this.Items; }
-        }
+        IFileCollection IStorage.Files => this.Items;
 
         #endregion
     }

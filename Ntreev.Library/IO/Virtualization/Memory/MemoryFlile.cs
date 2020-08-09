@@ -17,10 +17,7 @@
 
 using Ntreev.Library.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization.Memory
 {
@@ -77,26 +74,17 @@ namespace Ntreev.Library.IO.Virtualization.Memory
 
         internal byte[] Data
         {
-            get { return this.data; }
-            set { this.data = value; }
+            get => this.data;
+            set => this.data = value;
         }
 
         #region IFile
 
-        IFolder IFile.Parent
-        {
-            get { return this.Category; }
-        }
+        IFolder IFile.Parent => this.Category;
 
-        IStorage IFile.Storage
-        {
-            get { return this.Context; }
-        }
+        IStorage IFile.Storage => this.Context;
 
-        string IFileSystem.Path
-        {
-            get { return this.Path; }
-        }
+        string IFileSystem.Path => this.Path;
 
         #endregion
 

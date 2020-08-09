@@ -16,9 +16,6 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.ObjectModel
 {
@@ -31,9 +28,6 @@ namespace Ntreev.Library.ObjectModel
             this.category = category;
         }
 
-        public T Category
-        {
-            get { return this.category; }
-        }
+        public T Category => this.category;
     }
 }

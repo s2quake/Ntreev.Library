@@ -19,7 +19,6 @@ using Ntreev.Library.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -28,7 +27,7 @@ namespace Ntreev.Library.Serialization
 {
     public static class XmlSerializerUtility
     {
-        private static Dictionary<Type, XmlSerializer> serializers = new Dictionary<Type, XmlSerializer>();
+        private static readonly Dictionary<Type, XmlSerializer> serializers = new Dictionary<Type, XmlSerializer>();
 
         public static XmlSerializer GetSerializer(Type type)
         {
@@ -73,28 +72,25 @@ namespace Ntreev.Library.Serialization
             if (options.HasFlag(XmlSerializerOptions.OmitXmlDeclaration))
                 settings.OmitXmlDeclaration = true;
 
-            using (var sw = new Utf8StringWriter())
-            using (var writer = XmlWriter.Create(sw, settings))
+            using var sw = new Utf8StringWriter();
+            using var writer = XmlWriter.Create(sw, settings);
+            if (options.HasFlag(XmlSerializerOptions.OmitNamespace))
             {
-                if (options.HasFlag(XmlSerializerOptions.OmitNamespace))
-                {
-                    var ns = new XmlSerializerNamespaces();
-                    ns.Add(string.Empty, string.Empty);
-                    serializer.Serialize(writer, obj, ns);
-                }
-                else
-                {
-                    serializer.Serialize(writer, obj);
-                }
-                writer.Close();
-                return sw.ToString();
+                var ns = new XmlSerializerNamespaces();
+                ns.Add(string.Empty, string.Empty);
+                serializer.Serialize(writer, obj, ns);
             }
+            else
+            {
+                serializer.Serialize(writer, obj);
+            }
+            writer.Close();
+            return sw.ToString();
         }
 
         public static IDictionary<string, object> ToDictionary(object obj)
         {
             var serializer = GetSerializer(obj.GetType());
-            var settings = new XmlWriterSettings() { Encoding = Encoding.UTF8 };
             var doc = new XmlDocument();
             using (var writer = doc.CreateNavigator().AppendChild())
             {
@@ -140,18 +136,16 @@ namespace Ntreev.Library.Serialization
             if (options.HasFlag(XmlSerializerOptions.OmitXmlDeclaration))
                 settings.OmitXmlDeclaration = true;
 
-            using (var writer = XmlWriter.Create(stream, settings))
+            using var writer = XmlWriter.Create(stream, settings);
+            if (options.HasFlag(XmlSerializerOptions.OmitNamespace))
             {
-                if (options.HasFlag(XmlSerializerOptions.OmitNamespace))
-                {
-                    var ns = new XmlSerializerNamespaces();
-                    ns.Add(string.Empty, string.Empty);
-                    serializer.Serialize(writer, obj, ns);
-                }
-                else
-                {
-                    serializer.Serialize(writer, obj);
-                }
+                var ns = new XmlSerializerNamespaces();
+                ns.Add(string.Empty, string.Empty);
+                serializer.Serialize(writer, obj, ns);
+            }
+            else
+            {
+                serializer.Serialize(writer, obj);
             }
         }
 
@@ -162,18 +156,14 @@ namespace Ntreev.Library.Serialization
 
         public static void Write(string filename, object obj, bool indent)
         {
-            using (var stream = FileUtility.OpenWrite(filename))
-            {
-                Write(stream, obj, indent);
-            }
+            using var stream = FileUtility.OpenWrite(filename);
+            Write(stream, obj, indent);
         }
 
         public static void Write(string filename, object obj, XmlSerializerOptions options)
         {
-            using (var stream = FileUtility.OpenWrite(filename))
-            {
-                Write(stream, obj, options);
-            }
+            using var stream = FileUtility.OpenWrite(filename);
+            Write(stream, obj, options);
         }
 
         public static object Read(XmlReader reader, Type type)
@@ -190,10 +180,8 @@ namespace Ntreev.Library.Serialization
 
         public static object Read(string filename, Type type)
         {
-            using (var stream = File.OpenRead(filename))
-            {
-                return Read(stream, type);
-            }
+            using var stream = File.OpenRead(filename);
+            return Read(stream, type);
         }
 
         public static T Read<T>(XmlReader reader)
@@ -213,11 +201,9 @@ namespace Ntreev.Library.Serialization
 
         public static object ReadString(string text, Type type)
         {
-            using (var sr = new StringReader(text))
-            using (var reader = XmlReader.Create(sr))
-            {
-                return Read(reader, type);
-            }
+            using var sr = new StringReader(text);
+            using var reader = XmlReader.Create(sr);
+            return Read(reader, type);
         }
 
         public static T ReadString<T>(string text)
@@ -226,7 +212,7 @@ namespace Ntreev.Library.Serialization
         }
 
         /// <param name="obj">인스턴스를 설정하여 타입 명시를 하지 않기 위해 쓰는 용도임</param>
-        public static T ReadString<T>(T obj, string text)
+        public static T ReadString<T>(T _, string text)
         {
             return (T)ReadString(text, typeof(T));
         }

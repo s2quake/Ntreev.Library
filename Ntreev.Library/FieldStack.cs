@@ -16,9 +16,6 @@
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library
 {
@@ -53,8 +50,8 @@ namespace Ntreev.Library
 
         public T Field
         {
-            get { return this.field; }
-            set { this.field = value; }
+            get => this.field;
+            set => this.field = value;
         }
 
         #region classes

@@ -19,17 +19,12 @@ using Ntreev.Library.ObjectModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ntreev.Library.IO.Virtualization.Memory
 {
     public class MemoryFileCollection : ItemContainer<MemoryFile, MemoryFolder, MemoryFileCollection, MemoryFolderCollection, MemoryStorage>, IFileCollection
     {
-        public override bool SupportsNonUniqueName
-        {
-            get { return true; }
-        }
+        public override bool SupportsNonUniqueName => true;
 
         internal MemoryFile AddNew(MemoryFolder parent, string name)
         {
