@@ -29,7 +29,6 @@ namespace Ntreev.Library.Random
         private static readonly object lockobj = new object();
         private static readonly string[] words;
         private static readonly byte[] longBytes = new byte[8];
-        private static readonly byte[] intBytes = new byte[4];
         private static int count;
         private static System.Random random = new System.Random(DateTime.Now.Millisecond);
 
