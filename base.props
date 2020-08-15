@@ -3,7 +3,7 @@
   <Import Project="netfx.props" />
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net45</TargetFrameworks>
-    <Version>5.0.0-$(TargetFramework)-481998444d0c117e9992f16b41a808e7739361db</Version>
+    <Version>5.0.0-$(TargetFramework)-unversioned</Version>
     <AssemblyVersion>5.0</AssemblyVersion>
     <FileVersion>5.0.0</FileVersion>
     <RepositoryType>git</RepositoryType>
