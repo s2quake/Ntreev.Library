@@ -15,8 +15,8 @@ try {
 }
 catch {
     Write-Error $_.Exception.Message
-    Write-Host "Please visit the site below and install it."
-    Write-Host "https://dotnet.microsoft.com/download/dotnet-core/$needVersion"
+    Write-Warning "Please visit the site below and install it."
+    Write-Warning "https://dotnet.microsoft.com/download/dotnet-core/$needVersion"
     Write-Host 'Press any key to continue...';
     $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
     exit 1
@@ -32,12 +32,12 @@ try {
 catch {
     Write-Warning $_.Exception.Message
     Write-Warning "TargetFramework net45 skipped."
-    Write-Host "If you want to build with .net framework 4.5, visit the site below and install mono."
+    Write-Warning "If you want to build with .net framework 4.5, visit the site below and install mono."
     if ([environment]::OSVersion.Platform -eq "Unix") {
-        Write-Host "https://www.mono-project.com"
+        Write-Warning "https://www.mono-project.com"
     }
     elseif ([environment]::OSVersion.Platform -eq "Win32NT") {
-
+        Write-Warning "https://aka.ms/msbuild/developerpacks"
     }
     $global:frameworkOption = "--framework netcoreapp3.1"
 }
