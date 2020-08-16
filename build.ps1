@@ -32,7 +32,7 @@ try {
 catch {
     Write-Warning $_.Exception.Message
     Write-Warning "TargetFramework net45 skipped."
-    Write-Warning "If you want to build with .net framework 4.5, visit the site below and install mono."
+    Write-Warning "If you want to build with .net framework 4.5, visit the site below and install it."
     if ([environment]::OSVersion.Platform -eq "Unix") {
         Write-Warning "https://www.mono-project.com"
     }
