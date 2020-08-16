@@ -1,2 +1,2 @@
 @echo off
-powershell -executionpolicy remotesigned -File gen-ver.ps1
+powershell -executionpolicy remotesigned -File build.ps1
