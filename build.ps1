@@ -22,7 +22,25 @@ catch {
     exit 1
 }
 
-# check if .netframework 4.5 is installed on windows
+# validate mono version
+try {
+    if ([environment]::OSVersion.Platform -eq "Unix") {
+        [System.Version]$needVersion = "6.0"
+        [System.Version]$realVersion = mono --version=number
+        if ($realVersion -lt $needVersion) {
+            throw "mono $needVersion or higher version must be installed to build this project with .net framework 4.5."
+        }
+    }
+}
+catch {
+    Write-Warning $_.Exception.Message
+    Write-Warning "TargetFramework net45 skipped."
+    Write-Host "If you want to build with .net framework 4.5, visit the site below and install mono."
+    Write-Host "https://www.mono-project.com"
+    $global:frameworkOption = "--framework netcoreapp3.1"
+}
+
+# validate .netframework 4.5
 try {
     if ([environment]::OSVersion.Platform -eq "Win32NT") {
         function Test-KeyPresent([string]$path, [string]$key) {
@@ -38,13 +56,15 @@ try {
         if (Test-KeyPresent "HKLM:\Software\Microsoft\NET Framework Setup\NDP\v4\Client" "Install" -or Test-KeyPresent "HKLM:\Software\Microsoft\NET Framework Setup\NDP\v4\Full" "Install") {
             $version = Get-Framework-Value "HKLM:\Software\Microsoft\NET Framework Setup\NDP\v4\Full" "Release"
             if ($version -lt 378389) {
-                throw ".Net Framework 4.5 not installed."
-            }   
-        }    
+                throw ".net framework 4.5 or higher version must be installed to build this project"
+            }
+        }
     }
 }
 catch {
     Write-Warning $_.Exception.Message
+    Write-Warning "TargetFramework net45 skipped."
+    $global:frameworkOption = "--framework netcoreapp3.1"
 }
 
 # check if there are any changes in the repository.
@@ -61,7 +81,7 @@ catch {
 
 # get head revision of this repository
 try {
-    $revision = Invoke-Expression -Command "git rev-parse head" 2>&1 -ErrorVariable errout
+    $revision = Invoke-Expression -Command "git rev-parse HEAD" 2>&1 -ErrorVariable errout
     if ($LastExitCode -ne 0) {
         throw $errout
     }
@@ -71,7 +91,7 @@ catch {
     Write-Warning "revision is '$revision'"
 }
 
-# recored version
+# recored version to props file
 $version = "$majorVersion.$minorVersion.$buildVersion-`$(TargetFramework)-$revision"
 $assemblyVersion = "$majorVersion.$minorVersion"
 $fileVersion = "$majorVersion.$minorVersion.$buildVersion"
@@ -90,12 +110,15 @@ foreach ($obj in $doc.Project.PropertyGroup) {
 $doc.Save($propsPath)
 
 # build project
-Invoke-Expression "dotnet build $frameworkOption --verbosity minimal --nologo"
+Invoke-Expression "dotnet build $global:frameworkOption --verbosity minimal --nologo"
+if ($LastExitCode -ne 0) {
+    Write-Error "build failed"
+}
+else {
+    Write-Host "AssemblyVersion: $assemblyVersion"
+    Write-Host "FileVersion: $fileVersion"
+    Write-Host "revision: $revision"
+}
 
-# revert file
+# revert props file
 Invoke-Expression "git checkout $propsPath"
-
-# print version
-Write-Host "AssemblyVersion: $assemblyVersion"
-Write-Host "FileVersion: $fileVersion"
-Write-Host "Version: $version"
