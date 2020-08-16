@@ -24,7 +24,7 @@ catch {
 
 # validate .netframework 4.5
 try {
-    Invoke-Expression "dotnet msbuild -t:GetReferenceAssemblyPaths -v:n -p:TargetFramework=net45" | Out-nu
+    Invoke-Expression "dotnet msbuild -t:GetReferenceAssemblyPaths -v:n -p:TargetFramework=net45" | Out-Null
     if ($LastExitCode -ne 0) {
         throw ".net framework 4.5 or higher version must be installed to build this project"
     }
