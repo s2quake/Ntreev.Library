@@ -17,6 +17,7 @@ catch {
     Write-Error $_.Exception.Message
     Write-Warning "Please visit the site below and install it."
     Write-Warning "https://dotnet.microsoft.com/download/dotnet-core/$needVersion"
+    Write-Warning ""
     Write-Host 'Press any key to continue...';
     $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
     exit 1
@@ -39,6 +40,7 @@ catch {
     elseif ([environment]::OSVersion.Platform -eq "Win32NT") {
         Write-Warning "https://aka.ms/msbuild/developerpacks"
     }
+    Write-Warning ""
     $global:frameworkOption = "--framework netcoreapp3.1"
 }
 
@@ -62,8 +64,8 @@ try {
     }
 }
 catch {
-    Write-Warning $_.Exception.Message
-    Write-Warning "revision is '$revision'"
+    Write-Error $_.Exception.Message
+    exit 1
 }
 
 # recored version to props file
@@ -90,10 +92,12 @@ if ($LastExitCode -ne 0) {
     Write-Error "build failed"
 }
 else {
+    Write-Host ""
     Write-Host "AssemblyVersion: $assemblyVersion"
     Write-Host "FileVersion: $fileVersion"
     Write-Host "revision: $revision"
+    Write-Host ""
 }
 
 # revert props file
-Invoke-Expression "git checkout $propsPath"
+Invoke-Expression "git checkout $propsPath" | Out-Null
