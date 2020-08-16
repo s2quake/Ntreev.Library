@@ -1,2 +1,2 @@
 Invoke-WebRequest -Uri https://gist.githubusercontent.com/s2quake/57ae08b7598f1f4978d8c50326b4086d/raw/ca5bbee78255d051887cb9779a0b0de0d387145e/build.ps1 -OutFile .\.vscode\build.ps1
-.\.vscode\build.ps1
+.\.vscode\build.ps1 -PropsPath base.props
