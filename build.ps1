@@ -2,7 +2,7 @@ $majorVersion = 5
 $minorVersion = 0
 $buildVersion = 0
 $revision = "unversioned"
-$propsPath = "$PSScriptRoot\base.props"
+$propsPath = Join-Path "$PSScriptRoot" "base.props"
 $frameworkOption = ""
 
 # validate dotnet version
