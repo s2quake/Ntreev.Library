@@ -22,48 +22,23 @@ catch {
     exit 1
 }
 
-# validate mono version
+# validate .netframework 4.5
 try {
-    if ([environment]::OSVersion.Platform -eq "Unix") {
-        [System.Version]$needVersion = "6.0"
-        [System.Version]$realVersion = mono --version=number
-        if ($realVersion -lt $needVersion) {
-            throw "mono $needVersion or higher version must be installed to build this project with .net framework 4.5."
-        }
+    Invoke-Expression "dotnet msbuild -t:GetReferenceAssemblyPaths -v:n -p:TargetFramework=net45" | Out-nu
+    if ($LastExitCode -ne 0) {
+        throw ".net framework 4.5 or higher version must be installed to build this project"
     }
 }
 catch {
     Write-Warning $_.Exception.Message
     Write-Warning "TargetFramework net45 skipped."
     Write-Host "If you want to build with .net framework 4.5, visit the site below and install mono."
-    Write-Host "https://www.mono-project.com"
-    $global:frameworkOption = "--framework netcoreapp3.1"
-}
-
-# validate .netframework 4.5
-try {
-    if ([environment]::OSVersion.Platform -eq "Win32NT") {
-        function Test-KeyPresent([string]$path, [string]$key) {
-            if (!(Test-Path $path)) { return $false }
-            if ($null -eq (Get-ItemProperty $path).$key) { return $false }
-            return $true
-        }
-        function Get-Framework-Value([string]$path, [string]$key) {
-            if (!(Test-Path $path)) { return "-1" }
-        
-            return (Get-ItemProperty $path).$key  
-        }
-        if (Test-KeyPresent "HKLM:\Software\Microsoft\NET Framework Setup\NDP\v4\Client" "Install" -or Test-KeyPresent "HKLM:\Software\Microsoft\NET Framework Setup\NDP\v4\Full" "Install") {
-            $version = Get-Framework-Value "HKLM:\Software\Microsoft\NET Framework Setup\NDP\v4\Full" "Release"
-            if ($version -lt 378389) {
-                throw ".net framework 4.5 or higher version must be installed to build this project"
-            }
-        }
+    if ([environment]::OSVersion.Platform -eq "Unix") {
+        Write-Host "https://www.mono-project.com"
     }
-}
-catch {
-    Write-Warning $_.Exception.Message
-    Write-Warning "TargetFramework net45 skipped."
+    elseif ([environment]::OSVersion.Platform -eq "Win32NT") {
+
+    }
     $global:frameworkOption = "--framework netcoreapp3.1"
 }
 
