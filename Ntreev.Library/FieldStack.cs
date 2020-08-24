@@ -21,26 +21,23 @@ namespace Ntreev.Library
 {
     public sealed class FieldStack<T> : IFieldStack<T> where T : struct
     {
-        private T field;
-
         public FieldStack()
         {
-
         }
 
         public FieldStack(T value)
         {
-            this.field = value;
+            this.Field = value;
         }
 
         public override string ToString()
         {
-            return $"{this.field}";
+            return $"{this.Field}";
         }
 
         public static implicit operator T(FieldStack<T> obj)
         {
-            return obj.field;
+            return obj.Field;
         }
 
         public IDisposable Set(T value)
@@ -48,11 +45,7 @@ namespace Ntreev.Library
             return new UsingClass(this, value);
         }
 
-        public T Field
-        {
-            get => this.field;
-            set => this.field = value;
-        }
+        public T Field { get; set; }
 
         #region classes
 
@@ -64,13 +57,13 @@ namespace Ntreev.Library
             public UsingClass(FieldStack<T> field, T value)
             {
                 this.fieldStack = field;
-                this.oldValue = this.fieldStack.field;
-                this.fieldStack.field = value;
+                this.oldValue = this.fieldStack.Field;
+                this.fieldStack.Field = value;
             }
 
             void IDisposable.Dispose()
             {
-                this.fieldStack.field = this.oldValue;
+                this.fieldStack.Field = this.oldValue;
             }
         }
 

@@ -21,13 +21,11 @@ namespace Ntreev.Library.ObjectModel
 {
     public class ItemEventArgs<T> : EventArgs
     {
-        private readonly T item;
-
         public ItemEventArgs(T item)
         {
-            this.item = item;
+            this.Item = item;
         }
 
-        public T Item => this.item;
+        public T Item { get; }
     }
 }

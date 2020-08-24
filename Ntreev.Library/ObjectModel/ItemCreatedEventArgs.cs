@@ -19,14 +19,12 @@ namespace Ntreev.Library.ObjectModel
 {
     public class ItemCreatedEventArgs<T> : ItemEventArgs<T>
     {
-        private readonly object[] args;
-
         public ItemCreatedEventArgs(T item, params object[] args)
             : base(item)
         {
-            this.args = args;
+            this.Arguments = args;
         }
 
-        public object[] Arguments => this.args;
+        public object[] Arguments { get; }
     }
 }

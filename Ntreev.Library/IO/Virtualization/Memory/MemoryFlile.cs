@@ -24,7 +24,6 @@ namespace Ntreev.Library.IO.Virtualization.Memory
     public class MemoryFile : ItemBase<MemoryFile, MemoryFolder, MemoryFileCollection, MemoryFolderCollection, MemoryStorage>, IFile
     {
         private string hashValue;
-        private byte[] data = new byte[] { };
 
         public void Rename(string name)
         {
@@ -44,7 +43,7 @@ namespace Ntreev.Library.IO.Virtualization.Memory
 
         public Stream OpenRead()
         {
-            return new MemoryStream(this.data);
+            return new MemoryStream(this.Data);
         }
 
         public Stream OpenWrite()
@@ -72,11 +71,7 @@ namespace Ntreev.Library.IO.Virtualization.Memory
             }
         }
 
-        internal byte[] Data
-        {
-            get => this.data;
-            set => this.data = value;
-        }
+        internal byte[] Data { get; set; } = new byte[] { };
 
         #region IFile
 

@@ -22,21 +22,20 @@ namespace Ntreev.Library
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class DependencyAttribute : Attribute
     {
-        private readonly string typeName;
         private Type type;
 
         public DependencyAttribute(string typeName)
         {
-            this.typeName = typeName;
+            this.DependencyTypeName = typeName;
         }
 
         public DependencyAttribute(Type type)
         {
             this.type = type;
-            this.typeName = type.AssemblyQualifiedName;
+            this.DependencyTypeName = type.AssemblyQualifiedName;
         }
 
-        public string DependencyTypeName => this.typeName;
+        public string DependencyTypeName { get; }
 
         internal Type DependencyType
         {
@@ -44,7 +43,7 @@ namespace Ntreev.Library
             {
                 if (this.type == null)
                 {
-                    this.type = Type.GetType(this.typeName);
+                    this.type = Type.GetType(this.DependencyTypeName);
                 }
                 return this.type;
             }

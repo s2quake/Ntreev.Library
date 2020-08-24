@@ -19,14 +19,12 @@ namespace Ntreev.Library.ObjectModel
 {
     public class ItemDeletedEventArgs<T> : ItemEventArgs<T>
     {
-        private readonly string itemPath;
-
         public ItemDeletedEventArgs(string itemPath, T item)
             : base(item)
         {
-            this.itemPath = itemPath;
+            this.ItemPath = itemPath;
         }
 
-        public string ItemPath => this.itemPath;
+        public string ItemPath { get; }
     }
 }

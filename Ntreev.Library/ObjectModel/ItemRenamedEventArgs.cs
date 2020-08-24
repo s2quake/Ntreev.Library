@@ -19,18 +19,15 @@ namespace Ntreev.Library.ObjectModel
 {
     public class ItemRenamedEventArgs<T> : ItemEventArgs<T>
     {
-        private readonly string oldName;
-        private readonly string oldPath;
-
         public ItemRenamedEventArgs(T item, string oldName, string oldPath)
             : base(item)
         {
-            this.oldName = oldName;
-            this.oldPath = oldPath;
+            this.OldName = oldName;
+            this.OldPath = oldPath;
         }
 
-        public string OldName => this.oldName;
+        public string OldName { get; }
 
-        public string OldPath => this.oldPath;
+        public string OldPath { get; }
     }
 }

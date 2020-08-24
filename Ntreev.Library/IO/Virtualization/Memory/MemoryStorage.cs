@@ -25,9 +25,6 @@ namespace Ntreev.Library.IO.Virtualization.Memory
 {
     public class MemoryStorage : ItemContext<MemoryFile, MemoryFolder, MemoryFileCollection, MemoryFolderCollection, MemoryStorage>, IStorage
     {
-        private readonly string name;
-        private readonly Uri uri = null;
-
         public MemoryStorage()
             : this(string.Empty)
         {
@@ -36,17 +33,17 @@ namespace Ntreev.Library.IO.Virtualization.Memory
 
         public MemoryStorage(string name)
         {
-            this.name = name ?? string.Empty;
+            this.Name = name ?? string.Empty;
         }
 
         public override string ToString()
         {
-            return this.name;
+            return this.Name;
         }
 
-        public string Name => this.name;
+        public string Name { get; }
 
-        public Uri Uri => this.uri;
+        public Uri Uri { get; } = null;
 
         internal string GetHashValue(MemoryFile file)
         {

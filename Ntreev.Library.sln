@@ -9,6 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ntreev.Library.Random", "Nt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ntreev.Library", "Ntreev.Library\Ntreev.Library.csproj", "{DA0B09C8-1FD8-4F0E-B4B6-2291B06E406B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "etc", "etc", "{DAA0A30C-D8DB-4F55-8F3F-C7CEF359400F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		base.props = base.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

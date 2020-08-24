@@ -19,18 +19,15 @@ namespace Ntreev.Library.ObjectModel
 {
     public class ItemMovedEventArgs<T> : ItemEventArgs<T>
     {
-        private readonly string oldCategoryPath;
-        private readonly string oldPath;
-
         public ItemMovedEventArgs(T item, string oldPath, string oldCategoryPath)
             : base(item)
         {
-            this.oldPath = oldPath;
-            this.oldCategoryPath = oldCategoryPath;
+            this.OldPath = oldPath;
+            this.OldCategoryPath = oldCategoryPath;
         }
 
-        public string OldPath => this.oldPath;
+        public string OldPath { get; }
 
-        public string OldCategoryPath => this.oldCategoryPath;
+        public string OldCategoryPath { get; }
     }
 }

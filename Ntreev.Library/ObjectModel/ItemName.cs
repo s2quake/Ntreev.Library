@@ -23,7 +23,6 @@ namespace Ntreev.Library.ObjectModel
     public class ItemName
     {
         private string name;
-        private string categoryPath;
         private string path;
 
         public ItemName(string path)
@@ -55,14 +54,14 @@ namespace Ntreev.Library.ObjectModel
 
                 this.path = value;
                 var index = value.LastIndexOf(PathUtility.SeparatorChar);
-                this.categoryPath = value.Substring(0, index + 1);
-                if (this.categoryPath == string.Empty)
-                    this.categoryPath = PathUtility.Separator;
+                this.CategoryPath = value.Substring(0, index + 1);
+                if (this.CategoryPath == string.Empty)
+                    this.CategoryPath = PathUtility.Separator;
                 this.name = value.Substring(index + 1);
             }
         }
 
-        public string CategoryPath => this.categoryPath;
+        public string CategoryPath { get; private set; }
 
         public string Name
         {
@@ -70,7 +69,7 @@ namespace Ntreev.Library.ObjectModel
             set
             {
                 this.name = value;
-                this.path = MakePath(this.categoryPath, this.name);
+                this.path = MakePath(this.CategoryPath, this.name);
             }
         }
 
@@ -92,7 +91,7 @@ namespace Ntreev.Library.ObjectModel
         {
             NameValidator.ValidateCategoryPath(categoryPath);
             NameValidator.ValidateName(name);
-            this.categoryPath = categoryPath;
+            this.CategoryPath = categoryPath;
             this.name = name;
             this.path = categoryPath + name;
         }

@@ -21,13 +21,11 @@ namespace Ntreev.Library.ObjectModel
 {
     public class CategoryEventArgs<T> : EventArgs
     {
-        private readonly T category;
-
         public CategoryEventArgs(T category)
         {
-            this.category = category;
+            this.Category = category;
         }
 
-        public T Category => this.category;
+        public T Category { get; }
     }
 }

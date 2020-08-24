@@ -21,15 +21,11 @@ namespace Ntreev.Library
 {
     public class ProgressChangedEventArgs : EventArgs
     {
-        private readonly double value;
-        private readonly string message;
-        private readonly ProgressChangeState state;
-
         public ProgressChangedEventArgs(bool isFailed, string message)
         {
-            this.state = isFailed ? ProgressChangeState.Failed : ProgressChangeState.Completed;
-            this.value = isFailed ? double.MinValue : 1.0;
-            this.message = message;
+            this.State = isFailed ? ProgressChangeState.Failed : ProgressChangeState.Completed;
+            this.Value = isFailed ? double.MinValue : 1.0;
+            this.Message = message;
         }
 
         public ProgressChangedEventArgs(bool isFailed, string format, params object[] args)
@@ -42,9 +38,9 @@ namespace Ntreev.Library
         {
             if (value > 1.0 || value < 0.0)
                 throw new ArgumentOutOfRangeException("value", value, "0 과 1사이의 값을 사용해야 합니다.");
-            this.state = ProgressChangeState.Changed;
-            this.value = value;
-            this.message = message;
+            this.State = ProgressChangeState.Changed;
+            this.Value = value;
+            this.Message = message;
         }
 
         public ProgressChangedEventArgs(double value, string format, params object[] args)
@@ -53,10 +49,10 @@ namespace Ntreev.Library
 
         }
 
-        public ProgressChangeState State => this.state;
+        public ProgressChangeState State { get; }
 
-        public double Value => this.value;
+        public double Value { get; }
 
-        public string Message => this.message;
+        public string Message { get; }
     }
 }

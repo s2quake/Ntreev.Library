@@ -23,7 +23,6 @@ namespace Ntreev.Library
     {
         private readonly IProgress progress;
         private int steps;
-        private int step;
 
         public StepProgress()
         {
@@ -51,7 +50,7 @@ namespace Ntreev.Library
         {
             if (steps <= 0)
                 throw new Exception("최소 1단계 이상이 되어야 합니다.");
-            this.step = 0;
+            this.Step = 0;
             this.steps = steps;
 
             this.Report(0, message);
@@ -72,10 +71,10 @@ namespace Ntreev.Library
 
         public void Next(string message)
         {
-            if (this.step >= this.steps)
-                throw new Exception(string.Format("단계가 지정된 횟수({0})보다 초과되었습니다.", this.step));
-            this.step++;
-            this.Report((double)this.step / this.steps, message);
+            if (this.Step >= this.steps)
+                throw new Exception(string.Format("단계가 지정된 횟수({0})보다 초과되었습니다.", this.Step));
+            this.Step++;
+            this.Report((double)this.Step / this.steps, message);
         }
 
         public void Next(string format, params object[] args)
@@ -93,10 +92,10 @@ namespace Ntreev.Library
 
         public void Complete(string message)
         {
-            if (this.step + 1 < this.steps)
-                throw new Exception(string.Format("{0} 단계중 {1} 까지만 진행되었습니다.", this.steps, this.step));
+            if (this.Step + 1 < this.steps)
+                throw new Exception(string.Format("{0} 단계중 {1} 까지만 진행되었습니다.", this.steps, this.Step));
             this.Complete(false, message);
-            this.step = 0;
+            this.Step = 0;
             this.steps = 0;
         }
 
@@ -125,7 +124,7 @@ namespace Ntreev.Library
 
         public void Show(string message)
         {
-            this.Report((double)this.step / this.steps, message);
+            this.Report((double)this.Step / this.steps, message);
         }
 
         public void Show(string format, params object[] args)
@@ -141,7 +140,7 @@ namespace Ntreev.Library
         public void Fail(string message)
         {
             this.Complete(true, message);
-            this.step = 0;
+            this.Step = 0;
             this.steps = 0;
         }
 
@@ -155,7 +154,7 @@ namespace Ntreev.Library
             this.Fail(e.Message);
         }
 
-        public int Step => this.step;
+        public int Step { get; private set; }
 
         public event ProgressChangedEventHandler Changed;
 
@@ -192,7 +191,7 @@ namespace Ntreev.Library
 
         void IProgress.Complete(string message)
         {
-            var v = (double)this.step / this.steps + (1.0 / this.steps);
+            var v = (double)this.Step / this.steps + (1.0 / this.steps);
             this.OnChanged(new ProgressChangedEventArgs(v, message));
 
             if (this.progress != null)
@@ -203,7 +202,7 @@ namespace Ntreev.Library
 
         void IProgress.Fail(string message)
         {
-            var v = (double)this.step / this.steps + (1.0 / this.steps);
+            var v = (double)this.Step / this.steps + (1.0 / this.steps);
             this.OnChanged(new ProgressChangedEventArgs(v, message));
 
             if (this.progress != null)
@@ -214,7 +213,7 @@ namespace Ntreev.Library
 
         void IProgress.Report(double value, string message)
         {
-            var v = (double)this.step / this.steps + (1.0 / this.steps) * value;
+            var v = (double)this.Step / this.steps + (1.0 / this.steps) * value;
             this.OnChanged(new ProgressChangedEventArgs(v, message));
 
             if (this.progress != null)

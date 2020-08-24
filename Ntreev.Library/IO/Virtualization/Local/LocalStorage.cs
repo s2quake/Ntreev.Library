@@ -25,11 +25,9 @@ namespace Ntreev.Library.IO.Virtualization.Local
 {
     public class LocalStorage : ItemContext<LocalFile, LocalFolder, LocalFileCollection, LocalFolderCollection, LocalStorage>, IStorage
     {
-        private readonly Uri uri;
-
         public LocalStorage(Uri uri)
         {
-            this.uri = uri;
+            this.Uri = uri;
             this.LoadCategories(this.Root);
         }
 
@@ -38,11 +36,11 @@ namespace Ntreev.Library.IO.Virtualization.Local
             return this.LocalPath;
         }
 
-        public string LocalPath => this.uri.LocalPath;
+        public string LocalPath => this.Uri.LocalPath;
 
         public string Name => this.LocalPath;
 
-        public Uri Uri => this.uri;
+        public Uri Uri { get; }
 
         internal string GetHashValue(LocalFile file)
         {
