@@ -15,7 +15,9 @@
     <PackageTags>Crema</PackageTags>
     <LangVersion>latest</LangVersion>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
-    <OutputPath>..\bin\$(Configuration)\$(TargetFramework)\$(AssemblyName)</OutputPath>
-    <IntermediateOutputPath>..\obj\$(Configuration)\$(TargetFramework)\$(AssemblyName)</IntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)\bin\$(MSBuildProjectName)</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <OutputPath>$(MSBuildThisFileDirectory)\bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName)</OutputPath>
+    <IntermediateOutputPath>$(MSBuildThisFileDirectory)\obj\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName)</IntermediateOutputPath>
   </PropertyGroup>
 </Project>
