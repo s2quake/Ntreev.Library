@@ -7,16 +7,16 @@
     <FileVersion>5.0.0</FileVersion>
     <RepositoryType>git</RepositoryType>
     <PackageLicense>https://github.com/s2quake/Ntreev.Library/blob/master/LICENSE.md</PackageLicense>
-    <Copyright>Copyright © JSSoft 2020</Copyright>
+    <Copyright>Copyright (c) 2018 Ntreev Soft co., Ltd.;Copyright © JSSoft 2020</Copyright>
     <Description>this is submodule of crema project</Description>
     <Authors>s2quake</Authors>
     <RepositoryUrl>https://github.com/s2quake/Ntreev.Library</RepositoryUrl>
     <PackageTags>Crema</PackageTags>
     <LangVersion>latest</LangVersion>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)\bin\$(MSBuildProjectName)</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
-    <OutputPath>$(MSBuildThisFileDirectory)\bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName)</OutputPath>
-    <IntermediateOutputPath>$(MSBuildThisFileDirectory)\obj\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName)</IntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)bin\$(MSBuildProjectName)</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <OutputPath>$(MSBuildThisFileDirectory)bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName)</OutputPath>
+    <IntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName)</IntermediateOutputPath>
   </PropertyGroup>
 </Project>

@@ -12,7 +12,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "etc", "etc", "{DAA0A30C-D8DB-4F55-8F3F-C7CEF359400F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		base.props = base.props
+		build.ps1 = build.ps1
+		Directory.Build.props = Directory.Build.props
+		netfx.props = netfx.props
 	EndProjectSection
 EndProject
 Global
