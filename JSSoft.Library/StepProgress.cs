@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using System;
 
@@ -41,16 +44,16 @@ namespace JSSoft.Library
         }
 
         /// <summary>
-        /// ÁøÇà ´Ü°è ÃÑ È½¼ö¸¦ ¼³Á¤ÇÔ°ú µ¿½Ã¿¡ ½ÃÀÛÀ» ¾Ë¸³´Ï´Ù. Changed ÀÌº¥Æ®°¡ ¹ß»ýÇÏ¸ç ÁøÇà·üÀº 0À¸·Î ¼³Á¤µË´Ï´Ù.
+        /// ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½ ï¿½ï¿½ È½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô°ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½Ï´ï¿½. Changed ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.
         /// </summary>
         /// <remarks>
-        /// ´Ü°è ¼³Á¤ È½¼ö´Â Next() È£Ãâ È½¼ö¿Í ÇÑ¹øÀÇ Complete() È£ÃâÀ» ÇÕÇÑ °ªÀÔ´Ï´Ù. 
-        /// È½¼ö¸¦ 3À¸·Î ¼³Á¤ÇßÀ»¶§´Â µÎ¹øÀÇ Next() ¿Í ÇÑ¹øÀÇ Complete() °¡ È£ÃâµÇ¾î¾ß¸¸ ÇÕ´Ï´Ù.
+        /// ï¿½Ü°ï¿½ ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½ï¿½ï¿½ Next() È£ï¿½ï¿½ È½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ Complete() È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô´Ï´ï¿½. 
+        /// È½ï¿½ï¿½ï¿½ï¿½ 3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¹ï¿½ï¿½ï¿½ Next() ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ Complete() ï¿½ï¿½ È£ï¿½ï¿½Ç¾ï¿½ß¸ï¿½ ï¿½Õ´Ï´ï¿½.
         /// </remarks>
         public void Begin(int steps, string message)
         {
             if (steps <= 0)
-                throw new Exception("ÃÖ¼Ò 1´Ü°è ÀÌ»óÀÌ µÇ¾î¾ß ÇÕ´Ï´Ù.");
+                throw new Exception("ï¿½Ö¼ï¿½ 1ï¿½Ü°ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ ï¿½Õ´Ï´ï¿½.");
             this.Step = 0;
             this.steps = steps;
 
@@ -63,7 +66,7 @@ namespace JSSoft.Library
         }
 
         /// <summary>
-        /// ÀÌÀü ´Ü°è¸¦ ¸¶¹«¸® ÇÏ°í ´ÙÀ½ ´Ü°è·Î ÁøÀÔÇÕ´Ï´Ù.
+        /// ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°è¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         /// </summary>
         public void Next()
         {
@@ -73,7 +76,7 @@ namespace JSSoft.Library
         public void Next(string message)
         {
             if (this.Step >= this.steps)
-                throw new Exception(string.Format("´Ü°è°¡ ÁöÁ¤µÈ È½¼ö({0})º¸´Ù ÃÊ°úµÇ¾ú½À´Ï´Ù.", this.Step));
+                throw new Exception(string.Format("ï¿½Ü°è°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½({0})ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", this.Step));
             this.Step++;
             this.Report((double)this.Step / this.steps, message);
         }
@@ -84,7 +87,7 @@ namespace JSSoft.Library
         }
 
         /// <summary>
-        /// ´Ü°è¸¦ ¸¶¹«¸® ÇÕ´Ï´Ù. ÁöÁ¤µÈ ´Ü°è È½¼öº¸´Ù ÀûÀº »óÅÂ¿¡¼­ È£ÃâµÇ¾úÀ»¶§´Â ¿¹¿Ü¸¦ ¹ß»ýÇÕ´Ï´Ù.
+        /// ï¿½Ü°è¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½ È½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ È£ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ü¸ï¿½ ï¿½ß»ï¿½ï¿½Õ´Ï´ï¿½.
         /// </summary>
         public void Complete()
         {
@@ -94,7 +97,7 @@ namespace JSSoft.Library
         public void Complete(string message)
         {
             if (this.Step + 1 < this.steps)
-                throw new Exception(string.Format("{0} ´Ü°èÁß {1} ±îÁö¸¸ ÁøÇàµÇ¾ú½À´Ï´Ù.", this.steps, this.Step));
+                throw new Exception(string.Format("{0} ï¿½Ü°ï¿½ï¿½ï¿½ {1} ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", this.steps, this.Step));
             this.Complete(false, message);
             this.Step = 0;
             this.steps = 0;
@@ -106,7 +109,7 @@ namespace JSSoft.Library
         }
 
         /// <summary>
-        /// ´Ü°è¸¦ °Ç³Ê¶Ú »óÅÂ·Î ¸¶¹«¸® ÇÕ´Ï´Ù.
+        /// ï¿½Ü°è¸¦ ï¿½Ç³Ê¶ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Ï´ï¿½.
         /// </summary>
         public void Skip()
         {

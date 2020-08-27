@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using System;
 using System.Text.RegularExpressions;
@@ -22,20 +25,20 @@ using System.Text.RegularExpressions;
 namespace JSSoft.Library
 {
     /// <summary>
-    /// ½Äº°ÀÚ·Î »ç¿ëµÇ´Â ¹®ÀÚ¿­ÀÇ °ËÁõ ±â´ÉÀ» Á¦°øÇÕ´Ï´Ù.
+    /// ï¿½Äºï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
     /// </summary>
     public static class IdentifierValidator
     {
         public const string IdentiFierPattern = @"^[a-zA-Z_$][a-zA-Z0-9_$]*$";
 
         /// <summary>
-        /// ½Äº°ÀÚ¿¡ ÀûÇÕÇÏÁö ¾ÊÀº ¹®ÀÚ¿­À» '_'·Î ´ëÃ¼ÇÕ´Ï´Ù.
+        /// ï¿½Äºï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ '_'ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½Õ´Ï´ï¿½.
         /// </summary>
         /// <param name="input">
-        /// ½Äº°ÀÚ·Î »ç¿ëµÇ´Â ¹®ÀÚ¿­ÀÔ´Ï´Ù.
+        /// ï¿½Äºï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½Ô´Ï´ï¿½.
         /// </param>
         /// <returns>
-        /// ¿Ã¹Ù¸¥ ½Äº°ÀÚ·Î ´ëÃ¼µÈ ¹®ÀÚ¿­À» ¹ÝÈ¯ÇÕ´Ï´Ù.
+        /// ï¿½Ã¹Ù¸ï¿½ ï¿½Äºï¿½ï¿½Ú·ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Õ´Ï´ï¿½.
         /// </returns>
         [Obsolete]
         public static string Replace(string input)
@@ -45,17 +48,17 @@ namespace JSSoft.Library
         }
 
         /// <summary>
-        /// ½Äº°ÀÚ°¡ ¿Ã¹Ù¸¥Áö¿¡ ´ëÇÑ ¿©ºÎ¸¦ È®ÀÎÇÕ´Ï´Ù.
+        /// ï¿½Äºï¿½ï¿½Ú°ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ È®ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         /// </summary>
         /// <param name="input">
-        /// ½Äº°ÀÚ·Î »ç¿ëµÇ´Â ¹®ÀÚ¿­ÀÔ´Ï´Ù.
+        /// ï¿½Äºï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½Ô´Ï´ï¿½.
         /// </param>
         /// <returns>
-        /// ½Äº°ÀÚ·Î »ç¿ëµÇ±â¿¡ ÀûÇÕÇÏ´Ù¸é true¸¦, ±×·¸Áö ¾Ê´Ù¸é false¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.
+        /// ï¿½Äºï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½Ç±â¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Ù¸ï¿½ trueï¿½ï¿½, ï¿½×·ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½ falseï¿½ï¿½ ï¿½ï¿½È¯ï¿½Õ´Ï´ï¿½.
         /// </returns>
         /// <remarks>
-        /// ÀÌ ¸Þ¼Òµå´Â °Ë»ç¿¡ ´ëÇÑ À¯¿¬¼ºÀ» Á¦°øÇÏÁö ¾Ê½À´Ï´Ù. Àü´Þ ¹ÞÀº ¹®ÀÚ¿­¿¡ ´ëÇÑ Á¤È®ÇÑ °Ë»ç¸¦ ¼öÇàÇÕ´Ï´Ù.
-        /// ¸¸¾à ¹®ÀÚ¿­ Ã³À½ÀÌ³ª ³¡¿¡ °ø¹éÀÌ »ðÀÔµÇ ÀÖÀ» °æ¿ì¿¡´Â °Ë»ç¿¡ ½ÇÆÐÇÏ°Ô µË´Ï´Ù.
+        /// ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ ï¿½Ë»ç¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È®ï¿½ï¿½ ï¿½Ë»ç¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+        /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ Ã³ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½Ë»ç¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ë´Ï´ï¿½.
         /// </remarks>
         [Obsolete]
         public static bool IsCorrected(string input)

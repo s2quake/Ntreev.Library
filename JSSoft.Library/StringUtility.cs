@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using JSSoft.Library.IO;
 using System;
@@ -29,8 +32,8 @@ using System.Text.RegularExpressions;
 
 namespace JSSoft.Library
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0017:°³Ã¼ ÃÊ±âÈ­ ´Ü¼øÈ­", Justification = "<º¸·ù Áß>")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:°£´ÜÇÑ 'using' ¹® »ç¿ë", Justification = "<º¸·ù Áß>")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0017:ï¿½ï¿½Ã¼ ï¿½Ê±ï¿½È­ ï¿½Ü¼ï¿½È­", Justification = "<ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½>")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 'using' ï¿½ï¿½ ï¿½ï¿½ï¿½", Justification = "<ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½>")]
     public static class StringUtility
     {
         private static readonly string Passphrase = "seckey";
@@ -254,7 +257,7 @@ namespace JSSoft.Library
         }
 
         /// <summary>
-        /// sqlÀÇ like¹®°ú °°Àº µ¿ÀÛÀ» ¼öÇàÇÕ´Ï´Ù.
+        /// sqlï¿½ï¿½ likeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         /// </summary>
         [Obsolete]
         public static bool Like(this string text, string find)

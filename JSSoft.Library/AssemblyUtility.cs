@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using System;
 using System.IO;
@@ -26,7 +29,7 @@ namespace JSSoft.Library
 
         /// <summary>
         /// http://geekswithblogs.net/rupreet/archive/2005/11/02/58873.aspx
-        /// Assembly���� �ƴ��� üũ
+        /// Assembly占쏙옙占쏙옙 占싣댐옙占쏙옙 체크
         /// </summary>
         /// <param name="path"></param>
         public static bool GetIsAssembly(string path)
@@ -71,7 +74,7 @@ namespace JSSoft.Library
   Now we are at the end of the PE Header and from here, the
               PE Optional Headers starts...
         To go directly to the datadictionary, we'll increase the      
-        stream��s current position to with 96 (0x60). 96 because,
+        stream占쏙옙s current position to with 96 (0x60). 96 because,
               28 for Standard fields
               68 for NT-specific fields
   From here DataDictionary starts...and its of total 128 bytes. DataDictionay has 16 directories in total,

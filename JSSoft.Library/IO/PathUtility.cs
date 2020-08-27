@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using JSSoft.Library.Properties;
 using System;
@@ -55,7 +58,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ÁöÁ¤µÈ °æ·Î¿¡ ÀÓ½Ã Æú´õ¸¦ »ý¼ºÇÕ´Ï´Ù.
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ó½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         /// </summary>
         public static string GetTempPath(string targetPath, bool create)
         {

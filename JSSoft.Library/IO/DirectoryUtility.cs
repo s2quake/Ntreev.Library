@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using System;
 using System.Collections.Generic;
@@ -183,7 +186,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ÁÖ¾îÁø ÀÎÀÚ¸¦ °áÇÕÇÏ¿© µð·ºÅä¸® °æ·Î¸¦ ¸¸µé°í ÇØ´ç µð·ºÅä¸®°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é »ý¼ºÇÕ´Ï´Ù.
+        /// ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ä¸® ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         /// </summary>
         public static string Prepare(params string[] paths)
         {
@@ -237,7 +240,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ÁöÁ¤µÈ °æ·Î¿¡ »ó´ë ¶Ç´Â Àý´ë °æ·Î¿¡ ´ëÇØ¼­ Àý´ë °æ·Î¸¦ °è»êÇØ ¹ÝÈ¯ÇÕ´Ï´Ù.
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Õ´Ï´ï¿½.
         /// </summary>
         public static string GetAbsolutePath(string sourcePath, string relativeOrAbsolutePath)
         {

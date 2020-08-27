@@ -2,11 +2,16 @@
 
 This project is used by [Crema Project](https://github.com/s2quake/crema) sub module
 
+Forked from **<https://github.com/NtreevSoft/Ntreev.Library>**
+
+Namespaces and files starting with "**Ntreev**" have been renamed to "**JSSoft**".
+
 ## License
 
 Released under the MIT License.
 
 Copyright (c) 2018 Ntreev Soft co., Ltd.
+
 Copyright (c) 2020 Jeesu Choi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated

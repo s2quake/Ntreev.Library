@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using JSSoft.Library.ObjectModel;
 using System;
@@ -259,7 +262,7 @@ namespace JSSoft.Library.Linq
         }
 
         /// <summary>
-        /// ÀÚ½Å°ú ¸ñ·ÏÀ» ÇÕÄ¨´Ï´Ù.
+        /// ï¿½Ú½Å°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¨ï¿½Ï´ï¿½.
         /// </summary>
         public static IEnumerable<TSource> Friends<TSource>(TSource e, IEnumerable<TSource> items)
         {
@@ -377,7 +380,7 @@ namespace JSSoft.Library.Linq
 
                 if (attr.DependencyType == null)
                 {
-                    System.Diagnostics.Trace.WriteLine(string.Format("'{0}' Å¸ÀÔÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.", attr.DependencyTypeName));
+                    System.Diagnostics.Trace.WriteLine(string.Format("'{0}' Å¸ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", attr.DependencyTypeName));
                     continue;
                 }
 

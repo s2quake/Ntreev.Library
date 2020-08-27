@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using System;
 using System.Collections.Concurrent;
@@ -119,8 +122,8 @@ namespace JSSoft.Library.Threading
         internal void Run()
         {
 #if DEBUG
-            // ÇÁ·Î±×·¥ Á¾·á½Ã¿¡µµ Dispatcher°¡ ¿©ÀüÈ÷ ½ÇÇàÁßÀÌ¶ó¸é ¾Æ·¡ÀÇ º¯¼ö¸¦ Âü°íÇÏ¿© 
-            // Dispatcher°¡ Á¤»óÀûÀ¸·Î Dispose µÇ´ÂÁö È®ÀÎÇÕ´Ï´Ù.
+            // ï¿½ï¿½ï¿½Î±×·ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ Dispatcherï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ 
+            // Dispatcherï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Dispose ï¿½Ç´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
             var owner = this.dispatcher.Owner;
             var stackStace = this.dispatcher.StackTrace;
 #endif

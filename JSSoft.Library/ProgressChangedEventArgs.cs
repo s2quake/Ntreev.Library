@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using System;
 
@@ -38,7 +41,7 @@ namespace JSSoft.Library
         public ProgressChangedEventArgs(double value, string message)
         {
             if (value > 1.0 || value < 0.0)
-                throw new ArgumentOutOfRangeException("value", value, "0 °ú 1»çÀÌÀÇ °ªÀ» »ç¿ëÇØ¾ß ÇÕ´Ï´Ù.");
+                throw new ArgumentOutOfRangeException("value", value, "0 ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Õ´Ï´ï¿½.");
             this.State = ProgressChangeState.Changed;
             this.Value = value;
             this.Message = message;

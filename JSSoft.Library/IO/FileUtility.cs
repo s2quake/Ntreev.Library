@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using JSSoft.Library.ObjectModel;
 using System;
@@ -95,7 +98,7 @@ namespace JSSoft.Library.IO
         public static string ToLocalPath(string path, string dirPath)
         {
             if (path.IndexOf(ToAbsolutePath(dirPath), StringComparison.CurrentCultureIgnoreCase) < 0)
-                throw new ArgumentException("ÆÄÀÏ °æ·Î¿¡ ºÎ¸ð °æ·Î°¡ Æ÷ÇÔµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.", nameof(path));
+                throw new ArgumentException("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.", nameof(path));
             if (path == dirPath)
                 return string.Empty;
 
@@ -136,7 +139,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ÁÖ¾îÁø ÀÎÀÚ¸¦ °áÇÕÇÏ¿© ÆÄÀÏ °æ·Î¸¦ ¸¸µé°í ÆÄÀÏÀÇ µð·ºÅä¸®°¡ ¾øÀ»¶§ µð·ºÅä¸®¸¦ »ý¼ºÇÕ´Ï´Ù.
+        /// ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         /// </summary>
         public static string Prepare(params string[] paths)
         {
@@ -246,7 +249,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ÁöÁ¤ÇÑ °æ·Î°¡ ¾øÀ¸¸é ¸¸µé°í ³»¿ëÀ» ÀúÀåÇÕ´Ï´Ù.
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         /// </summary>
         public static string WriteAllLines(string[] contents, params string[] paths)
         {
@@ -263,11 +266,11 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ÁöÁ¤ÇÑ °æ·Î¸¦ Á¶ÇÕÇØ »õ·Î¿î ÆÄÀÏ °æ·Î¸¦ ¸¸µé°í ÆÄÀÏ °æ·Î¿¡ ³»¿ëÀ» ÀúÀåÇÕ´Ï´Ù.
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         /// </summary>
         /// <param name="contents"></param>
         /// <param name="paths"></param>
-        /// <returns> ÀúÀå¿¡ ¼º°øÇÏ¸é »õ·Î ¸¸µé¾îÁø ÆÄÀÏ °æ·Î¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.</returns>
+        /// <returns> ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½È¯ï¿½Õ´Ï´ï¿½.</returns>
         public static string WriteAllText(string contents, params string[] paths)
         {
             var filename = FileUtility.Prepare(paths);

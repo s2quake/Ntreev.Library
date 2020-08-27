@@ -18,10 +18,11 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# Forked from https://github.com/NtreevSoft/Ntreev.Library
+# Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
+
 # IDE0060: 사용하지 않는 매개 변수를 제거하세요.
 dotnet_code_quality_unused_parameters = non_public:none
-
-
 
 # IDE0003: 한정자 제거
 dotnet_style_qualification_for_event = false:none
@@ -34,7 +35,6 @@ dotnet_style_qualification_for_method = false:none
 
 # IDE0003: 한정자 제거
 dotnet_style_qualification_for_property = false:none
-
 
 # IDE0059: 불필요한 값 할당
 csharp_style_unused_value_assignment_preference = unused_local_variable:suggestion

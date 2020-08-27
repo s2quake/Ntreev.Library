@@ -15,6 +15,9 @@
 // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// Forked from https://github.com/NtreevSoft/Ntreev.Library
+// Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using JSSoft.Library.ObjectModel;
 using System;
@@ -44,7 +47,7 @@ namespace JSSoft.Library.IO.Virtualization.Local
             get
             {
                 if (path.EndsWith(PathUtility.Separator) == true)
-                    throw new ArgumentException("Àß¸øµÈ ÆÄÀÏ °æ·ÎÀÔ´Ï´Ù.");
+                    throw new ArgumentException("ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
                 return this[path];
             }
         }
