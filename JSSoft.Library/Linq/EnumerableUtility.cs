@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -15,12 +15,12 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.ObjectModel;
+using JSSoft.Library.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ntreev.Library.Linq
+namespace JSSoft.Library.Linq
 {
     public static class EnumerableUtility
     {
@@ -258,7 +258,7 @@ namespace Ntreev.Library.Linq
         }
 
         /// <summary>
-        /// ìì‹ ê³¼ ëª©ë¡ì„ í•©ì¹©ë‹ˆë‹¤.
+        /// ÀÚ½Å°ú ¸ñ·ÏÀ» ÇÕÄ¨´Ï´Ù.
         /// </summary>
         public static IEnumerable<TSource> Friends<TSource>(TSource e, IEnumerable<TSource> items)
         {
@@ -376,7 +376,7 @@ namespace Ntreev.Library.Linq
 
                 if (attr.DependencyType == null)
                 {
-                    System.Diagnostics.Trace.WriteLine(string.Format("'{0}' íƒ€ì…ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.", attr.DependencyTypeName));
+                    System.Diagnostics.Trace.WriteLine(string.Format("'{0}' Å¸ÀÔÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.", attr.DependencyTypeName));
                     continue;
                 }
 

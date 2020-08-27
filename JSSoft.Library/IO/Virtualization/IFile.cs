@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -18,7 +18,7 @@
 using System.Data;
 using System.IO;
 
-namespace Ntreev.Library.IO.Virtualization
+namespace JSSoft.Library.IO.Virtualization
 {
     public interface IFile : IFileSystem
     {

@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
    <Import Project="..\netfx.props" /> 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ntreev.Library\Ntreev.Library.csproj" />
-    <ProjectReference Include="..\Ntreev.Library.Random\Ntreev.Library.Random.csproj" />
+    <ProjectReference Include="..\JSSoft.Library\JSSoft.Library.csproj" />
+    <ProjectReference Include="..\JSSoft.Library.Random\JSSoft.Library.Random.csproj" />
   </ItemGroup>
 </Project>

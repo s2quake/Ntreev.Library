@@ -1,13 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ntreev.Library.TestProject", "Ntreev.Library.TestProject\Ntreev.Library.TestProject.csproj", "{E9985451-AE81-45D9-BAF0-D0850D76C0CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSSoft.Library.TestProject", "JSSoft.Library.TestProject\JSSoft.Library.TestProject.csproj", "{E9985451-AE81-45D9-BAF0-D0850D76C0CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ntreev.Library.Random", "Ntreev.Library.Random\Ntreev.Library.Random.csproj", "{83F1180F-F170-48CF-BE1E-CA60D6851800}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSSoft.Library.Random", "JSSoft.Library.Random\JSSoft.Library.Random.csproj", "{83F1180F-F170-48CF-BE1E-CA60D6851800}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ntreev.Library", "Ntreev.Library\Ntreev.Library.csproj", "{DA0B09C8-1FD8-4F0E-B4B6-2291B06E406B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSSoft.Library", "JSSoft.Library\JSSoft.Library.csproj", "{DA0B09C8-1FD8-4F0E-B4B6-2291B06E406B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "etc", "etc", "{DAA0A30C-D8DB-4F55-8F3F-C7CEF359400F}"
 	ProjectSection(SolutionItems) = preProject

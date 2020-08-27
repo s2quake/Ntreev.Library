@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 
-namespace Ntreev.Library.IO
+namespace JSSoft.Library.IO
 {
     public class RangeStream : Stream
     {

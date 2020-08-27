@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -19,7 +19,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Ntreev.Library.IO
+namespace JSSoft.Library.IO
 {
     public static class BinaryWriterExtension
     {

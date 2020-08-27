@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -20,7 +20,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace Ntreev.Library.ObjectModel
+namespace JSSoft.Library.ObjectModel
 {
     public abstract class ContainerBase<T> : IContainer<T>
     {

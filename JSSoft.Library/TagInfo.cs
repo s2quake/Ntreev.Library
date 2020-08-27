@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -21,7 +21,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     [TypeConverter(typeof(TagInfoTypeConverter))]
     [DataContract(Namespace = SchemaUtility.Namespace)]

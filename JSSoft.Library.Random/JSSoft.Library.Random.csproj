@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
    <Import Project="..\netfx.props" /> 
   <ItemGroup>
@@ -6,6 +6,6 @@
     <EmbeddedResource Include="Resources\words.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ntreev.Library\Ntreev.Library.csproj" />
+    <ProjectReference Include="..\JSSoft.Library\JSSoft.Library.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-Ôªø//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -15,12 +15,12 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.ObjectModel;
+using JSSoft.Library.ObjectModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Ntreev.Library.IO.Virtualization.Memory
+namespace JSSoft.Library.IO.Virtualization.Memory
 {
     public class MemoryFileCollection : ItemContainer<MemoryFile, MemoryFolder, MemoryFileCollection, MemoryFolderCollection, MemoryStorage>, IFileCollection
     {
@@ -43,7 +43,7 @@ namespace Ntreev.Library.IO.Virtualization.Memory
             get
             {
                 if (path.EndsWith(PathUtility.Separator) == true)
-                    throw new ArgumentException("ÏûòÎ™ªÎêú ÌååÏùº Í≤ΩÎ°úÏûÖÎãàÎã§.");
+                    throw new ArgumentException("¿ﬂ∏¯µ» ∆ƒ¿œ ∞Ê∑Œ¿‘¥œ¥Ÿ.");
                 return this[path];
             }
         }

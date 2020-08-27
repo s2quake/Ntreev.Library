@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -15,14 +15,14 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.Linq;
-using Ntreev.Library.Properties;
+using JSSoft.Library.Linq;
+using JSSoft.Library.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 
-namespace Ntreev.Library.ObjectModel
+namespace JSSoft.Library.ObjectModel
 {
     public abstract class CategoryContainer<_I, _C, _IC, _CC, _CT> : ContainerBase<_C>
         where _I : ItemBase<_I, _C, _IC, _CC, _CT>

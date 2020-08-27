@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     [Obsolete]
     public struct ConfigurationItem

@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -18,23 +18,23 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     /// <summary>
-    /// 식별자로 사용되는 문자열의 검증 기능을 제공합니다.
+    /// �ĺ��ڷ� ���Ǵ� ���ڿ��� ���� ����� �����մϴ�.
     /// </summary>
     public static class IdentifierValidator
     {
         public const string IdentiFierPattern = @"^[a-zA-Z_$][a-zA-Z0-9_$]*$";
 
         /// <summary>
-        /// 식별자에 적합하지 않은 문자열을 '_'로 대체합니다.
+        /// �ĺ��ڿ� �������� ���� ���ڿ��� '_'�� ��ü�մϴ�.
         /// </summary>
         /// <param name="input">
-        /// 식별자로 사용되는 문자열입니다.
+        /// �ĺ��ڷ� ���Ǵ� ���ڿ��Դϴ�.
         /// </param>
         /// <returns>
-        /// 올바른 식별자로 대체된 문자열을 반환합니다.
+        /// �ùٸ� �ĺ��ڷ� ��ü�� ���ڿ��� ��ȯ�մϴ�.
         /// </returns>
         [Obsolete]
         public static string Replace(string input)
@@ -44,17 +44,17 @@ namespace Ntreev.Library
         }
 
         /// <summary>
-        /// 식별자가 올바른지에 대한 여부를 확인합니다.
+        /// �ĺ��ڰ� �ùٸ����� ���� ���θ� Ȯ���մϴ�.
         /// </summary>
         /// <param name="input">
-        /// 식별자로 사용되는 문자열입니다.
+        /// �ĺ��ڷ� ���Ǵ� ���ڿ��Դϴ�.
         /// </param>
         /// <returns>
-        /// 식별자로 사용되기에 적합하다면 true를, 그렇지 않다면 false를 반환합니다.
+        /// �ĺ��ڷ� ���Ǳ⿡ �����ϴٸ� true��, �׷��� �ʴٸ� false�� ��ȯ�մϴ�.
         /// </returns>
         /// <remarks>
-        /// 이 메소드는 검사에 대한 유연성을 제공하지 않습니다. 전달 받은 문자열에 대한 정확한 검사를 수행합니다.
-        /// 만약 문자열 처음이나 끝에 공백이 삽입되 있을 경우에는 검사에 실패하게 됩니다.
+        /// �� �޼ҵ�� �˻翡 ���� �������� �������� �ʽ��ϴ�. ���� ���� ���ڿ��� ���� ��Ȯ�� �˻縦 �����մϴ�.
+        /// ���� ���ڿ� ó���̳� ���� ������ ���Ե� ���� ��쿡�� �˻翡 �����ϰ� �˴ϴ�.
         /// </remarks>
         [Obsolete]
         public static bool IsCorrected(string input)

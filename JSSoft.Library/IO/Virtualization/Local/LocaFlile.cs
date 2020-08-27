@@ -15,11 +15,11 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.ObjectModel;
+using JSSoft.Library.ObjectModel;
 using System;
 using System.IO;
 
-namespace Ntreev.Library.IO.Virtualization.Local
+namespace JSSoft.Library.IO.Virtualization.Local
 {
     public class LocalFile : ItemBase<LocalFile, LocalFolder, LocalFileCollection, LocalFolderCollection, LocalStorage>, IFile
     {

@@ -1,4 +1,4 @@
-﻿using Ntreev.Library.IO;
+using JSSoft.Library.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     public class CommandHost : IEnumerable<object>
     {

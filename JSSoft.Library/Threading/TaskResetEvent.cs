@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ntreev.Library.Threading
+namespace JSSoft.Library.Threading
 {
     public sealed class TaskResetEvent<T>
     {

@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     public static class EnumUtility
     {
@@ -165,7 +165,7 @@ namespace Ntreev.Library
                     }
 
                     if (existed == false)
-                        throw new InvalidOperationException(string.Format("{0} ê°’ì€ ì •ì˜ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.", item));
+                        throw new InvalidOperationException(string.Format("{0} °ªÀº Á¤ÀÇµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.", item));
                 }
                 return value;
             }
@@ -176,7 +176,7 @@ namespace Ntreev.Library
                     if (textValue == names[i])
                         return values[i];
                 }
-                throw new InvalidOperationException(string.Format("{0} ê°’ì€ ì •ì˜ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.", textValue));
+                throw new InvalidOperationException(string.Format("{0} °ªÀº Á¤ÀÇµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.", textValue));
             }
         }
     }

@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -15,7 +15,7 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.ObjectModel;
+using JSSoft.Library.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +23,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Ntreev.Library.IO
+namespace JSSoft.Library.IO
 {
     public static class FileUtility
     {
@@ -94,7 +94,7 @@ namespace Ntreev.Library.IO
         public static string ToLocalPath(string path, string dirPath)
         {
             if (path.IndexOf(ToAbsolutePath(dirPath), StringComparison.CurrentCultureIgnoreCase) < 0)
-                throw new ArgumentException("íŒŒì¼ ê²½ë¡œì— ë¶€ëª¨ ê²½ë¡œê°€ í¬í•¨ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.", nameof(path));
+                throw new ArgumentException("ÆÄÀÏ °æ·Î¿¡ ºÎ¸ğ °æ·Î°¡ Æ÷ÇÔµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.", nameof(path));
             if (path == dirPath)
                 return string.Empty;
 
@@ -135,7 +135,7 @@ namespace Ntreev.Library.IO
         }
 
         /// <summary>
-        /// ì£¼ì–´ì§„ ì¸ìë¥¼ ê²°í•©í•˜ì—¬ íŒŒì¼ ê²½ë¡œë¥¼ ë§Œë“¤ê³  íŒŒì¼ì˜ ë””ë ‰í† ë¦¬ê°€ ì—†ì„ë•Œ ë””ë ‰í† ë¦¬ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+        /// ÁÖ¾îÁø ÀÎÀÚ¸¦ °áÇÕÇÏ¿© ÆÄÀÏ °æ·Î¸¦ ¸¸µé°í ÆÄÀÏÀÇ µğ·ºÅä¸®°¡ ¾øÀ»¶§ µğ·ºÅä¸®¸¦ »ı¼ºÇÕ´Ï´Ù.
         /// </summary>
         public static string Prepare(params string[] paths)
         {
@@ -245,7 +245,7 @@ namespace Ntreev.Library.IO
         }
 
         /// <summary>
-        /// ì§€ì •í•œ ê²½ë¡œê°€ ì—†ìœ¼ë©´ ë§Œë“¤ê³  ë‚´ìš©ì„ ì €ì¥í•©ë‹ˆë‹¤.
+        /// ÁöÁ¤ÇÑ °æ·Î°¡ ¾øÀ¸¸é ¸¸µé°í ³»¿ëÀ» ÀúÀåÇÕ´Ï´Ù.
         /// </summary>
         public static string WriteAllLines(string[] contents, params string[] paths)
         {
@@ -262,11 +262,11 @@ namespace Ntreev.Library.IO
         }
 
         /// <summary>
-        /// ì§€ì •í•œ ê²½ë¡œë¥¼ ì¡°í•©í•´ ìƒˆë¡œìš´ íŒŒì¼ ê²½ë¡œë¥¼ ë§Œë“¤ê³  íŒŒì¼ ê²½ë¡œì— ë‚´ìš©ì„ ì €ì¥í•©ë‹ˆë‹¤.
+        /// ÁöÁ¤ÇÑ °æ·Î¸¦ Á¶ÇÕÇØ »õ·Î¿î ÆÄÀÏ °æ·Î¸¦ ¸¸µé°í ÆÄÀÏ °æ·Î¿¡ ³»¿ëÀ» ÀúÀåÇÕ´Ï´Ù.
         /// </summary>
         /// <param name="contents"></param>
         /// <param name="paths"></param>
-        /// <returns> ì €ì¥ì— ì„±ê³µí•˜ë©´ ìƒˆë¡œ ë§Œë“¤ì–´ì§„ íŒŒì¼ ê²½ë¡œë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.</returns>
+        /// <returns> ÀúÀå¿¡ ¼º°øÇÏ¸é »õ·Î ¸¸µé¾îÁø ÆÄÀÏ °æ·Î¸¦ ¹İÈ¯ÇÕ´Ï´Ù.</returns>
         public static string WriteAllText(string contents, params string[] paths)
         {
             var filename = FileUtility.Prepare(paths);

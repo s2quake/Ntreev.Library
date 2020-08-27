@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -20,7 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     public static class UriUtility
     {

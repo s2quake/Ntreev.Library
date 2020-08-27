@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -15,14 +15,14 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.IO;
-using Ntreev.Library.ObjectModel;
+using JSSoft.Library.IO;
+using JSSoft.Library.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Ntreev.Library.Random
+namespace JSSoft.Library.Random
 {
     public static class RandomUtility
     {
@@ -311,7 +311,7 @@ namespace Ntreev.Library.Random
                 return Enum.Parse(type, name);
             }
 
-            throw new Exception("ì§€ì›í•˜ì§€ ì•ŠëŠ” íƒ€ì…ì…ë‹ˆë‹¤.");
+            throw new Exception("Áö¿øÇÏÁö ¾Ê´Â Å¸ÀÔÀÔ´Ï´Ù.");
         }
 
         public static T RandomOrDefault<T>(this IEnumerable<T> enumerable)

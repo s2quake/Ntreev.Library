@@ -1,10 +1,10 @@
-ï»¿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ntreev.Library.Threading
+namespace JSSoft.Library.Threading
 {
     public sealed class DispatcherScheduler : TaskScheduler
     {
@@ -101,8 +101,8 @@ namespace Ntreev.Library.Threading
         internal void Run()
         {
 #if DEBUG
-            // í”„ë¡œê·¸ë¨ ì¢…ë£Œì‹œì—ë„ Dispatcherê°€ ì—¬ì „íˆ ì‹¤í–‰ì¤‘ì´ë¼ë©´ ì•„ë˜ì˜ ë³€ìˆ˜ë¥¼ ì°¸ê³ í•˜ì—¬ 
-            // Dispatcherê°€ ì •ìƒì ìœ¼ë¡œ Dispose ë˜ëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤.
+            // ÇÁ·Î±×·¥ Á¾·á½Ã¿¡µµ Dispatcher°¡ ¿©ÀüÈ÷ ½ÇÇàÁßÀÌ¶ó¸é ¾Æ·¡ÀÇ º¯¼ö¸¦ Âü°íÇÏ¿© 
+            // Dispatcher°¡ Á¤»óÀûÀ¸·Î Dispose µÇ´ÂÁö È®ÀÎÇÕ´Ï´Ù.
             var owner = this.dispatcher.Owner;
             var stackStace = this.dispatcher.StackTrace;
 #endif

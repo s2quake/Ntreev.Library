@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Ntreev.Library.IO
+namespace JSSoft.Library.IO
 {
     public static class DirectoryUtility
     {
@@ -182,7 +182,7 @@ namespace Ntreev.Library.IO
         }
 
         /// <summary>
-        /// ì£¼ì–´ì§„ ì¸ìë¥¼ ê²°í•©í•˜ì—¬ ë””ë ‰í† ë¦¬ ê²½ë¡œë¥¼ ë§Œë“¤ê³  í•´ë‹¹ ë””ë ‰í† ë¦¬ê°€ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ ìƒì„±í•©ë‹ˆë‹¤.
+        /// ÁÖ¾îÁø ÀÎÀÚ¸¦ °áÇÕÇÏ¿© µğ·ºÅä¸® °æ·Î¸¦ ¸¸µé°í ÇØ´ç µğ·ºÅä¸®°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é »ı¼ºÇÕ´Ï´Ù.
         /// </summary>
         public static string Prepare(params string[] paths)
         {
@@ -236,7 +236,7 @@ namespace Ntreev.Library.IO
         }
 
         /// <summary>
-        /// ì§€ì •ëœ ê²½ë¡œì— ìƒëŒ€ ë˜ëŠ” ì ˆëŒ€ ê²½ë¡œì— ëŒ€í•´ì„œ ì ˆëŒ€ ê²½ë¡œë¥¼ ê³„ì‚°í•´ ë°˜í™˜í•©ë‹ˆë‹¤.
+        /// ÁöÁ¤µÈ °æ·Î¿¡ »ó´ë ¶Ç´Â Àı´ë °æ·Î¿¡ ´ëÇØ¼­ Àı´ë °æ·Î¸¦ °è»êÇØ ¹İÈ¯ÇÕ´Ï´Ù.
         /// </summary>
         public static string GetAbsolutePath(string sourcePath, string relativeOrAbsolutePath)
         {

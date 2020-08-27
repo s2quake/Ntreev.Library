@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     public abstract class ExceptionPublisherBase : IExceptionPublisher
     {

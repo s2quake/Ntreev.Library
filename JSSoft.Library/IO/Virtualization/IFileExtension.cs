@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Ntreev.Library.IO.Virtualization
+namespace JSSoft.Library.IO.Virtualization
 {
     public static class IFileExtension
     {

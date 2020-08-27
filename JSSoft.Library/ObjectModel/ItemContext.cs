@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -17,7 +17,7 @@
 
 using System.Collections.Generic;
 
-namespace Ntreev.Library.ObjectModel
+namespace JSSoft.Library.ObjectModel
 {
     public abstract class ItemContext<_I, _C, _IC, _CC, _CT> : IEnumerable<IItem>
         where _I : ItemBase<_I, _C, _IC, _CC, _CT>

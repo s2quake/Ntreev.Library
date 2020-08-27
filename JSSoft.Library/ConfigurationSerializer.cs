@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     public class ConfigurationSerializer : IConfigurationSerializer
     {
-        public const string Namespace = "http://schemas.ntreev.com/configs";
+        public const string Namespace = "http://schemas.JSSoft.com/configs";
         public const string Configurations = nameof(Configurations);
 
         private readonly Dictionary<string, Type> typeByName = new Dictionary<string, Type>()

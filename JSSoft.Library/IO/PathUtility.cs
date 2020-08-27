@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -15,14 +15,14 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.Properties;
+using JSSoft.Library.Properties;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace Ntreev.Library.IO
+namespace JSSoft.Library.IO
 {
     public static class PathUtility
     {
@@ -54,7 +54,7 @@ namespace Ntreev.Library.IO
         }
 
         /// <summary>
-        /// ì§€ì •ëœ ê²½ë¡œì— ì„ì‹œ í´ë”ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+        /// ÁöÁ¤µÈ °æ·Î¿¡ ÀÓ½Ã Æú´õ¸¦ »ı¼ºÇÕ´Ï´Ù.
         /// </summary>
         public static string GetTempPath(string targetPath, bool create)
         {

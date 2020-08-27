@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -18,14 +18,14 @@
 using System;
 using System.IO;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     public static class AssemblyUtility
     {
 
         /// <summary>
         /// http://geekswithblogs.net/rupreet/archive/2005/11/02/58873.aspx
-        /// Assemblyì¸ì§€ ì•„ë‹Œì§€ ì²´í¬
+        /// AssemblyÀÎÁö ¾Æ´ÑÁö Ã¼Å©
         /// </summary>
         /// <param name="path"></param>
         public static bool GetIsAssembly(string path)
@@ -70,7 +70,7 @@ namespace Ntreev.Library
   Now we are at the end of the PE Header and from here, the
               PE Optional Headers starts...
         To go directly to the datadictionary, we'll increase the      
-        streamâ€™s current position to with 96 (0x60). 96 because,
+        stream¡¯s current position to with 96 (0x60). 96 because,
               28 for Standard fields
               68 for NT-specific fields
   From here DataDictionary starts...and its of total 128 bytes. DataDictionay has 16 directories in total,

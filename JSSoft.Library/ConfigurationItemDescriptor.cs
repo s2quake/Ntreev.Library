@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     sealed class ConfigurationItemDescriptor : ConfigurationPropertyDescriptor
     {

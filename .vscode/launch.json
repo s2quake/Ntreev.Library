@@ -1,7 +1,7 @@
 {
-    // IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
-    // 기존 특성에 대한 설명을 보려면 가리킵니다.
-    // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+    // IntelliSense�??�용?�여 가?�한 ?�성???�???�아보세??
+    // 기존 ?�성???�???�명??보려�?가리킵?�다.
+    // ?�세???�용??보려�?https://go.microsoft.com/fwlink/?linkid=830387??�? 방문?�세??
     "version": "0.2.0",
     "configurations": [
         {
@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/Ntreev.Library.TestProject/Ntreev.Library.TestProject.dll",
+            "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/JSSoft.Library.TestProject/JSSoft.Library.TestProject.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Ntreev.Library.TestProject",
+            "cwd": "${workspaceFolder}/JSSoft.Library.TestProject",
             "console": "internalConsole",
             "stopAtEntry": false
         },

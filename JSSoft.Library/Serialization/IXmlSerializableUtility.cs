@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -22,7 +22,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Ntreev.Library.Serialization
+namespace JSSoft.Library.Serialization
 {
     public static class IXmlSerializableUtility
     {

@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -15,13 +15,13 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.ObjectModel;
+using JSSoft.Library.ObjectModel;
 using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Ntreev.Library.IO.Virtualization.Local
+namespace JSSoft.Library.IO.Virtualization.Local
 {
     public class LocalStorage : ItemContext<LocalFile, LocalFolder, LocalFileCollection, LocalFolderCollection, LocalStorage>, IStorage
     {

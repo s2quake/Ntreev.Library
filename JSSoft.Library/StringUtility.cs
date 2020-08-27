@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -15,7 +15,7 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.IO;
+using JSSoft.Library.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,10 +26,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0017:ê°œì²´ ì´ˆê¸°í™” ë‹¨ìˆœí™”", Justification = "<ë³´ë¥˜ ì¤‘>")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:ê°„ë‹¨í•œ 'using' ë¬¸ ì‚¬ìš©", Justification = "<ë³´ë¥˜ ì¤‘>")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0017:°³Ã¼ ÃÊ±âÈ­ ´Ü¼øÈ­", Justification = "<º¸·ù Áß>")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:°£´ÜÇÑ 'using' ¹® »ç¿ë", Justification = "<º¸·ù Áß>")]
     public static class StringUtility
     {
         private static readonly string Passphrase = "seckey";
@@ -253,7 +253,7 @@ namespace Ntreev.Library
         }
 
         /// <summary>
-        /// sqlì˜ likeë¬¸ê³¼ ê°™ì€ ë™ì‘ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
+        /// sqlÀÇ like¹®°ú °°Àº µ¿ÀÛÀ» ¼öÇàÇÕ´Ï´Ù.
         /// </summary>
         [Obsolete]
         public static bool Like(this string text, string find)

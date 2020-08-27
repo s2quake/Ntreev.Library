@@ -1,14 +1,14 @@
-﻿using Ntreev.Library.Serialization;
+using JSSoft.Library.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     public class ConfigurationSerializerDeprecated : IConfigurationSerializer
     {
-        public const string Namespace = "http://schemas.ntreev.com/configurations";
+        public const string Namespace = "http://schemas.JSSoft.com/configurations";
         public const string RootElement = "configurations";
         public const string SerializableElement = "serializables";
 

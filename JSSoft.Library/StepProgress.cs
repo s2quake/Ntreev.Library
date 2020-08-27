@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -17,7 +17,7 @@
 
 using System;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     public class StepProgress : IProgress
     {
@@ -40,16 +40,16 @@ namespace Ntreev.Library
         }
 
         /// <summary>
-        /// ì§„í–‰ ë‹¨ê³„ ì´ íšŸìˆ˜ë¥¼ ì„¤ì •í•¨ê³¼ ë™ì‹œì— ì‹œì‘ì„ ì•Œë¦½ë‹ˆë‹¤. Changed ì´ë²¤íŠ¸ê°€ ë°œìƒí•˜ë©° ì§„í–‰ë¥ ì€ 0ìœ¼ë¡œ ì„¤ì •ë©ë‹ˆë‹¤.
+        /// ÁøÇà ´Ü°è ÃÑ È½¼ö¸¦ ¼³Á¤ÇÔ°ú µ¿½Ã¿¡ ½ÃÀÛÀ» ¾Ë¸³´Ï´Ù. Changed ÀÌº¥Æ®°¡ ¹ß»ıÇÏ¸ç ÁøÇà·üÀº 0À¸·Î ¼³Á¤µË´Ï´Ù.
         /// </summary>
         /// <remarks>
-        /// ë‹¨ê³„ ì„¤ì • íšŸìˆ˜ëŠ” Next() í˜¸ì¶œ íšŸìˆ˜ì™€ í•œë²ˆì˜ Complete() í˜¸ì¶œì„ í•©í•œ ê°’ì…ë‹ˆë‹¤. 
-        /// íšŸìˆ˜ë¥¼ 3ìœ¼ë¡œ ì„¤ì •í–ˆì„ë•ŒëŠ” ë‘ë²ˆì˜ Next() ì™€ í•œë²ˆì˜ Complete() ê°€ í˜¸ì¶œë˜ì–´ì•¼ë§Œ í•©ë‹ˆë‹¤.
+        /// ´Ü°è ¼³Á¤ È½¼ö´Â Next() È£Ãâ È½¼ö¿Í ÇÑ¹øÀÇ Complete() È£ÃâÀ» ÇÕÇÑ °ªÀÔ´Ï´Ù. 
+        /// È½¼ö¸¦ 3À¸·Î ¼³Á¤ÇßÀ»¶§´Â µÎ¹øÀÇ Next() ¿Í ÇÑ¹øÀÇ Complete() °¡ È£ÃâµÇ¾î¾ß¸¸ ÇÕ´Ï´Ù.
         /// </remarks>
         public void Begin(int steps, string message)
         {
             if (steps <= 0)
-                throw new Exception("ìµœì†Œ 1ë‹¨ê³„ ì´ìƒì´ ë˜ì–´ì•¼ í•©ë‹ˆë‹¤.");
+                throw new Exception("ÃÖ¼Ò 1´Ü°è ÀÌ»óÀÌ µÇ¾î¾ß ÇÕ´Ï´Ù.");
             this.Step = 0;
             this.steps = steps;
 
@@ -62,7 +62,7 @@ namespace Ntreev.Library
         }
 
         /// <summary>
-        /// ì´ì „ ë‹¨ê³„ë¥¼ ë§ˆë¬´ë¦¬ í•˜ê³  ë‹¤ìŒ ë‹¨ê³„ë¡œ ì§„ì…í•©ë‹ˆë‹¤.
+        /// ÀÌÀü ´Ü°è¸¦ ¸¶¹«¸® ÇÏ°í ´ÙÀ½ ´Ü°è·Î ÁøÀÔÇÕ´Ï´Ù.
         /// </summary>
         public void Next()
         {
@@ -72,7 +72,7 @@ namespace Ntreev.Library
         public void Next(string message)
         {
             if (this.Step >= this.steps)
-                throw new Exception(string.Format("ë‹¨ê³„ê°€ ì§€ì •ëœ íšŸìˆ˜({0})ë³´ë‹¤ ì´ˆê³¼ë˜ì—ˆìŠµë‹ˆë‹¤.", this.Step));
+                throw new Exception(string.Format("´Ü°è°¡ ÁöÁ¤µÈ È½¼ö({0})º¸´Ù ÃÊ°úµÇ¾ú½À´Ï´Ù.", this.Step));
             this.Step++;
             this.Report((double)this.Step / this.steps, message);
         }
@@ -83,7 +83,7 @@ namespace Ntreev.Library
         }
 
         /// <summary>
-        /// ë‹¨ê³„ë¥¼ ë§ˆë¬´ë¦¬ í•©ë‹ˆë‹¤. ì§€ì •ëœ ë‹¨ê³„ íšŸìˆ˜ë³´ë‹¤ ì ì€ ìƒíƒœì—ì„œ í˜¸ì¶œë˜ì—ˆì„ë•ŒëŠ” ì˜ˆì™¸ë¥¼ ë°œìƒí•©ë‹ˆë‹¤.
+        /// ´Ü°è¸¦ ¸¶¹«¸® ÇÕ´Ï´Ù. ÁöÁ¤µÈ ´Ü°è È½¼öº¸´Ù ÀûÀº »óÅÂ¿¡¼­ È£ÃâµÇ¾úÀ»¶§´Â ¿¹¿Ü¸¦ ¹ß»ıÇÕ´Ï´Ù.
         /// </summary>
         public void Complete()
         {
@@ -93,7 +93,7 @@ namespace Ntreev.Library
         public void Complete(string message)
         {
             if (this.Step + 1 < this.steps)
-                throw new Exception(string.Format("{0} ë‹¨ê³„ì¤‘ {1} ê¹Œì§€ë§Œ ì§„í–‰ë˜ì—ˆìŠµë‹ˆë‹¤.", this.steps, this.Step));
+                throw new Exception(string.Format("{0} ´Ü°èÁß {1} ±îÁö¸¸ ÁøÇàµÇ¾ú½À´Ï´Ù.", this.steps, this.Step));
             this.Complete(false, message);
             this.Step = 0;
             this.steps = 0;
@@ -105,7 +105,7 @@ namespace Ntreev.Library
         }
 
         /// <summary>
-        /// ë‹¨ê³„ë¥¼ ê±´ë„ˆë›´ ìƒíƒœë¡œ ë§ˆë¬´ë¦¬ í•©ë‹ˆë‹¤.
+        /// ´Ü°è¸¦ °Ç³Ê¶Ú »óÅÂ·Î ¸¶¹«¸® ÇÕ´Ï´Ù.
         /// </summary>
         public void Skip()
         {

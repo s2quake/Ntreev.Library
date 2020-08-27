@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -15,7 +15,7 @@
 //COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
 //OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Ntreev.Library.IO;
+using JSSoft.Library.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +23,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Ntreev.Library.Serialization
+namespace JSSoft.Library.Serialization
 {
     public static class XmlSerializerUtility
     {
@@ -211,7 +211,7 @@ namespace Ntreev.Library.Serialization
             return (T)ReadString(text, typeof(T));
         }
 
-        /// <param name="obj">ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì„¤ì •í•˜ì—¬ íƒ€ì… ëª…ì‹œë¥¼ í•˜ì§€ ì•Šê¸° ìœ„í•´ ì“°ëŠ” ìš©ë„ì„</param>
+        /// <param name="obj">ÀÎ½ºÅÏ½º¸¦ ¼³Á¤ÇÏ¿© Å¸ÀÔ ¸í½Ã¸¦ ÇÏÁö ¾Ê±â À§ÇØ ¾²´Â ¿ëµµÀÓ</param>
         public static T ReadString<T>(T _, string text)
         {
             return (T)ReadString(text, typeof(T));

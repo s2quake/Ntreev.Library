@@ -1,4 +1,4 @@
-ï»¿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -17,7 +17,7 @@
 
 using System;
 
-namespace Ntreev.Library
+namespace JSSoft.Library
 {
     public class ProgressChangedEventArgs : EventArgs
     {
@@ -37,7 +37,7 @@ namespace Ntreev.Library
         public ProgressChangedEventArgs(double value, string message)
         {
             if (value > 1.0 || value < 0.0)
-                throw new ArgumentOutOfRangeException("value", value, "0 ê³¼ 1ì‚¬ì´ì˜ ê°’ì„ ì‚¬ìš©í•´ì•¼ í•©ë‹ˆë‹¤.");
+                throw new ArgumentOutOfRangeException("value", value, "0 °ú 1»çÀÌÀÇ °ªÀ» »ç¿ëÇØ¾ß ÇÕ´Ï´Ù.");
             this.State = ProgressChangeState.Changed;
             this.Value = value;
             this.Message = message;

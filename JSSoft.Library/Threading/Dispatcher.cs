@@ -1,4 +1,4 @@
-﻿//Released under the MIT License.
+//Released under the MIT License.
 //
 //Copyright (c) 2018 Ntreev Soft co., Ltd.
 //
@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 #endif
 
-namespace Ntreev.Library.Threading
+namespace JSSoft.Library.Threading
 {
     public class Dispatcher
     {
