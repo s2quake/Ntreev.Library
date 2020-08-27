@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -169,7 +169,7 @@ namespace JSSoft.Library
                     }
 
                     if (existed == false)
-                        throw new InvalidOperationException(string.Format("{0} ���� ���ǵǾ� ���� �ʽ��ϴ�.", item));
+                        throw new InvalidOperationException(string.Format("{0} 占쏙옙占쏙옙 占쏙옙占실되억옙 占쏙옙占쏙옙 占십쏙옙占싹댐옙.", item));
                 }
                 return value;
             }
@@ -180,7 +180,7 @@ namespace JSSoft.Library
                     if (textValue == names[i])
                         return values[i];
                 }
-                throw new InvalidOperationException(string.Format("{0} ���� ���ǵǾ� ���� �ʽ��ϴ�.", textValue));
+                throw new InvalidOperationException(string.Format("{0} 占쏙옙占쏙옙 占쏙옙占실되억옙 占쏙옙占쏙옙 占십쏙옙占싹댐옙.", textValue));
             }
         }
     }

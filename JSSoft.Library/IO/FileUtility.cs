@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -98,7 +98,7 @@ namespace JSSoft.Library.IO
         public static string ToLocalPath(string path, string dirPath)
         {
             if (path.IndexOf(ToAbsolutePath(dirPath), StringComparison.CurrentCultureIgnoreCase) < 0)
-                throw new ArgumentException("���� ��ο� �θ� ��ΰ� ���ԵǾ� ���� �ʽ��ϴ�.", nameof(path));
+                throw new ArgumentException("占쏙옙占쏙옙 占쏙옙恝占?占싸몌옙 占쏙옙寬占?占쏙옙占쌉되억옙 占쏙옙占쏙옙 占십쏙옙占싹댐옙.", nameof(path));
             if (path == dirPath)
                 return string.Empty;
 
@@ -139,7 +139,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// �־��� ���ڸ� �����Ͽ� ���� ��θ� ����� ������ ���丮�� ������ ���丮�� �����մϴ�.
+        /// 占쌍억옙占쏙옙 占쏙옙占쌘몌옙 占쏙옙占쏙옙占싹울옙 占쏙옙占쏙옙 占쏙옙罐占?占쏙옙占쏙옙占?占쏙옙占쏙옙占쏙옙 占쏙옙占썰리占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占썰리占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
         /// </summary>
         public static string Prepare(params string[] paths)
         {
@@ -249,7 +249,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ������ ��ΰ� ������ ����� ������ �����մϴ�.
+        /// 占쏙옙占쏙옙占쏙옙 占쏙옙寬占?占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占?占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
         /// </summary>
         public static string WriteAllLines(string[] contents, params string[] paths)
         {
@@ -266,11 +266,11 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ������ ��θ� ������ ���ο� ���� ��θ� ����� ���� ��ο� ������ �����մϴ�.
+        /// 占쏙옙占쏙옙占쏙옙 占쏙옙罐占?占쏙옙占쏙옙占쏙옙 占쏙옙占싸울옙 占쏙옙占쏙옙 占쏙옙罐占?占쏙옙占쏙옙占?占쏙옙占쏙옙 占쏙옙恝占?占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
         /// </summary>
         /// <param name="contents"></param>
         /// <param name="paths"></param>
-        /// <returns> ���忡 �����ϸ� ���� ������� ���� ��θ� ��ȯ�մϴ�.</returns>
+        /// <returns> 占쏙옙占썲에 占쏙옙占쏙옙占싹몌옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占?占쏙옙占쏙옙 占쏙옙罐占?占쏙옙환占쌌니댐옙.</returns>
         public static string WriteAllText(string contents, params string[] paths)
         {
             var filename = FileUtility.Prepare(paths);

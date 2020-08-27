@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -262,7 +262,7 @@ namespace JSSoft.Library.Linq
         }
 
         /// <summary>
-        /// �ڽŰ� ����� ��Ĩ�ϴ�.
+        /// 占쌘신곤옙 占쏙옙占쏙옙占?占쏙옙칩占싹댐옙.
         /// </summary>
         public static IEnumerable<TSource> Friends<TSource>(TSource e, IEnumerable<TSource> items)
         {
@@ -380,7 +380,7 @@ namespace JSSoft.Library.Linq
 
                 if (attr.DependencyType == null)
                 {
-                    System.Diagnostics.Trace.WriteLine(string.Format("'{0}' Ÿ���� ã�� �� �����ϴ�.", attr.DependencyTypeName));
+                    System.Diagnostics.Trace.WriteLine(string.Format("'{0}' 타占쏙옙占쏙옙 찾占쏙옙 占쏙옙 占쏙옙占쏙옙占싹댐옙.", attr.DependencyTypeName));
                     continue;
                 }
 

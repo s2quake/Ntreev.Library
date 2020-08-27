@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -32,8 +32,8 @@ using System.Text.RegularExpressions;
 
 namespace JSSoft.Library
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0017:��ü �ʱ�ȭ �ܼ�ȭ", Justification = "<���� ��>")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:������ 'using' �� ���", Justification = "<���� ��>")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0017:개체 초기화 단순화", Justification = "<보류 중>")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:간단한 'using' 문 사용", Justification = "<보류 중>")]
     public static class StringUtility
     {
         private static readonly string Passphrase = "seckey";
@@ -257,7 +257,7 @@ namespace JSSoft.Library
         }
 
         /// <summary>
-        /// sql�� like���� ���� ������ �����մϴ�.
+        /// sql占쏙옙 like占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
         /// </summary>
         [Obsolete]
         public static bool Like(this string text, string find)

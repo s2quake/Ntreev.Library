@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -186,7 +186,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// �־��� ���ڸ� �����Ͽ� ���丮 ��θ� ����� �ش� ���丮�� �������� ������ �����մϴ�.
+        /// 占쌍억옙占쏙옙 占쏙옙占쌘몌옙 占쏙옙占쏙옙占싹울옙 占쏙옙占썰리 占쏙옙罐占?占쏙옙占쏙옙占?占쌔댐옙 占쏙옙占썰리占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
         /// </summary>
         public static string Prepare(params string[] paths)
         {
@@ -240,7 +240,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ������ ��ο� ��� �Ǵ� ���� ��ο� ���ؼ� ���� ��θ� ����� ��ȯ�մϴ�.
+        /// 占쏙옙占쏙옙占쏙옙 占쏙옙恝占?占쏙옙占?占실댐옙 占쏙옙占쏙옙 占쏙옙恝占?占쏙옙占쌔쇽옙 占쏙옙占쏙옙 占쏙옙罐占?占쏙옙占쏙옙占?占쏙옙환占쌌니댐옙.
         /// </summary>
         public static string GetAbsolutePath(string sourcePath, string relativeOrAbsolutePath)
         {

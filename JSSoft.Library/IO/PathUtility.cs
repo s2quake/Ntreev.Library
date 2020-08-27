@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -58,7 +58,7 @@ namespace JSSoft.Library.IO
         }
 
         /// <summary>
-        /// ������ ��ο� �ӽ� ������ �����մϴ�.
+        /// 占쏙옙占쏙옙占쏙옙 占쏙옙恝占?占쌈쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
         /// </summary>
         public static string GetTempPath(string targetPath, bool create)
         {

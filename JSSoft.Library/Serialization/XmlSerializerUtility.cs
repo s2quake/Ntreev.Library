@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -215,7 +215,7 @@ namespace JSSoft.Library.Serialization
             return (T)ReadString(text, typeof(T));
         }
 
-        /// <param name="obj">�ν��Ͻ��� �����Ͽ� Ÿ�� ���ø� ���� �ʱ� ���� ���� �뵵��</param>
+        /// <param name="obj">占싸쏙옙占싹쏙옙占쏙옙 占쏙옙占쏙옙占싹울옙 타占쏙옙 占쏙옙占시몌옙 占쏙옙占쏙옙 占십깍옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쎈도占쏙옙</param>
         public static T ReadString<T>(T _, string text)
         {
             return (T)ReadString(text, typeof(T));

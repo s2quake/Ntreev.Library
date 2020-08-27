@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -47,7 +47,7 @@ namespace JSSoft.Library.IO.Virtualization.Memory
             get
             {
                 if (path.EndsWith(PathUtility.Separator) == true)
-                    throw new ArgumentException("�߸��� ���� ����Դϴ�.");
+                    throw new ArgumentException("占쌩몌옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙都求占?");
                 return this[path];
             }
         }

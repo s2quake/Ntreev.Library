@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -315,7 +315,7 @@ namespace JSSoft.Library.Random
                 return Enum.Parse(type, name);
             }
 
-            throw new Exception("�������� �ʴ� Ÿ���Դϴ�.");
+            throw new Exception("占쏙옙占쏙옙占쏙옙占쏙옙 占십댐옙 타占쏙옙占쌉니댐옙.");
         }
 
         public static T RandomOrDefault<T>(this IEnumerable<T> enumerable)

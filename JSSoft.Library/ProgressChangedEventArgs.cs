@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -41,7 +41,7 @@ namespace JSSoft.Library
         public ProgressChangedEventArgs(double value, string message)
         {
             if (value > 1.0 || value < 0.0)
-                throw new ArgumentOutOfRangeException("value", value, "0 �� 1������ ���� ����ؾ� �մϴ�.");
+                throw new ArgumentOutOfRangeException("value", value, "0 占쏙옙 1占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙瞞占?占쌌니댐옙.");
             this.State = ProgressChangeState.Changed;
             this.Value = value;
             this.Message = message;

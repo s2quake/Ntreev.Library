@@ -1,4 +1,4 @@
-// Released under the MIT License.
+﻿// Released under the MIT License.
 // 
 // Copyright (c) 2018 Ntreev Soft co., Ltd.
 // Copyright (c) 2020 Jeesu Choi
@@ -122,8 +122,8 @@ namespace JSSoft.Library.Threading
         internal void Run()
         {
 #if DEBUG
-            // ���α׷� ����ÿ��� Dispatcher�� ������ �������̶�� �Ʒ��� ������ �����Ͽ� 
-            // Dispatcher�� ���������� Dispose �Ǵ��� Ȯ���մϴ�.
+            // 占쏙옙占싸그뤄옙 占쏙옙占쏙옙첼占쏙옙占?Dispatcher占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占싱띰옙占?占싣뤄옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹울옙 
+            // Dispatcher占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 Dispose 占실댐옙占쏙옙 확占쏙옙占쌌니댐옙.
             var owner = this.dispatcher.Owner;
             var stackStace = this.dispatcher.StackTrace;
 #endif
