@@ -20,5 +20,5 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 Forked from https://github.com/NtreevSoft/Ntreev.Library
 Namespaces and files starting with "Ntreev" have been renamed to "JSSoft". -->
 <Project Sdk="Microsoft.NET.Sdk">
-     <Import Project="..\netfx.props" /> 
+  <Import Project="..\netfx.props" /> 
 </Project>
