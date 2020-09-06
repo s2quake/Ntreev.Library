@@ -23,6 +23,6 @@ namespace JSSoft.Library
 {
     public class SchemaUtility
     {
-        public const string Namespace = "http://schemas.JSSoft.com";
+        public const string Namespace = "http://schemas.jssoft.com";
     }
 }

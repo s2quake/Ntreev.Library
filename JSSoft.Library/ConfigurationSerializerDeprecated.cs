@@ -29,7 +29,7 @@ namespace JSSoft.Library
 {
     public class ConfigurationSerializerDeprecated : IConfigurationSerializer
     {
-        public const string Namespace = "http://schemas.JSSoft.com/configurations";
+        public const string Namespace = "http://schemas.jssoft.com/configurations";
         public const string RootElement = "configurations";
         public const string SerializableElement = "serializables";
 

@@ -29,7 +29,7 @@ namespace JSSoft.Library
 {
     public class ConfigurationSerializer : IConfigurationSerializer
     {
-        public const string Namespace = "http://schemas.JSSoft.com/configs";
+        public const string Namespace = "http://schemas.jssoft.com/configs";
         public const string Configurations = nameof(Configurations);
 
         private readonly Dictionary<string, Type> typeByName = new Dictionary<string, Type>()

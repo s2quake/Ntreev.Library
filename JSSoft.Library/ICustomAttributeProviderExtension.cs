@@ -20,6 +20,7 @@
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace JSSoft.Library
@@ -29,11 +30,29 @@ namespace JSSoft.Library
         public static T GetCustomAttribute<T>(this ICustomAttributeProvider customAttributeProvider)
                 where T : Attribute
         {
-            object[] attrs = customAttributeProvider.GetCustomAttributes(typeof(T), true);
-            if (attrs.Length == 0)
-                return null;
+            var attrs = customAttributeProvider.GetCustomAttributes(typeof(T), true);
+            return attrs.OfType<T>().FirstOrDefault();
+        }
 
-            return attrs[0] as T;
+        public static T GetCustomAttribute<T>(this ICustomAttributeProvider customAttributeProvider, bool inherit)
+                where T : Attribute
+        {
+            var attrs = customAttributeProvider.GetCustomAttributes(typeof(T), inherit);
+            return attrs.OfType<T>().FirstOrDefault();
+        }
+
+        public static T[] GetCustomAttributes<T>(this ICustomAttributeProvider customAttributeProvider)
+                where T : Attribute
+        {
+            var attrs = customAttributeProvider.GetCustomAttributes(typeof(T), true);
+            return attrs.OfType<T>().ToArray();
+        }
+
+        public static T[] GetCustomAttributes<T>(this ICustomAttributeProvider customAttributeProvider, bool inherit)
+                where T : Attribute
+        {
+            var attrs = customAttributeProvider.GetCustomAttributes(typeof(T), inherit);
+            return attrs.OfType<T>().ToArray();
         }
     }
 }
