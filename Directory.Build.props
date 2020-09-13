@@ -31,8 +31,8 @@ Namespaces and files starting with "Ntreev" have been renamed to "JSSoft". -->
     <Copyright>Copyright (c) 2018 Ntreev Soft co., Ltd.&#xA;Copyright (c) 2020 Jeesu Choi</Copyright>
     <Description>This is library for crema project. https://github.com/s2quake/crema&#xA;Forked from https://github.com/NtreevSoft/Ntreev.Library</Description>
     <Authors>s2quake</Authors>
-	<PackageProjectUrl>https://github.com/s2quake/JSSoft.Library</PackageProjectUrl>
-	<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	  <PackageProjectUrl>https://github.com/s2quake/JSSoft.Library</PackageProjectUrl>
+	  <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageTags>Crema</PackageTags>
     <LangVersion>latest</LangVersion>
     <RootPath Condition="'$(SolutionDir)' != ''">$(SolutionDir)</RootPath>
@@ -45,6 +45,6 @@ Namespaces and files starting with "Ntreev" have been renamed to "JSSoft". -->
     <DelaySign>true</DelaySign>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)JSSoft.Library.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
-	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 </Project>
