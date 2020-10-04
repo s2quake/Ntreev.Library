@@ -22,6 +22,7 @@
 /*.suo
 bin/
 obj/
+logs/
 packages/
 .vs/
 .vscode/
