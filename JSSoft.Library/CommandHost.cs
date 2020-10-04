@@ -27,6 +27,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace JSSoft.Library
 {
@@ -42,6 +43,16 @@ namespace JSSoft.Library
         private Func<object> action;
         private object result;
 
+        public CommandHost(string filename)
+            : this(filename, Directory.GetCurrentDirectory())
+        {
+        }
+
+        public CommandHost(string filename, string workingPath)
+            : this(filename, workingPath, string.Empty)
+        {
+        }
+
         public CommandHost(string filename, string workingPath, string commandName)
         {
             this.filename = filename;
@@ -52,7 +63,7 @@ namespace JSSoft.Library
 
         public override string ToString()
         {
-            return $"\"{this.filename}\" {this.commandName} {string.Join(" ", this.items)}";
+            return $"{GenerateFilename()} {GenerateArguments()}";
         }
 
         public void Add(object item)
@@ -79,7 +90,7 @@ namespace JSSoft.Library
                 process.StartInfo.FileName = this.filename;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WorkingDirectory = this.workingPath;
-                process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}";
+                process.StartInfo.Arguments = GenerateArguments();
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
                 process.StartInfo.StandardOutputEncoding = this.Encoding;
@@ -114,7 +125,7 @@ namespace JSSoft.Library
                 process.StartInfo.FileName = this.filename;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WorkingDirectory = this.workingPath;
-                process.StartInfo.Arguments = $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}";
+                process.StartInfo.Arguments = GenerateArguments();
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
                 process.StartInfo.StandardOutputEncoding = this.Encoding;
@@ -204,6 +215,20 @@ namespace JSSoft.Library
                 }
             }
             return lineList.ToArray();
+        }
+
+        private string GenerateFilename()
+        {
+            if (Regex.IsMatch(this.filename, @"\s") == true)
+                return this.filename.WrapQuot();
+            return this.filename;
+        }
+
+        private string GenerateArguments()
+        {
+            if (this.commandName == string.Empty)
+                return $"{string.Join(" ", this.items.Where(item => item != null))}";
+            return $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}"; ;
         }
 
         #region IEnumerable
