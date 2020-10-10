@@ -31,13 +31,23 @@ namespace JSSoft.Library.ObjectModel
         private readonly Dictionary<string, T> keyToValue;
 
         protected ContainerBase()
+            : this(StringComparer.OrdinalIgnoreCase)
         {
-            this.keyToValue = new Dictionary<string, T>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        protected ContainerBase(IEqualityComparer<string> comparer)
+        {
+            this.keyToValue = new Dictionary<string, T>(comparer);
         }
 
         protected ContainerBase(int capacity)
+            : this(capacity, StringComparer.OrdinalIgnoreCase)
         {
-            this.keyToValue = new Dictionary<string, T>(capacity, StringComparer.OrdinalIgnoreCase);
+        }
+
+        protected ContainerBase(int capacity, IEqualityComparer<string> comparer)
+        {
+            this.keyToValue = new Dictionary<string, T>(capacity, comparer);
         }
 
         public void Clear()
