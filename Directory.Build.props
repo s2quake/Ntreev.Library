@@ -31,6 +31,7 @@ Namespaces and files starting with "Ntreev" have been renamed to "JSSoft". -->
     <Copyright>Copyright (c) 2018 Ntreev Soft co., Ltd.&#xA;Copyright (c) 2020 Jeesu Choi</Copyright>
     <Description>This is library for crema project. https://github.com/s2quake/crema&#xA;Forked from https://github.com/NtreevSoft/Ntreev.Library</Description>
     <Authors>s2quake</Authors>
+    <PackageVersion>5.0.0</PackageVersion>
 	  <PackageProjectUrl>https://github.com/s2quake/JSSoft.Library</PackageProjectUrl>
 	  <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageTags>Crema</PackageTags>
