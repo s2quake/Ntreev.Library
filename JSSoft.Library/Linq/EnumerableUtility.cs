@@ -20,6 +20,7 @@
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using JSSoft.Library.ObjectModel;
+using JSSoft.Library.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -261,9 +262,6 @@ namespace JSSoft.Library.Linq
             }
         }
 
-        /// <summary>
-        /// 占쌘신곤옙 占쏙옙占쏙옙占?占쏙옙칩占싹댐옙.
-        /// </summary>
         public static IEnumerable<TSource> Friends<TSource>(TSource e, IEnumerable<TSource> items)
         {
             yield return e;
@@ -349,7 +347,7 @@ namespace JSSoft.Library.Linq
             {
                 if (inProcess)
                 {
-                    throw new ArgumentException("Cyclic dependency found.");
+                    throw new InvalidOperationException(Resources.Exception_CyclicDependency);
                 }
             }
             else
@@ -380,7 +378,7 @@ namespace JSSoft.Library.Linq
 
                 if (attr.DependencyType == null)
                 {
-                    System.Diagnostics.Trace.WriteLine(string.Format("'{0}' 타占쏙옙占쏙옙 찾占쏙옙 占쏙옙 占쏙옙占쏙옙占싹댐옙.", attr.DependencyTypeName));
+                    System.Diagnostics.Trace.WriteLine(string.Format(Resources.Exception_NotFoundType_Format, attr.DependencyTypeName));
                     continue;
                 }
 

@@ -256,9 +256,6 @@ namespace JSSoft.Library
             }
         }
 
-        /// <summary>
-        /// sql占쏙옙 like占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
-        /// </summary>
         [Obsolete]
         public static bool Like(this string text, string find)
         {

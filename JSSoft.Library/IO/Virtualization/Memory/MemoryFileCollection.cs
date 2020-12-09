@@ -20,6 +20,7 @@
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using JSSoft.Library.ObjectModel;
+using JSSoft.Library.Properties;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace JSSoft.Library.IO.Virtualization.Memory
             get
             {
                 if (path.EndsWith(PathUtility.Separator) == true)
-                    throw new ArgumentException("占쌩몌옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙都求占?");
+                    throw new ArgumentException(Resources.Exception_InvalidPath, nameof(path));
                 return this[path];
             }
         }

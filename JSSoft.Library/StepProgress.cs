@@ -19,6 +19,7 @@
 // Forked from https://github.com/NtreevSoft/Ntreev.Library
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
+using JSSoft.Library.Properties;
 using System;
 
 namespace JSSoft.Library
@@ -43,17 +44,10 @@ namespace JSSoft.Library
             this.Begin(steps, string.Empty);
         }
 
-        /// <summary>
-        /// 占쏙옙占쏙옙 占쌤곤옙 占쏙옙 횟占쏙옙占쏙옙 占쏙옙占쏙옙占쌉곤옙 占쏙옙占시울옙 占쏙옙占쏙옙占쏙옙 占싯몌옙占싹댐옙. Changed 占싱븝옙트占쏙옙 占쌩삼옙占싹몌옙 占쏙옙占쏙옙占쏙옙占?0占쏙옙占쏙옙 占쏙옙占쏙옙占싯니댐옙.
-        /// </summary>
-        /// <remarks>
-        /// 占쌤곤옙 占쏙옙占쏙옙 횟占쏙옙占쏙옙 Next() 호占쏙옙 횟占쏙옙占쏙옙 占싼뱄옙占쏙옙 Complete() 호占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쌉니댐옙. 
-        /// 횟占쏙옙占쏙옙 3占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占싸뱄옙占쏙옙 Next() 占쏙옙 占싼뱄옙占쏙옙 Complete() 占쏙옙 호占쏙옙퓸占쌩몌옙 占쌌니댐옙.
-        /// </remarks>
         public void Begin(int steps, string message)
         {
             if (steps <= 0)
-                throw new Exception("占쌍쇽옙 1占쌤곤옙 占싱삼옙占쏙옙 占실억옙占?占쌌니댐옙.");
+                throw new ArgumentException(Resources.Exception_AtLeastStep1, nameof(steps));
             this.Step = 0;
             this.steps = steps;
 
@@ -65,9 +59,6 @@ namespace JSSoft.Library
             this.Begin(steps, string.Format(format, args));
         }
 
-        /// <summary>
-        /// 占쏙옙占쏙옙 占쌤계를 占쏙옙占쏙옙占쏙옙 占싹곤옙 占쏙옙占쏙옙 占쌤곤옙占?占쏙옙占쏙옙占쌌니댐옙.
-        /// </summary>
         public void Next()
         {
             this.Next(string.Empty);
@@ -76,7 +67,7 @@ namespace JSSoft.Library
         public void Next(string message)
         {
             if (this.Step >= this.steps)
-                throw new Exception(string.Format("占쌤계가 占쏙옙占쏙옙占쏙옙 횟占쏙옙({0})占쏙옙占쏙옙 占십곤옙占실억옙占쏙옙占싹댐옙.", this.Step));
+                throw new Exception(string.Format(Resources.Exception_OverStep_Format, this.Step));
             this.Step++;
             this.Report((double)this.Step / this.steps, message);
         }
@@ -86,9 +77,6 @@ namespace JSSoft.Library
             this.Next(string.Format(format, args));
         }
 
-        /// <summary>
-        /// 占쌤계를 占쏙옙占쏙옙占쏙옙 占쌌니댐옙. 占쏙옙占쏙옙占쏙옙 占쌤곤옙 횟占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占승울옙占쏙옙 호占쏙옙퓸占쏙옙占쏙옙占쏙옙占?占쏙옙占쌤몌옙 占쌩삼옙占쌌니댐옙.
-        /// </summary>
         public void Complete()
         {
             this.Complete(string.Empty);
@@ -97,7 +85,7 @@ namespace JSSoft.Library
         public void Complete(string message)
         {
             if (this.Step + 1 < this.steps)
-                throw new Exception(string.Format("{0} 占쌤곤옙占쏙옙 {1} 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙퓸占쏙옙占쏙옙求占?", this.steps, this.Step));
+                throw new Exception(string.Format(Resources.Exception_LessStep_Format, this.steps, this.Step));
             this.Complete(false, message);
             this.Step = 0;
             this.steps = 0;
@@ -108,9 +96,6 @@ namespace JSSoft.Library
             this.Complete(string.Format(format, args));
         }
 
-        /// <summary>
-        /// 占쌤계를 占실너띰옙 占쏙옙占승뤄옙 占쏙옙占쏙옙占쏙옙 占쌌니댐옙.
-        /// </summary>
         public void Skip()
         {
             this.Skip(string.Empty);

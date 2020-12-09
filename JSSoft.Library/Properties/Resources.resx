@@ -166,7 +166,7 @@
     <value>Folder '{0}' could not be found.</value>
   </data>
   <data name="Exception_IndestructibleObject" xml:space="preserve">
-    <value>Indestructible Object</value>
+    <value>Indestructible Object.</value>
   </data>
   <data name="Message_Completed" xml:space="preserve">
     <value>Completed.</value>
@@ -181,7 +181,7 @@
     <value>You can not rename objects whose unique name property is set.</value>
   </data>
   <data name="Exception_InvalidName_Format" xml:space="preserve">
-    <value>'{0}' is invalid name</value>
+    <value>'{0}' is invalid name.</value>
   </data>
   <data name="Exception_ChildFolderCannotBeSetAsParent" xml:space="preserve">
     <value>Child folders in folders can not be set as parents.</value>
@@ -191,5 +191,23 @@
   </data>
   <data name="Exception_CannotBeSetItSelfAsParent" xml:space="preserve">
     <value>Unable to set self to parent folder.</value>
+  </data>
+  <data name="Exception_AtLeastStep1" xml:space="preserve">
+    <value>It must be at least step 1.</value>
+  </data>
+  <data name="Exception_NotFoundType_Format" xml:space="preserve">
+    <value>Type '{0}' could not be found.</value>
+  </data>
+  <data name="Exception_ThreadCannotAccess" xml:space="preserve">
+    <value>The calling thread cannot access this object because a different thread owns it.</value>
+  </data>
+  <data name="Exception_SchedulerIsAlreadyRunning" xml:space="preserve">
+    <value>Scheduler is already running.</value>
+  </data>
+  <data name="Exception_OverStep_Format" xml:space="preserve">
+    <value>The step exceeds the specified number of times' {0}'.</value>
+  </data>
+  <data name="Exception_LessStep_Format" xml:space="preserve">
+    <value>Only '{1}' in '{0}' phase has progressed.</value>
   </data>
 </root>

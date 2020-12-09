@@ -24,22 +24,10 @@ using System.Text.RegularExpressions;
 
 namespace JSSoft.Library
 {
-    /// <summary>
-    /// 占식븝옙占쌘뤄옙 占쏙옙占실댐옙 占쏙옙占쌘울옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占?占쏙옙占쏙옙占쌌니댐옙.
-    /// </summary>
     public static class IdentifierValidator
     {
         public const string IdentiFierPattern = @"^[a-zA-Z_$][a-zA-Z0-9_$]*$";
 
-        /// <summary>
-        /// 占식븝옙占쌘울옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쌘울옙占쏙옙 '_'占쏙옙 占쏙옙체占쌌니댐옙.
-        /// </summary>
-        /// <param name="input">
-        /// 占식븝옙占쌘뤄옙 占쏙옙占실댐옙 占쏙옙占쌘울옙占쌉니댐옙.
-        /// </param>
-        /// <returns>
-        /// 占시바몌옙 占식븝옙占쌘뤄옙 占쏙옙체占쏙옙 占쏙옙占쌘울옙占쏙옙 占쏙옙환占쌌니댐옙.
-        /// </returns>
         [Obsolete]
         public static string Replace(string input)
         {
@@ -47,19 +35,6 @@ namespace JSSoft.Library
             return regex.Replace(input.Trim(), "_");
         }
 
-        /// <summary>
-        /// 占식븝옙占쌘곤옙 占시바몌옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占싸몌옙 확占쏙옙占쌌니댐옙.
-        /// </summary>
-        /// <param name="input">
-        /// 占식븝옙占쌘뤄옙 占쏙옙占실댐옙 占쏙옙占쌘울옙占쌉니댐옙.
-        /// </param>
-        /// <returns>
-        /// 占식븝옙占쌘뤄옙 占쏙옙占실기에 占쏙옙占쏙옙占싹다몌옙 true占쏙옙, 占쌓뤄옙占쏙옙 占십다몌옙 false占쏙옙 占쏙옙환占쌌니댐옙.
-        /// </returns>
-        /// <remarks>
-        /// 占쏙옙 占쌨소듸옙占?占싯사에 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占십쏙옙占싹댐옙. 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쌘울옙占쏙옙 占쏙옙占쏙옙 占쏙옙확占쏙옙 占싯사를 占쏙옙占쏙옙占쌌니댐옙.
-        /// 占쏙옙占쏙옙 占쏙옙占쌘울옙 처占쏙옙占싱놂옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쌉듸옙 占쏙옙占쏙옙 占쏙옙荑∽옙占?占싯사에 占쏙옙占쏙옙占싹곤옙 占싯니댐옙.
-        /// </remarks>
         [Obsolete]
         public static bool IsCorrected(string input)
         {

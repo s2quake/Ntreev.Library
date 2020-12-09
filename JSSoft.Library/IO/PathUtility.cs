@@ -57,9 +57,6 @@ namespace JSSoft.Library.IO
             return GetTempPath(Path.GetTempPath(), create);
         }
 
-        /// <summary>
-        /// 占쏙옙占쏙옙占쏙옙 占쏙옙恝占?占쌈쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
-        /// </summary>
         public static string GetTempPath(string targetPath, bool create)
         {
             var tempFileName = Path.GetTempFileName();

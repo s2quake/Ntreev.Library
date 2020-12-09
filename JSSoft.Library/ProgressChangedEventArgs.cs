@@ -19,6 +19,7 @@
 // Forked from https://github.com/NtreevSoft/Ntreev.Library
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
+using JSSoft.Library.Properties;
 using System;
 
 namespace JSSoft.Library
@@ -41,7 +42,7 @@ namespace JSSoft.Library
         public ProgressChangedEventArgs(double value, string message)
         {
             if (value > 1.0 || value < 0.0)
-                throw new ArgumentOutOfRangeException("value", value, "0 占쏙옙 1占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙瞞占?占쌌니댐옙.");
+                throw new ArgumentOutOfRangeException(nameof(value), value, Resources.Exception_Between0and1);
             this.State = ProgressChangeState.Changed;
             this.Value = value;
             this.Message = message;

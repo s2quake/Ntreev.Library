@@ -19,6 +19,7 @@
 // Forked from https://github.com/NtreevSoft/Ntreev.Library
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
+using JSSoft.Library.Properties;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -169,7 +170,7 @@ namespace JSSoft.Library
                     }
 
                     if (existed == false)
-                        throw new InvalidOperationException(string.Format("{0} 占쏙옙占쏙옙 占쏙옙占실되억옙 占쏙옙占쏙옙 占십쏙옙占싹댐옙.", item));
+                        throw new InvalidOperationException(string.Format(Resources.Exception_UndefinedValue_Format, item));
                 }
                 return value;
             }
@@ -180,7 +181,7 @@ namespace JSSoft.Library
                     if (textValue == names[i])
                         return values[i];
                 }
-                throw new InvalidOperationException(string.Format("{0} 占쏙옙占쏙옙 占쏙옙占실되억옙 占쏙옙占쏙옙 占십쏙옙占싹댐옙.", textValue));
+                throw new InvalidOperationException(string.Format(Resources.Exception_UndefinedValue_Format, textValue));
             }
         }
     }

@@ -19,6 +19,7 @@
 // Forked from https://github.com/NtreevSoft/Ntreev.Library
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
+using JSSoft.Library.Properties;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -59,7 +60,7 @@ namespace JSSoft.Library.Threading
         {
             if (!this.CheckAccess())
             {
-                throw new InvalidOperationException("The calling thread cannot access this object because a different thread owns it.");
+                throw new InvalidOperationException(Resources.Exception_ThreadCannotAccess);
             }
         }
 

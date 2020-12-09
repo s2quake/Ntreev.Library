@@ -20,6 +20,7 @@
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
 using JSSoft.Library.ObjectModel;
+using JSSoft.Library.Properties;
 using JSSoft.Library.Serialization;
 using System;
 using System.Collections.Generic;
@@ -80,7 +81,7 @@ namespace JSSoft.Library
                 return;
             if (XmlConvertUtility.IsBaseType(type) == true)
                 return;
-            throw new ArgumentException("${type} can not use by property type.");
+            throw new ArgumentException(string.Format(Resources.Exception_InvalidPropertyType_Format, type), nameof(type));
         }
 
         private void Initialize(IConfigurationPropertyProvider provider)
@@ -98,7 +99,7 @@ namespace JSSoft.Library
 
                 var configDescriptor = new ConfigurationPropertyProviderDescriptor(provider, item);
                 if (this.ContainsKey(configDescriptor.PropertyName) == true)
-                    throw new ArgumentException($"{configDescriptor.PropertyName} property is already registered.");
+                    throw new ArgumentException(string.Format(Resources.Exception_AlreadyRegisteredProperty_Format, configDescriptor.PropertyName));
                 this.Add(configDescriptor);
             }
         }

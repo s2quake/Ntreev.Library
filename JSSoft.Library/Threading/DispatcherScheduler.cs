@@ -19,6 +19,7 @@
 // Forked from https://github.com/NtreevSoft/Ntreev.Library
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
+using JSSoft.Library.Properties;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace JSSoft.Library.Threading
         {
             this.dispatcher.VerifyAccess();
             if (this.isRunning == true)
-                throw new InvalidOperationException("scheduler is already running.");
+                throw new InvalidOperationException(Resources.Exception_SchedulerIsAlreadyRunning);
             if (this.eventSet.WaitOne(0) == false)
                 return 0;
 
@@ -76,7 +77,7 @@ namespace JSSoft.Library.Threading
         {
             this.dispatcher.VerifyAccess();
             if (this.isRunning == true)
-                throw new InvalidOperationException("scheduler is already running.");
+                throw new InvalidOperationException(Resources.Exception_SchedulerIsAlreadyRunning);
             if (this.eventSet.WaitOne(0) == false)
                 return false;
             if (this.taskQueue.TryTake(out var task) == true)
@@ -122,8 +123,6 @@ namespace JSSoft.Library.Threading
         internal void Run()
         {
 #if DEBUG
-            // 占쏙옙占싸그뤄옙 占쏙옙占쏙옙첼占쏙옙占?Dispatcher占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占싱띰옙占?占싣뤄옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹울옙 
-            // Dispatcher占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 Dispose 占실댐옙占쏙옙 확占쏙옙占쌌니댐옙.
             var owner = this.dispatcher.Owner;
             var stackStace = this.dispatcher.StackTrace;
 #endif

@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using JSSoft.Library.Properties;
 #if DEBUG
 using System.Diagnostics;
 #endif
@@ -85,7 +86,7 @@ namespace JSSoft.Library.Threading
         {
             if (!this.CheckAccess())
             {
-                throw new InvalidOperationException("The calling thread cannot access this object because a different thread owns it.");
+                throw new InvalidOperationException(Resources.Exception_ThreadCannotAccess);
             }
         }
 
@@ -181,7 +182,7 @@ namespace JSSoft.Library.Threading
         public void Dispose()
         {
             if (this.Owner == null)
-                throw new InvalidOperationException("this is an object that cannot be disposed.");
+                throw new InvalidOperationException(Resources.Exception_IndestructibleObject);
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
             this.cancellationQueue.Cancel();
@@ -192,7 +193,7 @@ namespace JSSoft.Library.Threading
         public async Task DisposeAsync()
         {
             if (this.Owner == null)
-                throw new InvalidOperationException("this is an object that cannot be disposed.");
+                throw new InvalidOperationException(Resources.Exception_IndestructibleObject);
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
             var task = this.factory.StartNew(() => { });

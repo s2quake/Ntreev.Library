@@ -185,9 +185,6 @@ namespace JSSoft.Library.IO
                 Directory.CreateDirectory(path);
         }
 
-        /// <summary>
-        /// 占쌍억옙占쏙옙 占쏙옙占쌘몌옙 占쏙옙占쏙옙占싹울옙 占쏙옙占썰리 占쏙옙罐占?占쏙옙占쏙옙占?占쌔댐옙 占쏙옙占썰리占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쌌니댐옙.
-        /// </summary>
         public static string Prepare(params string[] paths)
         {
             var path = Path.Combine(paths);
@@ -239,9 +236,6 @@ namespace JSSoft.Library.IO
             }
         }
 
-        /// <summary>
-        /// 占쏙옙占쏙옙占쏙옙 占쏙옙恝占?占쏙옙占?占실댐옙 占쏙옙占쏙옙 占쏙옙恝占?占쏙옙占쌔쇽옙 占쏙옙占쏙옙 占쏙옙罐占?占쏙옙占쏙옙占?占쏙옙환占쌌니댐옙.
-        /// </summary>
         public static string GetAbsolutePath(string sourcePath, string relativeOrAbsolutePath)
         {
             var sourceDirInfo = new DirectoryInfo(sourcePath);
