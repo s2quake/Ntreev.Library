@@ -99,7 +99,14 @@ namespace JSSoft.Library.Serialization
         public static object Read(Stream stream, Type type)
         {
             var serializer = GetSerializer(type);
-            return serializer.ReadObject(stream);
+            try
+            {
+                return serializer.ReadObject(stream);
+            }
+            catch (SerializationException e)
+            {
+                return ReadCompatibility(e, stream, serializer);
+            }
         }
 
         public static object Read(string filename, Type type)
@@ -133,6 +140,21 @@ namespace JSSoft.Library.Serialization
         public static T ReadString<T>(string text)
         {
             return (T)ReadString(text, typeof(T));
+        }
+
+        private static object ReadCompatibility(SerializationException e, Stream stream, DataContractSerializer serializer)
+        {
+            if (stream.CanSeek == true)
+            {
+                stream.Position = 0;
+                using var sr = new StreamReader(stream);
+                var text = sr.ReadToEnd();
+                text = text.Replace("xmlns=\"http://schemas.ntreev.com\"", $"xmlns=\"{SchemaUtility.Namespace}\"");
+                using var sr2 = new StringReader(text);
+                using var xmlReader = XmlReader.Create(sr2);
+                return serializer.ReadObject(xmlReader);
+            }
+            throw e;
         }
     }
 }
