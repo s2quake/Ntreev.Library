@@ -176,6 +176,8 @@ namespace JSSoft.Library.IO
 
         public static bool IsAbsolute(string filename)
         {
+            if (Path.IsPathRooted(filename) == true)
+                return true;
             return new Uri(filename, UriKind.RelativeOrAbsolute).IsAbsoluteUri;
         }
 
