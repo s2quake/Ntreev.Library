@@ -115,23 +115,6 @@ namespace JSSoft.Library.Serialization
             }
         }
 
-        //public static T Read<T>(XmlReader reader) where T : struct, IXmlSerializable
-        //{
-        //    reader.ReadStartElement();
-        //    reader.MoveToContent();
-        //    var properties = TypeDescriptor.GetProperties(typeof(T));
-        //    var obj = (object)Activator.CreateInstance(typeof(T));
-        //    while (reader.NodeType == XmlNodeType.Element)
-        //    {
-        //        var property = properties[reader.Name];
-        //        var value = IXmlSerializableUtility.ReadElement(reader, property.PropertyType);
-        //        property.SetValue(obj, value);
-        //    }
-        //    reader.MoveToContent();
-        //    reader.ReadEndElement();
-        //    return (T)obj;
-        //}
-
         public static object ReadElement(XmlReader reader, Type type)
         {
             var value = null as object;
