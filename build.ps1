@@ -23,13 +23,17 @@ $location = Get-Location
 try {
     Set-Location $PSScriptRoot
     $buildFile = "./.vscode/build.ps1"
+    $outputPath = "bin"
     $propsPath = (
         "./Directory.Build.props"
     ) | ForEach-Object { "`"$_`"" }
     $propsPath = $propsPath -join ","
     $solutionPath = "./JSSoft.Library.sln"
+    if (!(Test-Path $outputPath)) {
+        New-Item $outputPath -ItemType Directory
+    }
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/s2quake/build/master/build.ps1" -OutFile $buildFile
-    Invoke-Expression "$buildFile $solutionPath $propsPath $args"
+    Invoke-Expression "$buildFile $solutionPath $propsPath -Publish -Sign -OutputPath $outputPath $args"
 }
 finally {
     Remove-Item ./.vscode/build.ps1
