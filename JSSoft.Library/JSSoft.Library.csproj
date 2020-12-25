@@ -21,6 +21,9 @@ Forked from https://github.com/NtreevSoft/Ntreev.Library
 Namespaces and files starting with "Ntreev" have been renamed to "JSSoft". -->
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\netfx.props" />
+  <PropertyGroup>
+    <PublishName>library</PublishName>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
