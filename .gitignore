@@ -19,14 +19,15 @@
 # Forked from https://github.com/NtreevSoft/Ntreev.Library
 # Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
-/*.suo
 bin/
 publish/
 obj/
 logs/
 packages/
+.DS_Store
 .vs/
 .vscode/
-*.bat
 *.user
-.DS_Store
+*.suo
+launchSettings.json
+build-temp.ps1
