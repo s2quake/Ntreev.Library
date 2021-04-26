@@ -28,6 +28,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace JSSoft.Library
 {
@@ -82,32 +83,28 @@ namespace JSSoft.Library
 
         public string Run()
         {
-            var action = new Func<int>(() =>
-            {
-                var process = new Process();
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = this.filename;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.WorkingDirectory = this.workingPath;
-                process.StartInfo.Arguments = this.GenerateArguments();
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.StandardOutputEncoding = this.Encoding;
-                process.StartInfo.StandardErrorEncoding = this.Encoding;
-
-                process.OutputDataReceived += (s, e) => this.OnOutputDataReceived(e);
-                process.ErrorDataReceived += (s, e) => this.OnErrorDataReceived(e);
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-                process.WaitForExit();
-
-                return process.ExitCode;
-            });
+            var action = this.CreateAction();
             this.error.Clear();
             this.output.Clear();
             this.OnBeforeRun();
             this.exitCode = action();
+            this.OnAfterRun();
+            if (this.exitCode != 0)
+            {
+                if (this.ThrowOnError == true)
+                    throw new Exception(this.error.ToString());
+                return null;
+            }
+            return this.output.ToString();
+        }
+
+        public async Task<string> RunAsync()
+        {
+            var action = this.CreateAction();
+            this.error.Clear();
+            this.output.Clear();
+            this.OnBeforeRun();
+            this.exitCode = await Task.Run(action);
             this.OnAfterRun();
             if (this.exitCode != 0)
             {
@@ -131,6 +128,23 @@ namespace JSSoft.Library
         public string[] ReadLines(bool removeEmptyLine)
         {
             if (this.Run() is string text)
+                return text.Split(Environment.NewLine, removeEmptyLine == true ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
+            return null;
+        }
+
+        public Task<string> ReadLineAsync()
+        {
+            return this.RunAsync();
+        }
+
+        public Task<string[]> ReadLinesAsync()
+        {
+            return this.ReadLinesAsync(false);
+        }
+
+        public async Task<string[]> ReadLinesAsync(bool removeEmptyLine)
+        {
+            if (await this.RunAsync() is string text)
                 return text.Split(Environment.NewLine, removeEmptyLine == true ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
             return null;
         }
@@ -202,6 +216,32 @@ namespace JSSoft.Library
             if (this.commandName == string.Empty)
                 return $"{string.Join(" ", this.items.Where(item => item != null))}";
             return $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}"; ;
+        }
+
+        private Func<int> CreateAction()
+        {
+            return new Func<int>(() =>
+            {
+                var process = new Process();
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.FileName = this.filename;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WorkingDirectory = this.workingPath;
+                process.StartInfo.Arguments = this.GenerateArguments();
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.StandardOutputEncoding = this.Encoding;
+                process.StartInfo.StandardErrorEncoding = this.Encoding;
+
+                process.OutputDataReceived += (s, e) => this.OnOutputDataReceived(e);
+                process.ErrorDataReceived += (s, e) => this.OnErrorDataReceived(e);
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+
+                return process.ExitCode;
+            });
         }
 
         #region IEnumerable
