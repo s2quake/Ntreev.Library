@@ -37,11 +37,10 @@ namespace JSSoft.Library
         private readonly string workingPath;
         private readonly string commandName;
         private readonly List<object> items = new List<object>();
-        private List<string> outputList;
-        private List<string> errorList;
+        private readonly StringBuilder error = new StringBuilder();
+        private readonly StringBuilder output = new StringBuilder();
         private Encoding encoding;
-        private Func<object> action;
-        private object result;
+        private int exitCode;
 
         public CommandHost(string filename)
             : this(filename, Directory.GetCurrentDirectory())
@@ -81,89 +80,47 @@ namespace JSSoft.Library
             this.items.Clear();
         }
 
-        public bool WriteAllText(string path)
-        {
-            this.action = new Func<object>(() =>
-            {
-                var process = new Process();
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = this.filename;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.WorkingDirectory = this.workingPath;
-                process.StartInfo.Arguments = GenerateArguments();
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.StandardOutputEncoding = this.Encoding;
-                process.StartInfo.StandardErrorEncoding = this.Encoding;
-                process.Start();
-                var outputText = process.StandardOutput.ReadToEnd();
-                var errorText = process.StandardError.ReadToEnd();
-                FileUtility.WriteAllText(outputText, this.Encoding, path);
-                process.WaitForExit();
-
-                if (process.ExitCode != 0)
-                {
-                    if (this.ThrowOnError == true)
-                        throw new Exception(errorText);
-                    else
-                        return false;
-                }
-                return true;
-            });
-            this.OnRun();
-            return (bool)this.result;
-        }
-
         public string Run()
         {
-            this.action = new Func<object>(() =>
+            var action = new Func<int>(() =>
             {
-                this.outputList = new List<string>();
-                this.errorList = new List<string>();
                 var process = new Process();
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = this.filename;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WorkingDirectory = this.workingPath;
-                process.StartInfo.Arguments = GenerateArguments();
+                process.StartInfo.Arguments = this.GenerateArguments();
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
                 process.StartInfo.StandardOutputEncoding = this.Encoding;
                 process.StartInfo.StandardErrorEncoding = this.Encoding;
 
-                process.OutputDataReceived += (s, e) =>
-                {
-                    this.outputList.Add(e.Data);
-                    this.OutputDataReceived?.Invoke(this, e);
-                };
-                process.ErrorDataReceived += (s, e) =>
-                {
-                    this.errorList.Add(e.Data);
-                    this.ErrorDataReceived?.Invoke(this, e);
-                };
+                process.OutputDataReceived += (s, e) => this.OnOutputDataReceived(e);
+                process.ErrorDataReceived += (s, e) => this.OnErrorDataReceived(e);
                 process.Start();
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
                 process.WaitForExit();
 
-                if (process.ExitCode != 0)
-                {
-                    if (this.ThrowOnError == true)
-                        throw new Exception(string.Join(Environment.NewLine, this.errorList.Where(item => item != null)));
-                    else
-                        return null as string;
-                }
-
-                return string.Join(Environment.NewLine, this.outputList.Where(item => item != null));
+                return process.ExitCode;
             });
-            this.OnRun();
-            return (string)this.result;
+            this.error.Clear();
+            this.output.Clear();
+            this.OnBeforeRun();
+            this.exitCode = action();
+            this.OnAfterRun();
+            if (this.exitCode != 0)
+            {
+                if (this.ThrowOnError == true)
+                    throw new Exception(this.error.ToString());
+                return null;
+            }
+            return this.output.ToString();
         }
 
         public string ReadLine()
         {
-            var lines = this.ReadLines(true);
-            return lines?.Single();
+            return this.Run();
         }
 
         public string[] ReadLines()
@@ -173,10 +130,9 @@ namespace JSSoft.Library
 
         public string[] ReadLines(bool removeEmptyLine)
         {
-            var lines = this.Run();
-            if (lines == null)
-                return null;
-            return this.GetLines(lines, removeEmptyLine);
+            if (this.Run() is string text)
+                return text.Split(Environment.NewLine, removeEmptyLine == true ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
+            return null;
         }
 
         public Encoding Encoding
@@ -187,9 +143,11 @@ namespace JSSoft.Library
 
         public bool ThrowOnError { get; set; }
 
-        public string ErrorMessage => this.errorList == null ? string.Empty : string.Join(Environment.NewLine, this.errorList.Where(item => item != null));
+        public string ErrorMessage => this.error.ToString();
 
-        public string Message => this.outputList == null ? string.Empty : string.Join(Environment.NewLine, this.outputList.Where(item => item != null));
+        public string Message => this.output.ToString();
+
+        public int ExitCode => this.exitCode;
 
         public IReadOnlyList<object> Items => this.items;
 
@@ -197,9 +155,24 @@ namespace JSSoft.Library
 
         public event DataReceivedEventHandler OutputDataReceived;
 
-        protected virtual void OnRun()
+        protected virtual void OnBeforeRun()
         {
-            this.result = this.action();
+        }
+
+        protected virtual void OnAfterRun()
+        {
+        }
+
+        protected virtual void OnErrorDataReceived(DataReceivedEventArgs e)
+        {
+            this.error.AppendLine(e.Data);
+            this.ErrorDataReceived?.Invoke(this, e);
+        }
+
+        protected virtual void OnOutputDataReceived(DataReceivedEventArgs e)
+        {
+            this.output.AppendLine(e.Data);
+            this.OutputDataReceived?.Invoke(this, e);
         }
 
         private string[] GetLines(string text, bool removeEmptyLine)
