@@ -91,26 +91,38 @@ namespace JSSoft.Library.IO
 
         public static string GetCaseSensitivePath(string path)
         {
-            if (path == null)
+            if (path is null)
                 throw new ArgumentNullException(nameof(path));
             if (Path.IsPathRooted(path) == false)
                 throw new ArgumentException("path must be full path", nameof(path));
+
             var root = Path.GetPathRoot(path);
-
-            root = Directory.GetLogicalDrives().First(item => StringComparer.CurrentCultureIgnoreCase.Equals(root, item));
-
+            var suffix = GetSuffix();
+            var localPath = path.Substring(0, path.Length - suffix.Length);
+            var fullPath = Directory.GetLogicalDrives().First(item => StringComparer.CurrentCultureIgnoreCase.Equals(root, item));
             try
             {
-                foreach (var item in path.Substring(root.Length).Split(Path.DirectorySeparatorChar))
+                var separator = new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar };
+                var items = localPath.Substring(fullPath.Length).Split(separator);
+                foreach (var item in items)
                 {
-                    root = Directory.GetFileSystemEntries(root, item).First();
+                    fullPath = Directory.GetFileSystemEntries(fullPath, item).First();
                 }
             }
             catch
             {
-                root += path.Substring(root.Length);
+                fullPath += path.Substring(fullPath.Length);
             }
-            return root;
+            return fullPath + suffix;
+
+            string GetSuffix()
+            {
+                if (path.EndsWith(Path.AltDirectorySeparatorChar) == true)
+                    return $"{Path.AltDirectorySeparatorChar}";
+                else if (path.EndsWith(Path.DirectorySeparatorChar) == true)
+                    return $"{Path.DirectorySeparatorChar}";
+                return string.Empty;
+            }
         }
 
         public static string GetFullPath(string path)
@@ -149,7 +161,6 @@ namespace JSSoft.Library.IO
                 }
             }
         }
-
 
         public static string GetDirectoryName(string path)
         {
