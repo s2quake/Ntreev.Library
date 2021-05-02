@@ -117,9 +117,9 @@ namespace JSSoft.Library.IO
 
             string GetSuffix()
             {
-                if (path.EndsWith(Path.AltDirectorySeparatorChar) == true)
+                if (path.EndsWith($"{Path.AltDirectorySeparatorChar}") == true)
                     return $"{Path.AltDirectorySeparatorChar}";
-                else if (path.EndsWith(Path.DirectorySeparatorChar) == true)
+                else if (path.EndsWith($"{Path.DirectorySeparatorChar}") == true)
                     return $"{Path.DirectorySeparatorChar}";
                 return string.Empty;
             }

@@ -128,7 +128,7 @@ namespace JSSoft.Library
         public string[] ReadLines(bool removeEmptyLine)
         {
             if (this.Run() is string text)
-                return text.Split(Environment.NewLine, removeEmptyLine == true ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
+                return text.Split(new string[] { Environment.NewLine }, removeEmptyLine == true ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
             return null;
         }
 
@@ -145,7 +145,7 @@ namespace JSSoft.Library
         public async Task<string[]> ReadLinesAsync(bool removeEmptyLine)
         {
             if (await this.RunAsync() is string text)
-                return text.Split(Environment.NewLine, removeEmptyLine == true ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
+                return text.Split(new string[] { Environment.NewLine }, removeEmptyLine == true ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
             return null;
         }
 
