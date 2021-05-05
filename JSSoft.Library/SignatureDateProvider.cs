@@ -42,6 +42,11 @@ namespace JSSoft.Library
             return DateTime.UtcNow;
         }
 
+        public static implicit operator SignatureDate(SignatureDateProvider signatureDateProvider)
+        {
+            return signatureDateProvider.Provide();
+        }
+
         public static readonly SignatureDateProvider Default = new SignatureDateProvider(string.Empty);
     }
 }
