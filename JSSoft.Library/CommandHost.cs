@@ -58,7 +58,6 @@ namespace JSSoft.Library
             this.filename = filename;
             this.workingPath = workingPath;
             this.commandName = commandName;
-            this.ThrowOnError = true;
         }
 
         public override string ToString()
@@ -81,6 +80,36 @@ namespace JSSoft.Library
             this.items.Clear();
         }
 
+        public bool TryRun()
+        {
+            var action = this.CreateAction();
+            this.error.Clear();
+            this.output.Clear();
+            this.OnBeforeRun();
+            this.exitCode = action();
+            this.OnAfterRun();
+            if (this.exitCode != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<bool> TryRunAsync()
+        {
+            var action = this.CreateAction();
+            this.error.Clear();
+            this.output.Clear();
+            this.OnBeforeRun();
+            this.exitCode = await Task.Run(action);
+            this.OnAfterRun();
+            if (this.exitCode != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public string Run()
         {
             var action = this.CreateAction();
@@ -91,9 +120,7 @@ namespace JSSoft.Library
             this.OnAfterRun();
             if (this.exitCode != 0)
             {
-                if (this.ThrowOnError == true)
-                    throw new Exception(this.error.ToString());
-                return null;
+                throw new Exception(this.error.ToString());
             }
             return this.output.ToString();
         }
@@ -108,9 +135,7 @@ namespace JSSoft.Library
             this.OnAfterRun();
             if (this.exitCode != 0)
             {
-                if (this.ThrowOnError == true)
-                    throw new Exception(this.error.ToString());
-                return null;
+                throw new Exception(this.error.ToString());
             }
             return this.output.ToString();
         }
@@ -154,8 +179,6 @@ namespace JSSoft.Library
             get => this.encoding ?? Encoding.UTF8;
             set => this.encoding = value;
         }
-
-        public bool ThrowOnError { get; set; }
 
         public string ErrorMessage => this.error.ToString();
 
