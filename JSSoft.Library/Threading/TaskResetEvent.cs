@@ -26,7 +26,7 @@ namespace JSSoft.Library.Threading
 {
     public sealed class TaskResetEvent<T>
     {
-        private readonly Dictionary<T, Task> setsByID = new Dictionary<T, Task>();
+        private readonly Dictionary<T, Task> setsByID = new();
 
         public TaskResetEvent(Dispatcher dispatcher)
         {

@@ -30,11 +30,11 @@ namespace JSSoft.Library.Random
 {
     public static class RandomUtility
     {
-        private static readonly object lockobj = new object();
+        private static readonly object lockobj = new();
         private static readonly string[] words;
         private static readonly byte[] longBytes = new byte[8];
         private static int count;
-        private static System.Random random = new System.Random(DateTime.Now.Millisecond);
+        private static System.Random random = new(DateTime.Now.Millisecond);
 
         static RandomUtility()
         {
