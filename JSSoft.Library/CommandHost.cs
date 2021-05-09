@@ -19,7 +19,6 @@
 // Forked from https://github.com/NtreevSoft/Ntreev.Library
 // Namespaces and files starting with "Ntreev" have been renamed to "JSSoft".
 
-using JSSoft.Library.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
