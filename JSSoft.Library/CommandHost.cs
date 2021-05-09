@@ -37,9 +37,9 @@ namespace JSSoft.Library
         private readonly string filename;
         private readonly string workingPath;
         private readonly string commandName;
-        private readonly List<object> items = new List<object>();
-        private readonly StringBuilder error = new StringBuilder();
-        private readonly StringBuilder output = new StringBuilder();
+        private readonly List<object> items = new();
+        private readonly StringBuilder error = new();
+        private readonly StringBuilder output = new();
         private Encoding encoding;
         private int exitCode;
 

@@ -31,7 +31,7 @@ namespace JSSoft.Library.Serialization
 {
     public static class JsonSerializerUtility
     {
-        private static readonly Dictionary<Type, DataContractJsonSerializer> serializers = new Dictionary<Type, DataContractJsonSerializer>();
+        private static readonly Dictionary<Type, DataContractJsonSerializer> serializers = new();
 
         public static DataContractJsonSerializer GetSerializer(Type type)
         {

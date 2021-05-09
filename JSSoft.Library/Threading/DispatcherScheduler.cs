@@ -30,11 +30,11 @@ namespace JSSoft.Library.Threading
 {
     public sealed class DispatcherScheduler : TaskScheduler
     {
-        private static readonly object lockobj = new object();
+        private static readonly object lockobj = new();
         private readonly Dispatcher dispatcher;
         private readonly CancellationToken cancellation;
-        private readonly BlockingCollection<Task> taskQueue = new BlockingCollection<Task>();
-        private readonly ManualResetEvent eventSet = new ManualResetEvent(false);
+        private readonly BlockingCollection<Task> taskQueue = new();
+        private readonly ManualResetEvent eventSet = new(false);
         private bool isExecuting;
         private bool isRunning;
 

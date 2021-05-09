@@ -38,7 +38,7 @@ namespace JSSoft.Library
         private static readonly string[] allValue = null;
         private static readonly string[] unusedValue = new string[] { };
 
-        private static readonly Dictionary<string, string> textToColor = new Dictionary<string, string>(StringComparer.CurrentCultureIgnoreCase);
+        private static readonly Dictionary<string, string> textToColor = new(StringComparer.CurrentCultureIgnoreCase);
 
         private string[] value;
         private int hash;
@@ -152,9 +152,9 @@ namespace JSSoft.Library
             return ToString(this.value);
         }
 
-        public readonly static TagInfo All = new TagInfo(allString) { value = allValue, hash = allString.ToLower().GetHashCode() };
+        public readonly static TagInfo All = new(allString) { value = allValue, hash = allString.ToLower().GetHashCode() };
 
-        public readonly static TagInfo Unused = new TagInfo(unusedString) { value = unusedValue, hash = unusedString.ToLower().GetHashCode() };
+        public readonly static TagInfo Unused = new(unusedString) { value = unusedValue, hash = unusedString.ToLower().GetHashCode() };
 
         public readonly static TagInfo Empty = Unused;
 

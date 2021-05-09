@@ -47,6 +47,6 @@ namespace JSSoft.Library
             return signatureDateProvider.Provide();
         }
 
-        public static readonly SignatureDateProvider Default = new SignatureDateProvider(string.Empty);
+        public static readonly SignatureDateProvider Default = new(string.Empty);
     }
 }

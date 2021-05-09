@@ -34,6 +34,7 @@ namespace JSSoft.Library
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0017:개체 초기화 단순화", Justification = "<보류 중>")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:간단한 'using' 문 사용", Justification = "<보류 중>")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0090:'new(...)' 사용", Justification = "<보류 중>")]
     public static class StringUtility
     {
         private static readonly string Passphrase = "seckey";

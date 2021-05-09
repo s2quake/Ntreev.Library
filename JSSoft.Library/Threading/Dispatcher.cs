@@ -32,7 +32,7 @@ namespace JSSoft.Library.Threading
 {
     public class Dispatcher
     {
-        private static readonly Dictionary<Thread, Dispatcher> dispatcherByThread = new Dictionary<Thread, Dispatcher>();
+        private static readonly Dictionary<Thread, Dispatcher> dispatcherByThread = new();
         private readonly TaskFactory factory;
         private readonly CancellationTokenSource cancellationQueue;
         private readonly CancellationTokenSource cancellationExecution;

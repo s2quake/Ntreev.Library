@@ -31,7 +31,7 @@ namespace JSSoft.Library.Serialization
 {
     public static class XmlSerializerUtility
     {
-        private static readonly Dictionary<Type, XmlSerializer> serializers = new Dictionary<Type, XmlSerializer>();
+        private static readonly Dictionary<Type, XmlSerializer> serializers = new();
 
         public static XmlSerializer GetSerializer(Type type)
         {

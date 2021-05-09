@@ -48,7 +48,7 @@ namespace JSSoft.Library
 
 
             using Stream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-            BinaryReader reader = new BinaryReader(fs);
+            var reader = new BinaryReader(fs);
 
             //PE Header starts @ 0x3C (60). Its a 4 byte header.
             fs.Position = 0x3C;

@@ -30,8 +30,8 @@ namespace JSSoft.Library.Threading
     public class IndexedDispatcher
     {
         private readonly CancellationTokenSource cancellationQueue;
-        private readonly Dictionary<long, Task> taskByIndex = new Dictionary<long, Task>();
-        private readonly ManualResetEvent eventSet = new ManualResetEvent(false);
+        private readonly Dictionary<long, Task> taskByIndex = new();
+        private readonly ManualResetEvent eventSet = new(false);
         private long currentIndex;
         private long maxIndex;
         private bool isProceedable = true;

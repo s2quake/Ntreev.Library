@@ -33,7 +33,7 @@ namespace JSSoft.Library
 {
     public class ConfigurationBase : IReadOnlyDictionary<string, object>
     {
-        private readonly Dictionary<string, object> items = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> items = new();
         private readonly Type scopeType;
 
         public ConfigurationBase()

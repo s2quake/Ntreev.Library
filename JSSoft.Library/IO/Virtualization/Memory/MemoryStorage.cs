@@ -55,7 +55,7 @@ namespace JSSoft.Library.IO.Virtualization.Memory
             using Stream stream = new MemoryStream(file.Data);
             byte[] data = hashBuilder.ComputeHash(stream);
 
-            StringBuilder sBuilder = new StringBuilder();
+            var sBuilder = new StringBuilder();
 
             for (int i = 0; i < data.Length; i++)
             {

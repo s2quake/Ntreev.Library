@@ -77,7 +77,7 @@ namespace JSSoft.Library
             {
                 ulong num = (ulong)value;
                 int num2 = values.Length - 1;
-                StringBuilder stringBuilder = new StringBuilder();
+                var stringBuilder = new StringBuilder();
                 bool flag = true;
                 ulong num3 = num;
                 while (num2 >= 0 && (num2 != 0 || values[num2] != 0uL))

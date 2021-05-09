@@ -32,7 +32,7 @@ namespace JSSoft.Library
         public const string Namespace = "http://schemas.jssoft.com/configs";
         public const string Configurations = nameof(Configurations);
 
-        private readonly Dictionary<string, Type> typeByName = new Dictionary<string, Type>()
+        private readonly Dictionary<string, Type> typeByName = new()
         {
             { "number", typeof(decimal) },
             { "boolean", typeof(bool) },
@@ -41,7 +41,7 @@ namespace JSSoft.Library
             { "string", typeof(string) },
         };
 
-        private readonly Dictionary<Type, string> nameByType = new Dictionary<Type, string>()
+        private readonly Dictionary<Type, string> nameByType = new()
         {
             { typeof(decimal), "number" },
             { typeof(bool), "boolean" },

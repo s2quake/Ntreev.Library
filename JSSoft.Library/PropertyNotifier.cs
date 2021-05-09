@@ -27,7 +27,7 @@ namespace JSSoft.Library
     public class PropertyNotifier
     {
         private readonly IPropertyNotifier notifier;
-        private readonly List<string> propertyList = new List<string>();
+        private readonly List<string> propertyList = new();
 
         public PropertyNotifier(IPropertyNotifier notifier)
         {

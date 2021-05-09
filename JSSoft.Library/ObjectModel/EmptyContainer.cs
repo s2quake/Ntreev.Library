@@ -23,6 +23,6 @@ namespace JSSoft.Library.ObjectModel
 {
     class EmpryContainer<T> : ContainerBase<T> where T : class
     {
-        public static EmpryContainer<T> Default = new EmpryContainer<T>();
+        public static EmpryContainer<T> Default = new();
     }
 }

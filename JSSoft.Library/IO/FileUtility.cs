@@ -68,10 +68,10 @@ namespace JSSoft.Library.IO
 
         public static void OverwriteString(string filename, string text)
         {
-            FileInfo file = new FileInfo(filename);
+            var file = new FileInfo(filename);
             file.MoveTo(file.FullName + ".bak");
 
-            using (StreamWriter sw = new StreamWriter(filename, false, Encoding.UTF8))
+            using (var sw = new StreamWriter(filename, false, Encoding.UTF8))
             {
                 sw.Write(text);
             }
@@ -81,13 +81,13 @@ namespace JSSoft.Library.IO
 
         public static string GetString(string filename)
         {
-            using StreamReader sr = new StreamReader(filename);
+            using var sr = new StreamReader(filename);
             return sr.ReadToEnd();
         }
 
         public static string ToAbsolutePath(string path)
         {
-            Uri uri = new Uri(path, UriKind.RelativeOrAbsolute);
+            var uri = new Uri(path, UriKind.RelativeOrAbsolute);
             if (uri.IsAbsoluteUri == false)
             {
                 return Path.Combine(Directory.GetCurrentDirectory(), path);

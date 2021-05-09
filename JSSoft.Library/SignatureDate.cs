@@ -144,6 +144,6 @@ namespace JSSoft.Library
             return HashUtility.GetHashCode(this.id) ^ HashUtility.GetHashCode(this.dateTime);
         }
 
-        public static readonly SignatureDate Empty = new SignatureDate(string.Empty, DateTime.MinValue);
+        public static readonly SignatureDate Empty = new(string.Empty, DateTime.MinValue);
     }
 }

@@ -31,7 +31,7 @@ namespace JSSoft.Library
         [Obsolete]
         public static string Replace(string input)
         {
-            Regex regex = new Regex("[^_a-zA-Z0-9]");
+            var regex = new Regex("[^_a-zA-Z0-9]");
             return regex.Replace(input.Trim(), "_");
         }
 
@@ -40,7 +40,7 @@ namespace JSSoft.Library
         {
             if (input == null)
                 return false;
-            Regex regex = new Regex(IdentifierValidator.IdentiFierPattern);
+            var regex = new Regex(IdentifierValidator.IdentiFierPattern);
             return regex.IsMatch(input) == true;
         }
 
@@ -48,7 +48,7 @@ namespace JSSoft.Library
         {
             if (value == null)
                 return false;
-            Regex regex = new Regex(IdentifierValidator.IdentiFierPattern);
+            var regex = new Regex(IdentifierValidator.IdentiFierPattern);
             return regex.IsMatch(value) == true;
         }
 
