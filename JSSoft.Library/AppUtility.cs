@@ -75,7 +75,7 @@ namespace JSSoft.Library
         public static string GetUserAppDataPath()
         {
             var assembly = Assembly.GetEntryAssembly();
-            var companyName = !(assembly.GetCustomAttribute(typeof(AssemblyCompanyAttribute)) is AssemblyCompanyAttribute attr) || attr.Company == string.Empty ? "UnknownCompany" : attr.Company;
+            var companyName = assembly.GetCustomAttribute(typeof(AssemblyCompanyAttribute)) is not AssemblyCompanyAttribute attr || attr.Company == string.Empty ? "UnknownCompany" : attr.Company;
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), companyName, assembly.GetName().Name.ToString());
             return path;
         }

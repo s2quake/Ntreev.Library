@@ -40,7 +40,6 @@ namespace JSSoft.Library
         private readonly StringBuilder error = new();
         private readonly StringBuilder output = new();
         private Encoding encoding;
-        private int exitCode;
 
         public CommandHost(string filename)
             : this(filename, Directory.GetCurrentDirectory())
@@ -85,9 +84,9 @@ namespace JSSoft.Library
             this.error.Clear();
             this.output.Clear();
             this.OnBeforeRun();
-            this.exitCode = action();
+            this.ExitCode = action();
             this.OnAfterRun();
-            if (this.exitCode != 0)
+            if (this.ExitCode != 0)
             {
                 return false;
             }
@@ -100,9 +99,9 @@ namespace JSSoft.Library
             this.error.Clear();
             this.output.Clear();
             this.OnBeforeRun();
-            this.exitCode = await Task.Run(action);
+            this.ExitCode = await Task.Run(action);
             this.OnAfterRun();
-            if (this.exitCode != 0)
+            if (this.ExitCode != 0)
             {
                 return false;
             }
@@ -115,9 +114,9 @@ namespace JSSoft.Library
             this.error.Clear();
             this.output.Clear();
             this.OnBeforeRun();
-            this.exitCode = action();
+            this.ExitCode = action();
             this.OnAfterRun();
-            if (this.exitCode != 0)
+            if (this.ExitCode != 0)
             {
                 throw new Exception(this.error.ToString());
             }
@@ -130,9 +129,9 @@ namespace JSSoft.Library
             this.error.Clear();
             this.output.Clear();
             this.OnBeforeRun();
-            this.exitCode = await Task.Run(action);
+            this.ExitCode = await Task.Run(action);
             this.OnAfterRun();
-            if (this.exitCode != 0)
+            if (this.ExitCode != 0)
             {
                 throw new Exception(this.error.ToString());
             }
@@ -183,7 +182,7 @@ namespace JSSoft.Library
 
         public string Message => this.output.ToString();
 
-        public int ExitCode => this.exitCode;
+        public int ExitCode { get; private set; }
 
         public IReadOnlyList<object> Items => this.items;
 
@@ -209,21 +208,6 @@ namespace JSSoft.Library
         {
             this.output.AppendLine(e.Data);
             this.OutputDataReceived?.Invoke(this, e);
-        }
-
-        private string[] GetLines(string text, bool removeEmptyLine)
-        {
-            using var sr = new StringReader(text);
-            var line = null as string;
-            var lineList = new List<string>();
-            while ((line = sr.ReadLine()) != null)
-            {
-                if (line.Trim() != string.Empty || removeEmptyLine == false)
-                {
-                    lineList.Add(line);
-                }
-            }
-            return lineList.ToArray();
         }
 
         private string GenerateFilename()
