@@ -30,6 +30,9 @@ namespace JSSoft.Library
     {
         private static string productName;
         private static string productVersion;
+        private static string fileVersion;
+        private static string companyName;
+        private static string name;
         private static string userAppDataPath;
 
         public static string ProductName
@@ -38,8 +41,15 @@ namespace JSSoft.Library
             {
                 if (productName == null)
                 {
-                    var assembly = Assembly.GetEntryAssembly();
-                    productName = FileVersionInfo.GetVersionInfo(assembly.Location).ProductName;
+                    if (Assembly.GetEntryAssembly() is Assembly assembly
+                        && assembly.GetCustomAttribute(typeof(AssemblyProductAttribute)) is AssemblyProductAttribute attr)
+                    {
+                        productName = attr.Product;
+                    }
+                    else
+                    {
+                        productName = "UnknownProduct";
+                    }
                 }
                 return productName;
             }
@@ -50,16 +60,86 @@ namespace JSSoft.Library
         {
             get
             {
-                if (productVersion != null)
-                    return productVersion;
-                var assembly = Assembly.GetEntryAssembly();
-                var versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-                return versionInfo.ProductVersion;
+                if (productVersion == null)
+                {
+                    if (Assembly.GetEntryAssembly() is Assembly assembly
+                        && assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) is AssemblyInformationalVersionAttribute attr)
+                    {
+                        productVersion = attr.InformationalVersion;
+                    }
+                    else
+                    {
+                        productVersion = $"{new Version(0, 0)}";
+                    }
+                }
+                return productVersion;
             }
             set => productVersion = value;
         }
 
-        public static string StartupPath => System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        public static string FileVersion
+        {
+            get
+            {
+                if (fileVersion == null)
+                {
+                    if (Assembly.GetEntryAssembly() is Assembly assembly
+                        && assembly.GetCustomAttribute(typeof(AssemblyFileVersionAttribute)) is AssemblyFileVersionAttribute attr)
+                    {
+                        fileVersion = attr.Version;
+                    }
+                    else
+                    {
+                        fileVersion = $"{new Version(0, 0)}";
+                    }
+                }
+                return fileVersion;
+            }
+            set => fileVersion = value;
+        }
+
+        public static string CompanyName
+        {
+            get
+            {
+                if (companyName == null)
+                {
+                    if (Assembly.GetEntryAssembly() is Assembly assembly
+                        && assembly.GetCustomAttribute(typeof(AssemblyCompanyAttribute)) is AssemblyCompanyAttribute attr)
+                    {
+                        companyName = attr.Company;
+                    }
+                    else
+                    {
+                        companyName = "UnknownCompany";
+                    }
+                }
+                return companyName;
+            }
+            set => companyName = value;
+        }
+
+        public static string Name
+        {
+            get
+            {
+                if (name == null)
+                {
+                    if (Assembly.GetEntryAssembly() is Assembly assembly)
+                    {
+                        name = assembly.GetName().Name;
+                    }
+                    else
+                    {
+                        name = "UnknownName";
+                    }
+                }
+                return name;
+            }
+            set => name = value;
+        }
+
+        public static string StartupPath => Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 
         public static string UserAppDataPath
         {
@@ -74,10 +154,8 @@ namespace JSSoft.Library
 
         public static string GetUserAppDataPath()
         {
-            var assembly = Assembly.GetEntryAssembly();
-            var companyName = assembly.GetCustomAttribute(typeof(AssemblyCompanyAttribute)) is not AssemblyCompanyAttribute attr || attr.Company == string.Empty ? "UnknownCompany" : attr.Company;
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), companyName, assembly.GetName().Name.ToString());
-            return path;
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return Path.Combine(path, CompanyName, Name);
         }
 
         public static string GetDocumentFilename(string filename)
