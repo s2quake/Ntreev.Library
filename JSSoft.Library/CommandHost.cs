@@ -39,7 +39,7 @@ namespace JSSoft.Library
         private readonly List<object> items = new();
         private readonly StringBuilder error = new();
         private readonly StringBuilder output = new();
-        private Encoding encoding;
+        private Encoding encoding = Console.OutputEncoding;
 
         public CommandHost(string filename)
             : this(filename, Directory.GetCurrentDirectory())
@@ -174,8 +174,8 @@ namespace JSSoft.Library
 
         public Encoding Encoding
         {
-            get => this.encoding ?? Encoding.UTF8;
-            set => this.encoding = value;
+            get => this.encoding;
+            set => this.encoding = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public string ErrorMessage => this.error.ToString();
