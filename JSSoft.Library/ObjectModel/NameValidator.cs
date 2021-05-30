@@ -47,6 +47,9 @@ namespace JSSoft.Library.ObjectModel
 
         public static bool VerifyCategoryPath(string categoryPath)
         {
+            if (categoryPath == null)
+                throw new ArgumentNullException(nameof(categoryPath));
+
             if (categoryPath == PathUtility.Separator)
                 return true;
 
