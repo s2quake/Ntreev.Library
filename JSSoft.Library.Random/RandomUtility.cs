@@ -397,7 +397,7 @@ namespace JSSoft.Library.Random
         public static string NextString(bool multiline)
         {
             string s = string.Empty;
-            int count = Next(20);
+            int count = Next(1, 20);
             for (int i = 0; i < count; i++)
             {
                 s += Next<string>();

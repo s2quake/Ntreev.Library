@@ -49,6 +49,8 @@ namespace JSSoft.Library.ObjectModel
         {
             if (categoryPath == null)
                 throw new ArgumentNullException(nameof(categoryPath));
+            if (categoryPath == string.Empty)
+                throw new ArgumentException("empty string are not allowed.", nameof(categoryPath));
 
             if (categoryPath == PathUtility.Separator)
                 return true;
@@ -76,12 +78,19 @@ namespace JSSoft.Library.ObjectModel
         {
             if (categoryPath == null)
                 throw new ArgumentNullException(nameof(categoryPath));
+            if (categoryPath == string.Empty)
+                throw new ArgumentException("empty string are not allowed.", nameof(categoryPath));
             if (VerifyCategoryPath(categoryPath) == false)
                 throw new ArgumentException(string.Format(Resources.Exception_InvalidPath_Format, categoryPath), nameof(categoryPath));
         }
 
         public static bool VerifyItemPath(string itemPath)
         {
+            if (itemPath == null)
+                throw new ArgumentNullException(nameof(itemPath));
+            if (itemPath == string.Empty)
+                throw new ArgumentException("empty string are not allowed.", nameof(itemPath));
+
             if (itemPath.StartsWith(PathUtility.Separator) == false)
                 return false;
 
@@ -105,6 +114,8 @@ namespace JSSoft.Library.ObjectModel
         {
             if (itemPath == null)
                 throw new ArgumentNullException(nameof(itemPath));
+            if (itemPath == string.Empty)
+                throw new ArgumentException("empty string are not allowed.", nameof(itemPath));
             if (VerifyItemPath(itemPath) == false)
                 throw new ArgumentException(string.Format(Resources.Exception_InvalidPath_Format, itemPath), nameof(itemPath));
         }
@@ -122,6 +133,8 @@ namespace JSSoft.Library.ObjectModel
         {
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
+            if (path == string.Empty)
+                throw new ArgumentException("empty string are not allowed.", nameof(path));
             if (VerifyPath(path) == false)
                 throw new ArgumentException(string.Format(Resources.Exception_InvalidPath_Format, path), nameof(path));
         }
