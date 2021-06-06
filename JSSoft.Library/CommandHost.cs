@@ -27,65 +27,31 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JSSoft.Library
 {
-    public class CommandHost : IEnumerable<object>
+    public class CommandHost : CommandHostBase
     {
-        private readonly string filename;
-        private readonly string workingPath;
-        private readonly string commandName;
-        private readonly List<object> items = new();
-        private readonly StringBuilder error = new();
-        private readonly StringBuilder output = new();
-        private Encoding encoding = Console.OutputEncoding;
-
-        public CommandHost(string filename)
-            : this(filename, Directory.GetCurrentDirectory())
+        protected CommandHost(string filename)
+            : base(filename)
         {
         }
 
-        public CommandHost(string filename, string workingPath)
-            : this(filename, workingPath, string.Empty)
+        protected CommandHost(string filename, string workingPath)
+            : base(filename, workingPath)
         {
         }
 
-        public CommandHost(string filename, string workingPath, string commandName)
+        protected CommandHost(string filename, string workingPath, string commandName)
+            : base(filename, workingPath, commandName)
         {
-            this.filename = filename;
-            this.workingPath = workingPath;
-            this.commandName = commandName;
-        }
-
-        public override string ToString()
-        {
-            return $"{GenerateFilename()} {GenerateArguments()}";
-        }
-
-        public void Add(object item)
-        {
-            this.items.Add(item);
-        }
-
-        public void Remove(object item)
-        {
-            this.items.Remove(item);
-        }
-
-        public void Clear()
-        {
-            this.items.Clear();
         }
 
         public bool TryRun()
         {
-            var action = this.CreateAction();
-            this.error.Clear();
-            this.output.Clear();
-            this.OnBeforeRun();
-            this.ExitCode = action();
-            this.OnAfterRun();
+            this.InvokeRun();
             if (this.ExitCode != 0)
             {
                 return false;
@@ -93,49 +59,40 @@ namespace JSSoft.Library
             return true;
         }
 
-        public async Task<bool> TryRunAsync()
+        public Task<bool> TryRunAsync()
         {
-            var action = this.CreateAction();
-            this.error.Clear();
-            this.output.Clear();
-            this.OnBeforeRun();
-            this.ExitCode = await Task.Run(action);
-            this.OnAfterRun();
-            if (this.ExitCode != 0)
+            return Task.Run(() =>
             {
-                return false;
-            }
-            return true;
+                this.InvokeRun();
+                if (this.ExitCode != 0)
+                {
+                    return false;
+                }
+                return true;
+            });
         }
 
         public string Run()
         {
-            var action = this.CreateAction();
-            this.error.Clear();
-            this.output.Clear();
-            this.OnBeforeRun();
-            this.ExitCode = action();
-            this.OnAfterRun();
+            this.InvokeRun();
             if (this.ExitCode != 0)
             {
-                throw new Exception(this.error.ToString());
+                throw new Exception(this.ErrorMessage);
             }
-            return this.output.ToString();
+            return this.Message;
         }
 
-        public async Task<string> RunAsync()
+        public Task<string> RunAsync()
         {
-            var action = this.CreateAction();
-            this.error.Clear();
-            this.output.Clear();
-            this.OnBeforeRun();
-            this.ExitCode = await Task.Run(action);
-            this.OnAfterRun();
-            if (this.ExitCode != 0)
+            return Task.Run(() =>
             {
-                throw new Exception(this.error.ToString());
-            }
-            return this.output.ToString();
+                this.InvokeRun();
+                if (this.ExitCode != 0)
+                {
+                    throw new Exception(this.ErrorMessage);
+                }
+                return this.Message;
+            });
         }
 
         public string ReadLine()
@@ -171,103 +128,5 @@ namespace JSSoft.Library
                 return text.Split(new string[] { Environment.NewLine }, removeEmptyLine == true ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
             return null;
         }
-
-        public Encoding Encoding
-        {
-            get => this.encoding;
-            set => this.encoding = value ?? throw new ArgumentNullException(nameof(value));
-        }
-
-        public string ErrorMessage => this.error.ToString();
-
-        public string Message => this.output.ToString();
-
-        public int ExitCode { get; private set; }
-
-        public IReadOnlyList<object> Items => this.items;
-
-        public event DataReceivedEventHandler ErrorDataReceived;
-
-        public event DataReceivedEventHandler OutputDataReceived;
-
-        protected virtual void OnBeforeRun()
-        {
-        }
-
-        protected virtual void OnAfterRun()
-        {
-        }
-
-        protected virtual void OnErrorDataReceived(DataReceivedEventArgs e)
-        {
-            this.error.AppendLine(e.Data);
-            this.ErrorDataReceived?.Invoke(this, e);
-        }
-
-        protected virtual void OnOutputDataReceived(DataReceivedEventArgs e)
-        {
-            this.output.AppendLine(e.Data);
-            this.OutputDataReceived?.Invoke(this, e);
-        }
-
-        private string GenerateFilename()
-        {
-            if (Regex.IsMatch(this.filename, @"\s") == true)
-                return this.filename.WrapQuot();
-            return this.filename;
-        }
-
-        private string GenerateArguments()
-        {
-            if (this.commandName == string.Empty)
-                return $"{string.Join(" ", this.items.Where(item => item != null))}";
-            return $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}"; ;
-        }
-
-        private Func<int> CreateAction()
-        {
-            return new Func<int>(() =>
-            {
-                var process = new Process();
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = this.filename;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.WorkingDirectory = this.workingPath;
-                process.StartInfo.Arguments = this.GenerateArguments();
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.StandardOutputEncoding = this.Encoding;
-                process.StartInfo.StandardErrorEncoding = this.Encoding;
-
-                process.OutputDataReceived += (s, e) => this.OnOutputDataReceived(e);
-                process.ErrorDataReceived += (s, e) => this.OnErrorDataReceived(e);
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-                process.WaitForExit();
-
-                return process.ExitCode;
-            });
-        }
-
-        #region IEnumerable
-
-        IEnumerator<object> IEnumerable<object>.GetEnumerator()
-        {
-            foreach (var item in this.items)
-            {
-                yield return item;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            foreach (var item in this.items)
-            {
-                yield return item;
-            }
-        }
-
-        #endregion
     }
 }
