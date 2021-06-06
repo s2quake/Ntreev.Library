@@ -150,7 +150,6 @@ namespace JSSoft.Library
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.StandardOutputEncoding = this.Encoding;
             process.StartInfo.StandardErrorEncoding = this.Encoding;
-            process.StartInfo.LoadUserProfile = true;
 
             process.OutputDataReceived += (s, e) => this.OnOutputDataReceived(e);
             process.ErrorDataReceived += (s, e) => this.OnErrorDataReceived(e);
