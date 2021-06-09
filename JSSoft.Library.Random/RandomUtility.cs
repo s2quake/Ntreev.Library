@@ -151,6 +151,31 @@ namespace JSSoft.Library.Random
             return path.WrapSeparator();
         }
 
+        public static string[] NextCategoryPaths(int depth, int count)
+        {
+            if (depth < 0)
+                throw new ArgumentOutOfRangeException(nameof(depth));
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            var c = 0;
+            var itemList = new List<string>(depth * count);
+            while (c < count)
+            {
+                var parentPath = "/";
+                var d = RandomUtility.Next(depth);
+                for (var i = 0; i < d; i++)
+                {
+                    var name = NextName();
+                    var categoryName = new CategoryName(parentPath, name);
+                    itemList.Add(categoryName);
+                    parentPath = categoryName;
+                    c++;
+                }
+            }
+            return itemList.ToArray();
+        }
+
         public static string NextInvalidCategoryPath()
         {
             var depth = Next(0, 5);
