@@ -93,7 +93,7 @@ namespace JSSoft.Library.ObjectModel
             if (newName == null)
                 throw new ArgumentNullException(nameof(newName));
             if (this.ItemAttributes.HasFlag(ItemAttributes.UniqueName) == true)
-                throw new ArgumentException(Resources.Exception_UniqueObjectCannotRename);
+                throw new InvalidOperationException(Resources.Exception_UniqueObjectCannotRename);
             if (NameValidator.VerifyName(newName) == false)
                 throw new ArgumentException(string.Format(Resources.Exception_InvalidName_Format, newName), nameof(newName));
 
