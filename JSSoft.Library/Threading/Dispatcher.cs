@@ -110,27 +110,27 @@ namespace JSSoft.Library.Threading
             }
         }
 
-        public Task InvokeAsync(Task task)
+        public async Task InvokeAsync(Task task)
         {
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
             task.Start(this.Scheduler);
-            return task;
+            await task;
         }
 
-        public Task<TResult> InvokeAsync<TResult>(Task<TResult> task)
+        public async Task<TResult> InvokeAsync<TResult>(Task<TResult> task)
         {
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
             task.Start(this.Scheduler);
-            return task;
+            return await task;
         }
 
-        public Task InvokeAsync(Action action)
+        public async Task InvokeAsync(Action action)
         {
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
-            return this.factory.StartNew(action);
+            await this.factory.StartNew(action);
         }
 
         public TResult Invoke<TResult>(Func<TResult> callback)
@@ -165,18 +165,18 @@ namespace JSSoft.Library.Threading
             }
         }
 
-        public Task<TResult> InvokeAsync<TResult>(Func<TResult> callback)
+        public async Task<TResult> InvokeAsync<TResult>(Func<TResult> callback)
         {
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
-            return this.factory.StartNew(callback);
+            return await this.factory.StartNew(callback);
         }
 
-        public Task<TResult> InvokeAsync<TResult>(Func<TResult> callback, TaskCreationOptions creationOptions)
+        public async Task<TResult> InvokeAsync<TResult>(Func<TResult> callback, TaskCreationOptions creationOptions)
         {
             if (this.cancellationQueue.IsCancellationRequested == true)
                 throw new OperationCanceledException();
-            return this.factory.StartNew(callback, creationOptions);
+            return await this.factory.StartNew(callback, creationOptions);
         }
 
         public void Dispose()

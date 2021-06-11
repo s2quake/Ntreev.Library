@@ -85,7 +85,7 @@ namespace JSSoft.Library.ObjectModel
             {
                 if (key == null)
                     return default;
-                if (this.keyToValue.ContainsKey(key) == false)
+                if (this.UseKeyNotFoundException == false && this.keyToValue.ContainsKey(key) == false)
                     return default;
                 return this.keyToValue[key];
             }
@@ -282,6 +282,8 @@ namespace JSSoft.Library.ObjectModel
         {
             return this.keyToValue;
         }
+
+        protected virtual bool UseKeyNotFoundException => false;
 
         #region IEnumerable
 

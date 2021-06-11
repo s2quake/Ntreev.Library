@@ -114,13 +114,19 @@ namespace JSSoft.Library
 
         protected virtual void OnErrorDataReceived(DataReceivedEventArgs e)
         {
-            this.error.AppendLine(e.Data);
+            if (this.error.Length > 0 && e.Data != null)
+                this.error.AppendLine(Environment.NewLine);
+            if (e.Data != null)
+                this.error.Append(e.Data);
             this.ErrorDataReceived?.Invoke(this, e);
         }
 
         protected virtual void OnOutputDataReceived(DataReceivedEventArgs e)
         {
-            this.output.AppendLine(e.Data);
+            if (this.output.Length > 0 && e.Data != null)
+                this.output.AppendLine(Environment.NewLine);
+            if (e.Data != null)
+                this.output.Append(e.Data);
             this.OutputDataReceived?.Invoke(this, e);
         }
 
