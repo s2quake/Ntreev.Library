@@ -48,10 +48,10 @@ namespace JSSoft.Library.ObjectModel
             if (NameValidator.VerifyCategoryPath(itemPath) == true)
                 return this.Categories.Contains(itemPath);
 
-            var itemName = new ItemName(itemPath);
-            if (this.Items.SupportsNonUniqueName == false)
-                return this.Items.Contains(itemName.Name);
+            if (this.Items.SupportsUniqueName == true && NameValidator.VerifyItemPath(itemPath) == false)
+                return this.Items.Contains(itemPath);
 
+            var itemName = new ItemName(itemPath);
             return this.Items.Contains(itemName.Name, itemName.CategoryPath);
         }
 

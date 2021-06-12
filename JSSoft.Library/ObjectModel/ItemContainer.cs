@@ -297,6 +297,8 @@ namespace JSSoft.Library.ObjectModel
             this.OnItemDeleted(new ItemDeletedEventArgs<_I>(itemPath, item));
         }
 
+        internal bool SupportsUniqueName => SupportsNonUniqueName == false;
+
         protected virtual _I NewItem(params object[] args)
         {
             return Activator.CreateInstance(typeof(_I), args) as _I;
