@@ -96,6 +96,8 @@ namespace JSSoft.Library.ObjectModel
         {
             NameValidator.ValidateCategoryPath(parentPath);
             NameValidator.ValidateName(name);
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                NameValidator.ValidateNameOnWin32NT(name);
             return parentPath + name + PathUtility.Separator;
         }
 
@@ -103,6 +105,8 @@ namespace JSSoft.Library.ObjectModel
         {
             NameValidator.ValidateCategoryPath(parentPath);
             NameValidator.ValidateName(name);
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                NameValidator.ValidateNameOnWin32NT(name);
             this.ParentPath = parentPath;
             this.name = name;
             this.path = parentPath + name + PathUtility.Separator;

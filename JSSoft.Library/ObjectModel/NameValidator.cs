@@ -23,6 +23,7 @@ using JSSoft.Library.IO;
 using JSSoft.Library.Properties;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace JSSoft.Library.ObjectModel
 {
@@ -66,6 +67,9 @@ namespace JSSoft.Library.ObjectModel
             foreach (var item in ss.Where(i => i != string.Empty))
             {
                 if (VerifyName(item) == false)
+                    return false;
+
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT && VerifyNameOnWin32NT(item) == false)
                     return false;
             }
 
@@ -140,5 +144,20 @@ namespace JSSoft.Library.ObjectModel
         }
 
         public static char[] InvalidChars { get; } = new char[] { '\\', '/', ':', '*', '?', '\"', '<', '>', '|' };
+
+        internal static bool VerifyNameOnWin32NT(string name)
+        {
+            return Regex.IsMatch(name, @"^(CON|AUX|PRN|NUL|COM\d|LPT\d)$", RegexOptions.IgnoreCase) == false;
+        }
+
+        internal static void ValidateNameOnWin32NT(string name)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (name == string.Empty)
+                throw new ArgumentException(Resources.Exception_EmptyStringCannotBeUsedAsName);
+            if (VerifyNameOnWin32NT(name) == false)
+                throw new ArgumentException("'con' 'aux' 'prn' 'nul' 'com0~9' 'lpt0~9' cannot be used as a name on Win32NT.", nameof(name));
+        }
     }
 }

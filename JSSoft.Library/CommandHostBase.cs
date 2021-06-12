@@ -34,9 +34,6 @@ namespace JSSoft.Library
 {
     public abstract class CommandHostBase : IEnumerable<object>
     {
-        private readonly string filename;
-        private readonly string workingPath;
-        private readonly string commandName;
         private readonly List<object> items = new();
         private readonly StringBuilder error = new();
         private readonly StringBuilder output = new();
@@ -47,16 +44,16 @@ namespace JSSoft.Library
         {
         }
 
-        protected CommandHostBase(string filename, string workingPath)
-            : this(filename, workingPath, string.Empty)
+        protected CommandHostBase(string filename, string workingDirectory)
+            : this(filename, workingDirectory, string.Empty)
         {
         }
 
-        protected CommandHostBase(string filename, string workingPath, string commandName)
+        protected CommandHostBase(string filename, string workingDirectory, string commandName)
         {
-            this.filename = filename;
-            this.workingPath = workingPath;
-            this.commandName = commandName;
+            this.FileName = filename;
+            this.WorkingDirectory = workingDirectory;
+            this.CommandName = commandName;
         }
 
         public override string ToString()
@@ -132,25 +129,25 @@ namespace JSSoft.Library
 
         private string GenerateFilename()
         {
-            if (Regex.IsMatch(this.filename, @"\s") == true)
-                return this.filename.WrapQuot();
-            return this.filename;
+            if (Regex.IsMatch(this.FileName, @"\s") == true)
+                return this.FileName.WrapQuot();
+            return this.FileName;
         }
 
         private string GenerateArguments()
         {
-            if (this.commandName == string.Empty)
+            if (this.CommandName == string.Empty)
                 return $"{string.Join(" ", this.items.Where(item => item != null))}";
-            return $"{this.commandName} {string.Join(" ", this.items.Where(item => item != null))}"; ;
+            return $"{this.CommandName} {string.Join(" ", this.items.Where(item => item != null))}"; ;
         }
 
         private int StartProcess()
         {
             var process = new Process();
             process.StartInfo.UseShellExecute = false;
-            process.StartInfo.FileName = this.filename;
+            process.StartInfo.FileName = this.FileName;
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WorkingDirectory = this.workingPath;
+            process.StartInfo.WorkingDirectory = this.WorkingDirectory;
             process.StartInfo.Arguments = this.GenerateArguments();
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
@@ -172,6 +169,12 @@ namespace JSSoft.Library
             this.OnRun();
             this.OnAfterRun();
         }
+
+        protected string FileName { get; }
+
+        protected string WorkingDirectory { get; }
+
+        protected string CommandName { get; }
 
         #region IEnumerable
 

@@ -77,7 +77,7 @@ namespace JSSoft.Library
             this.InvokeRun();
             if (this.ExitCode != 0)
             {
-                throw new Exception(this.ErrorMessage);
+                throw new CommandHostException(this.ErrorMessage, this.ToString(), this.WorkingDirectory ?? string.Empty);
             }
             return this.Message;
         }
@@ -89,7 +89,7 @@ namespace JSSoft.Library
                 this.InvokeRun();
                 if (this.ExitCode != 0)
                 {
-                    throw new Exception(this.ErrorMessage);
+                    throw new CommandHostException(this.ErrorMessage, this.ToString(), this.WorkingDirectory ?? string.Empty);
                 }
                 return this.Message;
             });
