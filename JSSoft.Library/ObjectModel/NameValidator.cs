@@ -31,7 +31,9 @@ namespace JSSoft.Library.ObjectModel
     {
         public static bool VerifyName(string name)
         {
-            if (string.IsNullOrEmpty(name) == true)
+            if (name == null)
+                return false;
+            if (name == string.Empty)
                 return false;
             return name.IndexOfAny(InvalidChars) == -1;
         }
@@ -41,9 +43,25 @@ namespace JSSoft.Library.ObjectModel
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
             if (name == string.Empty)
-                throw new ArgumentException(Resources.Exception_EmptyStringCannotBeUsedAsName);
+                throw new ArgumentException(Resources.Exception_EmptyStringCannotBeUsedAsName, nameof(name));
             if (VerifyName(name) == false)
                 throw new ArgumentException(Resources.Exception_InvalidName, nameof(name));
+        }
+
+        public static bool VerifyCategoryName(string categoryName)
+        {
+            if (VerifyName(categoryName) == false)
+                return false;
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT && VerifyNameOnWin32NT(categoryName) == false)
+                return false;
+            return true;
+        }
+
+        public static void ValidateCategoryName(string categoryName)
+        {
+            ValidateName(categoryName);
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                ValidateNameOnWin32NT(categoryName);
         }
 
         public static bool VerifyCategoryPath(string categoryPath)

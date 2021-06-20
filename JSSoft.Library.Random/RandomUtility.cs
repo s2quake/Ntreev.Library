@@ -132,6 +132,15 @@ namespace JSSoft.Library.Random
             return name;
         }
 
+        public static string NextCategoryName()
+        {
+            string name;
+
+            while (NameValidator.VerifyCategoryName((name = NextWord())) == false)
+                ;
+            return name;
+        }
+
         public static string NextCategoryPath()
         {
             var depth = Next(0, 5);
@@ -166,7 +175,7 @@ namespace JSSoft.Library.Random
                 var d = RandomUtility.Next(depth);
                 for (var i = 0; i < d; i++)
                 {
-                    var name = NextName();
+                    var name = NextCategoryName();
                     var categoryName = new CategoryName(parentPath, name);
                     itemList.Add(categoryName);
                     parentPath = categoryName;
