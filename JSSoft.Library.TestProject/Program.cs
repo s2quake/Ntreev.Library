@@ -29,6 +29,7 @@ namespace JSSoft.Library.TestProject
         static void Main(string[] args)
         {
             var text = RandomUtility.NextWord();
+            var guid = GuidUtility.FromInt32(text.GetHashCode());
             Console.WriteLine(text);
         }
     }

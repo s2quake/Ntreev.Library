@@ -39,7 +39,7 @@ namespace JSSoft.Library.Threading
             {
                 if (this.setsByID.ContainsKey(id) == false)
                 {
-                    this.setsByID.Add(id, new Task(() => { }));
+                    this.setsByID.Add(id, new Task(() => this.BaseTask(id)));
                 }
                 return this.setsByID[id];
             });
@@ -56,7 +56,7 @@ namespace JSSoft.Library.Threading
                 }
                 else
                 {
-                    this.setsByID.Add(id, Task.Run(() => { }));
+                    this.setsByID.Add(id, Task.Run(() => this.BaseTask(id)));
                 }
             });
         }
@@ -88,6 +88,11 @@ namespace JSSoft.Library.Threading
             {
                 this.setsByID.Remove(id);
             }
+        }
+
+        private async void BaseTask(T id)
+        {
+            await this.Dispatcher.InvokeAsync(() => this.Reset(id));
         }
 
         private Dispatcher Dispatcher { get; }

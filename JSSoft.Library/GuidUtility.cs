@@ -51,6 +51,21 @@ namespace JSSoft.Library
             return Guid.Parse(sb.ToString());
         }
 
+        public static Guid FromInt32(int value)
+        {
+            using var md5 = MD5.Create();
+            var bytes = md5.ComputeHash(BitConverter.GetBytes(value));
+            var sb = new StringBuilder();
+
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                sb.Append(bytes[i].ToString("x2"));
+            }
+            return Guid.Parse(sb.ToString());
+            // BitConverter.GetBytes(value).CopyTo(bytes, 0);
+            // return new Guid(bytes);
+        }
+
         public static Guid Create(long left, long right)
         {
             var bytes = new byte[16];
