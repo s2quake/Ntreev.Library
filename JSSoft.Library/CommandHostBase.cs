@@ -112,7 +112,7 @@ namespace JSSoft.Library
         protected virtual void OnErrorDataReceived(DataReceivedEventArgs e)
         {
             if (this.error.Length > 0 && e.Data != null)
-                this.error.AppendLine(Environment.NewLine);
+                this.error.Append(Environment.NewLine);
             if (e.Data != null)
                 this.error.Append(e.Data);
             this.ErrorDataReceived?.Invoke(this, e);
@@ -121,7 +121,7 @@ namespace JSSoft.Library
         protected virtual void OnOutputDataReceived(DataReceivedEventArgs e)
         {
             if (this.output.Length > 0 && e.Data != null)
-                this.output.AppendLine(Environment.NewLine);
+                this.output.Append(Environment.NewLine);
             if (e.Data != null)
                 this.output.Append(e.Data);
             this.OutputDataReceived?.Invoke(this, e);
