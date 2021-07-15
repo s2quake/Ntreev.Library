@@ -24,6 +24,9 @@ Namespaces and files starting with "Ntreev" have been renamed to "JSSoft". -->
   <PropertyGroup>
     <PublishName>library</PublishName>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

@@ -323,6 +323,8 @@ namespace JSSoft.Library
 
         public static string[] Split(string value, char seperator, bool removeEmpty)
         {
+            if (value is null)
+                throw new ArgumentNullException(nameof(value));
             return value.Split(new char[] { seperator }, removeEmpty == true ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
         }
 
